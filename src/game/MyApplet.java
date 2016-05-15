@@ -26,7 +26,7 @@ public class MyApplet extends PApplet{
 		//view.display();
 	}
 	
-	public void mouseClicked(){
+	public void mousePressed(){
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, mouseX, mouseY)), 
 				"curX", mouseX, Ani.SINE_IN_OUT);
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, mouseX, mouseY)), 
