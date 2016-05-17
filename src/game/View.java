@@ -6,6 +6,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class View {
+	private final int diameter = 50;
 	private Map map;
 	private Player player;
 	PApplet mainapplet;
@@ -14,26 +15,66 @@ public class View {
 	
 	PImage mapImage;
 	
+	
 	public View (PApplet mainapplet, Map map, Player player) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
 	}
 	
-	public void display(JSONObject data){
-		this.data = data;
+	public void display(){
+		//this.data = data;
 		//Get other players's position from JSON file.
+		/*
+		data = loadJSONObject("");
+		nodes = data.getJSONArray("nodes");
+		links = data.getJSONArray("links");
+		for (int i = 0; i < nodes.size(); i++) {
+			JSONObject node = nodes.getJSONObject(i);
+			String name = node.getString("name");
+			characters.add(new Character(this, name, 0,100+ i*50));
+		}
+		for (int i = 0; i < links.size(); i++) {
+			JSONObject link = links.getJSONObject(i);
+			int source = link.getInt("source");		
+			int target = link.getInt("target");
+			characters.get(source).addTarget(characters.get(target));
+		}
+		*/
 		//Draw map image.
-		/*
-		 mapImage = map.getSubMap(player.getX, player.getY);
-		 mainapplet.image(mapImage, 0, 0);
+		
+		mapImage = map.getSubMap(player.getX(), player.getY());
+		mainapplet.image(mapImage, 0, 0);
 		 
-		 */
+		
 		//Draw my player.
-		/*
+		
+		int playerx, playery;
+		Bounds hBound = map.horizontalWall(player.getX());
+		Bounds vBound = map.verticalWall(player.getY());
+		//HorizonBound detect
+		if(hBound == Bounds.LEFT){
+			playerx = player.getX();
+		}
+		else if (hBound == Bounds.RIGHT){
+			playerx = player.getX() - map.getFullMap().width + MyApplet.width ;
+		}
+		else {
+			playerx = MyApplet.width / 2;
+		}
+		//verticalBound detect
+		if(vBound == Bounds.UP){
+			playery = player.getY();
+
+		}
+		else if (vBound == Bounds.DOWN){
+			playery = player.getY() - map.getFullMap().height + MyApplet.height ;
+		}
+		else {
+			playery = MyApplet.height / 2;
+		}
+		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
-		 
-		 */
 		//Draw other players if I can see it.
 		/*
 		 
