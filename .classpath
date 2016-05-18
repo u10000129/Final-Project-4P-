@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ani"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/processing"/>
+	<classpathentry kind="lib" path="Libraries/Ani/Ani.jar"/>
+	<classpathentry kind="lib" path="Libraries/Processing/core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
