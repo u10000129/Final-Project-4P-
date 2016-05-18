@@ -34,37 +34,40 @@ public class MyApplet extends PApplet{
 		//HorizonBound detect
 		if(hBound == Bounds.LEFT){ // At Left bounds.
 			moveX = mouseX;
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
-					"curX", moveX, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
+					//"curX", moveX, Ani.SINE_IN_OUT);
 		}
 		else if (hBound == Bounds.RIGHT){ // At Right bounds.
 			moveX = map.getFullMap().width - MyApplet.width +  mouseX;
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
-					"curX", moveX, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
+					//"curX", moveX, Ani.SINE_IN_OUT);
 		}
 		else {
 			moveX = player.getX() + mouseX - MyApplet.width/2 ;
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
-					"curX", moveX, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, player.curY)), 
+					//"curX", moveX, Ani.SINE_IN_OUT);
 		}
 		
 		//verticalBound detect
 		if(vBound == Bounds.UP){ // At Up bounds.
 			moveY = mouseY;
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
-					"curY", moveY, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
+					//"curY", moveY, Ani.SINE_IN_OUT);
 		}
 		else if (vBound == Bounds.DOWN){ // At Down bounds.
 			moveY = map.getFullMap().height - MyApplet.height + mouseY;
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
-					"curY", moveY, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
+					//"curY", moveY, Ani.SINE_IN_OUT);
 		}
 		else {
 			moveY = player.getY()+ mouseY - MyApplet.height/2;		
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
-					"curY", moveY, Ani.SINE_IN_OUT);
+			//Ani.to(player, (float)(speed*dist(player.curX, player.curY, player.curX, moveY)), 
+					//"curY", moveY, Ani.SINE_IN_OUT);
 		}
-		
+		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
+				"curX", moveX, Ani.SINE_IN_OUT);
+		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
+				"curY", moveY, Ani.SINE_IN_OUT);
 		
 		
 	}
