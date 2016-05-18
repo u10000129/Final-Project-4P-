@@ -44,4 +44,5 @@ Temporary Items
 hs_err_pid*
 /bin
 
-
+#added by myself
+.classpath
