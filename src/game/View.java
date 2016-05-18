@@ -6,7 +6,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class View {
-	private final int diameter = 50;
+	private final int diameter = 40;
 	private Map map;
 	private Player player;
 	PApplet mainapplet;
@@ -44,9 +44,10 @@ public class View {
 		//Draw map image.
 		
 		mapImage = map.getSubMap(player.getX(), player.getY());
-		mainapplet.image(mapImage, 0, 0);
-		 
+		mainapplet.image(mapImage, 0, 0, 800, 600);
 		
+		 
+	
 		//Draw my player.
 		
 		int playerx, playery;
