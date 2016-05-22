@@ -1,6 +1,7 @@
 package game;
 
 import de.looksgood.ani.Ani;
+import processing.core.PApplet;
 
 public class Player extends Character{
 	public final static double speed = 0.004;
@@ -8,6 +9,7 @@ public class Player extends Character{
 	private Map map;
 	Ani aniX;
 	Ani aniY;
+	int moveX, moveY;	//these are for collision detection
 	Player(MyApplet parent, Map map ){
 		this.parent = parent;
 		this.map = map;
@@ -43,17 +45,24 @@ public class Player extends Character{
 	}
 	
 	public void move(int moveX, int moveY) {
-		float distance = parent.dist(this.curX, this.curY, moveX, moveY);
+		this.moveX = moveX;
+		this.moveY = moveY;
+		float distance = PApplet.dist(this.curX, this.curY, moveX, moveY);
 		aniX = Ani.to(this, (float)(speed*distance), "curX", moveX, Ani.LINEAR);
 		aniY = Ani.to(this, (float)(speed*distance), "curY", moveY, Ani.LINEAR);
 	}
 	
 	public void collisionDetect() {		
 		int[][] collisionMap = map.getSubCollisionMap(curX,curY);
-		if(collisionMap[400][300]>0) {
-			System.out.println(collisionMap[400][300]);
-			aniX.pause();
-		    aniY.pause();
+		if(collisionMap[400][300]>0) {			
+			Ani.killAll();
+		    Ani.killAll();
+			//aniX.pause();
+			//aniY.pause();
+		    if(moveX-curX != 0 && moveY-curY != 0) {
+		    curX = curX - 10*(moveX - curX)/(moveX - curX);
+		    curY = curY - 10*(moveY - curY)/(moveY - curY);
+		    }
 		}
 	}
 }
