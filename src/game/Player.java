@@ -52,12 +52,10 @@ public class Player extends Character{
 		aniY = Ani.to(this, (float)(speed*distance), "curY", moveY, Ani.LINEAR);
 	}
 	
-	public void collisionDetect() {		
-		int[][] collisionMap = map.getSubCollisionMap(curX,curY);
-		//int[][] collisionMap = map.getCollisionMap();
-		if(collisionMap[400][300]>0) {			
-			Ani.killAll();		    
-			
+	public void collisionDetect() {				
+		int[][] collisionMap = map.getCollisionMap();
+		if(collisionMap[curX][curY]>0) {			
+			Ani.killAll();				
 		    if(moveX>curX) curX-=10;
 		    if(moveX<curX) curX+=10;
 		    if(moveY>curY) curY-=10;
