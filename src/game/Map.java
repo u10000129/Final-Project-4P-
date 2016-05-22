@@ -8,7 +8,8 @@ import processing.core.PImage;
 public class Map {
 	private PApplet parent;
 	private PImage map;
-	private int[][] collisionMap; 
+	private int[][] collisionMap;
+	private int subMapX, subMapY;
 	
 	public Map(PApplet p) {
 		parent = p;
@@ -69,7 +70,9 @@ public class Map {
 		else if(verticalWall(x,y) == Bounds.UP)
 			Y = 0;
 		else
-			Y = y - MyApplet.height;
+			Y = y - MyApplet.height/2;
+		subMapX = X;
+		subMapY = Y;
 		return map.get(X, Y, MyApplet.width, MyApplet.height);
 	}
 	
@@ -78,23 +81,16 @@ public class Map {
 	}
 	
 	public int[][] getSubCollisionMap(int x, int y) {
-		int[][] ret = new int[MyApplet.width][MyApplet.height];
-		int initRow = 0;
-		int from = 0;
-		if(verticalWall(x,y) == Bounds.UP)
-			initRow = 0;
-		else if(verticalWall(x,y) == Bounds.DOWN)
-			initRow = map.height - MyApplet.height - 1;
-		else
-			initRow = y - MyApplet.height/2;
-		if(horizontalWall(x,y) == Bounds.LEFT)
-			from = 0;
-		else if(horizontalWall(x,y) == Bounds.RIGHT)
-			from = map.width - MyApplet.width - 1;
-		else
-			from = x - MyApplet.width/2;
-		for(int i=0;i<MyApplet.height;i++) {
-			ret[i] = Arrays.copyOfRange(collisionMap[i+initRow], from, from + MyApplet.width);
+		if(x < 0 || y< 0)
+			return null;
+		if(x > map.width || y > map.height)
+			return null;
+		
+		int[][] ret = new int[MyApplet.height][MyApplet.width];
+		for(int j=subMapX;j<MyApplet.width;j++) {
+			for(int i=subMapY;j<MyApplet.height;j++) {
+				ret[i][j] = collisionMap[i][j];
+			}
 		}
 		return ret;
 	}
