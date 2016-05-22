@@ -4,8 +4,8 @@ public class Player extends Character{
 	private MyApplet parent;
 	Player(MyApplet parent ){
 		this.parent = parent;
-		this.anchorX = 7000;
-		this.anchorY = 7000;
+		this.anchorX = 9800;
+		this.anchorY = 7500;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 	}

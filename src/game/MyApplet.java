@@ -10,7 +10,7 @@ public class MyApplet extends PApplet{
 	private Map map;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
-	private final int moveUnit = 800;
+	private final int moveUnit = 100;
 	
 	
 	public void setup(){
@@ -54,22 +54,11 @@ public class MyApplet extends PApplet{
 		else {
 			moveY = player.getY()+ mouseY - MyApplet.height/2;	
 		}		
+		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
+				"curX", moveX, Ani.SINE_IN_OUT);
+		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
+				"curY", moveY, Ani.SINE_IN_OUT);
 		
-		
-		// 
-		float partX = (float)( moveX - player.getX() ) /(float) moveUnit,
-				partY = (float)( moveY - player.getY() ) /(float) moveUnit;
-		int originalX = player.getX(),
-				originalY = player.getY();		
-		for(int i = 1; i <= moveUnit; i++){
-			moveX = originalX + (int)( partX * i );
-			moveY = originalY + (int)( partY * i );
-			System.out.println(i +" : " +(int)(partX * i) + ", " + partY + "moveX&moveY" + moveX +", " + moveY);
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
-					"curX", moveX, Ani.SINE_IN_OUT);
-			Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
-					"curY", moveY, Ani.SINE_IN_OUT);
-		}
 		
 		
 	}

@@ -1,5 +1,7 @@
 package game;
 
+import javax.swing.JFrame;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.JSONArray;
@@ -7,6 +9,7 @@ import processing.data.JSONObject;
 
 public class View {
 	private final int diameter = 40;
+	private final int FieldOfView = 250;
 	private Map map;
 	private Player player;
 	PApplet mainapplet;
@@ -20,6 +23,9 @@ public class View {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
+		
+	
+		
 	}
 	
 	public void display(){
@@ -74,13 +80,14 @@ public class View {
 		else {
 			playery = MyApplet.height / 2;
 		}
+		System.out.println(player.getX() + ", " + player.getY());
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
 		//Draw other players if I can see it.
-		/*
+		
 		 
 		 
-		 */
+		 
 		//Draw a circle field of view. 
 		
 		int[][] collisionMap = map.getSubCollisionMap(player.getX(), player.getY());
@@ -93,6 +100,16 @@ public class View {
 		
 		}*/
 		 
+		 
+		//Test collision map.
+		
+		
+		/*for(int y=0;y<MyApplet.height;y++) {
+			for(int x=0;x<MyApplet.width;x++) {
+				System.out.printf("%d", array[x][y]);
+			}
+			System.out.println("");		
+		}*/
 		
 	}
 
