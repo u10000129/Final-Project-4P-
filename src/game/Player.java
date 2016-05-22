@@ -54,15 +54,16 @@ public class Player extends Character{
 	
 	public void collisionDetect() {		
 		int[][] collisionMap = map.getSubCollisionMap(curX,curY);
+		//int[][] collisionMap = map.getCollisionMap();
 		if(collisionMap[400][300]>0) {			
-			Ani.killAll();
-		    Ani.killAll();
-			//aniX.pause();
-			//aniY.pause();
-		    if(moveX-curX != 0 && moveY-curY != 0) {
-		    curX = curX - 10*(moveX - curX)/(moveX - curX);
-		    curY = curY - 10*(moveY - curY)/(moveY - curY);
-		    }
+			Ani.killAll();		    
+			
+		    if(moveX>curX) curX-=10;
+		    if(moveX<curX) curX+=10;
+		    if(moveY>curY) curY-=10;
+		    if(moveY<curY) curY+=10;
+		    
 		}
 	}
 }
+
