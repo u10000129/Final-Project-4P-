@@ -82,10 +82,18 @@ public class View {
 		 
 		 */
 		//Draw a circle field of view. 
-		/*
+		
+		int[][] collisionMap = map.getSubCollisionMap(player.getX(), player.getY());
+		
+		/*for(int i = 0; i < MyApplet.width; i+=3) {
+			for(int j = 0; j < MyApplet.height; j+=3 ){
+				if(mainapplet.dist(playerx, playery, i, j) > FieldOfView) 
+					mainapplet.ellipse(i, j, 3, 3);
+			}
+		
+		}*/
 		 
-		 
-		 */
+		
 	}
 
 }
