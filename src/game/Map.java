@@ -69,7 +69,7 @@ public class Map {
 		else if(verticalWall(x,y) == Bounds.UP)
 			Y = 0;
 		else
-			Y = y - MyApplet.height;
+			Y = y - MyApplet.height/2;
 		return map.get(X, Y, MyApplet.width, MyApplet.height);
 	}
 	
