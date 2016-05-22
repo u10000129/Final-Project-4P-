@@ -27,8 +27,8 @@ public class MyApplet extends PApplet{
 	}
 	
 	public void mousePressed(){
-		Bounds hBound = map.horizontalWall(player.getX());
-		Bounds vBound = map.verticalWall(player.getY());
+		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
+		Bounds vBound = map.verticalWall(player.getX(), player.getY());
 		int moveX, moveY;
 		
 		//HorizonBound detect

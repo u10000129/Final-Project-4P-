@@ -51,8 +51,8 @@ public class View {
 		//Draw my player.
 		
 		int playerx, playery;
-		Bounds hBound = map.horizontalWall(player.getX());
-		Bounds vBound = map.verticalWall(player.getY());
+		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
+		Bounds vBound = map.verticalWall(player.getX(), player.getY());
 		//HorizonBound detect
 		if(hBound == Bounds.LEFT){
 			playerx = player.getX();
