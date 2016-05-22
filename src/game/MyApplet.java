@@ -52,6 +52,7 @@ public class MyApplet extends PApplet{
 		else {
 			moveY = player.getY()+ mouseY - MyApplet.height/2;	
 		}
+		
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
 				"curX", moveX, Ani.SINE_IN_OUT);
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 

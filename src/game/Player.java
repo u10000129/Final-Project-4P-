@@ -1,5 +1,7 @@
 package game;
 
+import de.looksgood.ani.Ani;
+
 public class Player extends Character{
 	private MyApplet parent;
 	Player(MyApplet parent ){
@@ -33,4 +35,11 @@ public class Player extends Character{
 	public int getY() {
 		return curY;
 	}
+	/*
+	public void move(int moveX, int moveY) {
+		Ani.to(this, (float)(speed*dist(this.curX, this.curY, moveX, moveY)), 
+				"curX", moveX, Ani.SINE_IN_OUT);
+		Ani.to(this, (float)(speed*dist(this.curX, this.curY, moveX, moveY)), 
+				"curY", moveY, Ani.SINE_IN_OUT);
+	}*/
 }
