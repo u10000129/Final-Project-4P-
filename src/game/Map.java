@@ -13,7 +13,19 @@ public class Map {
 	public Map(PApplet p) {
 		parent = p;
 		map = parent.loadImage("SubMap.jpg");
+		collisionMap = new int[map.width][map.height];
 		
+		parent.loadPixels();
+		for(int y=0;y<map.height;y++) {
+			for(int x=0;x<map.width;x++) {
+				if(p.red(p.pixels[y*map.width+x])>=110 && p.red(p.pixels[y*map.width+x])<160 && p.green(p.pixels[y*map.width+x])>=110 && p.green(p.pixels[y*map.width+x])<160 && p.blue(p.pixels[y*map.width+x])>=110 && p.blue(p.pixels[y*map.width+x])<160) {
+					collisionMap[x][y] = 1;
+				}
+				else {
+					collisionMap[x][y] = 0;
+				}
+			}
+		}
 	}
 	
 	public Bounds horizontalWall(int x, int y) {
