@@ -78,6 +78,11 @@ public class Map {
 	}
 	
 	public int[][] getSubCollisionMap(int x, int y) {
+		if(x < 0 || y< 0)
+			return null;
+		if(x > map.width || y > map.height)
+			return null;
+		
 		int[][] ret = new int[MyApplet.width][MyApplet.height];
 		int initRow = 0;
 		int from = 0;
