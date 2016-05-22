@@ -24,6 +24,7 @@ public class Map {
 				float b = p.blue(map.get(i, j));
 				if(r>=110 && r<160 && g>=110 && g<160 && b>=110 && b<160) {
 					collisionMap[i][j] =1;
+					//System.out.println(i+" "+j);
 				}
 				else {
 					collisionMap[i][j] = 0;
@@ -92,7 +93,7 @@ public class Map {
 			from = map.width - MyApplet.width - 1;
 		else
 			from = x - MyApplet.width/2;
-		for(int i=initRow;i<MyApplet.height;i++) {
+		for(int i=0;i<MyApplet.height;i++) {
 			ret[i] = Arrays.copyOfRange(collisionMap[i+initRow], from, from + MyApplet.width);
 		}
 		return ret;
