@@ -3,16 +3,22 @@ package game;
 import de.looksgood.ani.Ani;
 
 public class Player extends Character{
+	public final static double speed = 0.004;
 	private MyApplet parent;
-	Player(MyApplet parent ){
+	private Map map;
+	Ani aniX;
+	Ani aniY;
+	Player(MyApplet parent, Map map ){
 		this.parent = parent;
-		this.anchorX = 7000;
+		this.map = map;
+		this.anchorX = 7010;
 		this.anchorY = 7000;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 	}
 	
 	public void display(){
+		this.collisionDetect();
 		this.parent.fill(0, 255);
 		this.parent.noStroke(); 		
 		this.parent.ellipse(this.curX, this.curY, 40, 40);
@@ -35,11 +41,19 @@ public class Player extends Character{
 	public int getY() {
 		return curY;
 	}
-	/*
+	
 	public void move(int moveX, int moveY) {
-		Ani.to(this, (float)(speed*dist(this.curX, this.curY, moveX, moveY)), 
-				"curX", moveX, Ani.SINE_IN_OUT);
-		Ani.to(this, (float)(speed*dist(this.curX, this.curY, moveX, moveY)), 
-				"curY", moveY, Ani.SINE_IN_OUT);
-	}*/
+		float distance = parent.dist(this.curX, this.curY, moveX, moveY);
+		aniX = Ani.to(this, (float)(speed*distance), "curX", moveX, Ani.LINEAR);
+		aniY = Ani.to(this, (float)(speed*distance), "curY", moveY, Ani.LINEAR);
+	}
+	
+	public void collisionDetect() {		
+		int[][] collisionMap = map.getSubCollisionMap(curX,curY);
+		if(collisionMap[400][300]>0) {
+			System.out.println(collisionMap[400][300]);
+			aniX.pause();
+		    aniY.pause();
+		}
+	}
 }

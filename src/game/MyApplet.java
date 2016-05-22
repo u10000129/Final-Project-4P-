@@ -13,9 +13,9 @@ public class MyApplet extends PApplet{
 	
 	public void setup(){
 		size(width, height);
-		Ani.init(this);
-		player = new Player(this);
+		Ani.init(this);		
 		map = new Map(this);
+		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
 	}
@@ -52,12 +52,13 @@ public class MyApplet extends PApplet{
 		else {
 			moveY = player.getY()+ mouseY - MyApplet.height/2;	
 		}
-		
+		player.move(moveX, moveY);
+		/*
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
 				"curX", moveX, Ani.SINE_IN_OUT);
 		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
 				"curY", moveY, Ani.SINE_IN_OUT);
-		
+		*/
 		
 	}
 }
