@@ -16,7 +16,7 @@ public class Map {
 		collisionMap = new int[map.height+5][map.width+5];
 		
 		System.out.printf("image size: %dx%d\n",map.width,map.height);
-		/*
+		
 		for(int i=0;i<map.height;i++) {
 			for(int j=0;j<map.width;j++) {
 				float r = p.red(map.get(i, j));
@@ -30,7 +30,7 @@ public class Map {
  				}
 			}
 		}
-		*/
+		
 	}
 	
 	public Bounds horizontalWall(int x, int y) {
