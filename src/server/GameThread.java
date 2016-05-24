@@ -10,10 +10,10 @@ public class GameThread extends Thread{
 
 	
 	public void run() {		
-		while(transmission.getClientNum()<2) {for(int i=0;i<100;i++);}	//wait for client		
+		while(transmission.getClientNum()<1) {for(int i=0;i<100;i++);}	//wait for client		
 		transmission.broadcast("test123");
 		transmission.receiveMessage(0);
-		transmission.receiveMessage(1);
+		//transmission.receiveMessage(1);
 	}
 
 }
