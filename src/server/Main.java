@@ -83,7 +83,7 @@ public class Main {
 			}
 			
 			public void run(){	
-				System.out.println(connections.get(0).receiveMessage());
+				
 			}		
 		}
 		
@@ -93,17 +93,26 @@ public class Main {
 			}
 			System.out.println("host broadcast: "+message);
 		}
-		/*
-		public void constructGameThread() {	//construct a gameThread
-			GameThread gameThread = new GameThread();
-			gameThread.start();
-			
-		}*/
+		
+		public String receiveMessage(int clientNum) {
+			String message = connections.get(clientNum).receiveMessage();
+			System.out.println("receive from "+clientNum+": "+message);
+			return message;
+		}
+		
+		public void constructGameThread(Main transmission) {	//construct a gameThread
+			GameThread gameThread = new GameThread(transmission);
+			gameThread.start();			
+		}
+		
+		public int getClientNum() {
+			return this.connections.size();
+		}
 		
 		public static void main(String[] args) {	
 			
 			Main server = new Main(8000);	//construct a server
-			//server.constructGameThread();	//construct a gameThread
+			server.constructGameThread(server);	//construct a gameThread
 			server.runForever();	//waiting for client forever
 			
 		}

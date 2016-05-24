@@ -23,6 +23,7 @@ public class MyApplet extends PApplet{
 		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
+		transmission.receiveMessage();
 		transmission.sendMessage("test123");
 	}
 	
