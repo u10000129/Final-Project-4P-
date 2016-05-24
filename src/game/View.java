@@ -80,7 +80,6 @@ public class View {
 		else {
 			playery = MyApplet.height / 2;
 		}
-		System.out.println(player.getX() + ", " + player.getY());
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
 		//Draw other players if I can see it.
@@ -90,26 +89,36 @@ public class View {
 		 
 		//Draw a circle field of view. 
 		
-		int[][] collisionMap = map.getSubCollisionMap(player.getX(), player.getY());
-		
-		/*for(int i = 0; i < MyApplet.width; i+=3) {
-			for(int j = 0; j < MyApplet.height; j+=3 ){
+		int[][] collisionMap = map.getCollisionMap();
+		mainapplet.fill(0, 0, 0, 128);
+		for(int i = 0; i <= MyApplet.width; i++ ){
+			for(int j = 0; j <= MyApplet.height; j++ ){
 				if(mainapplet.dist(playerx, playery, i, j) > FieldOfView) 
-					mainapplet.ellipse(i, j, 3, 3);
-			}
+						mainapplet.rect(i, j, 1, 1);				
+			}		
+		}
+		for(int i = -100; i <= 100; i++ ){
+			collisionMap[7010 + i][7100] = 1;
 		
-		}*/
+		}
+		mainapplet.stroke(0, 0, 0, 128);
+		mainapplet.strokeWeight(5);
+		for(float i = 0; i < 360; i++) {
+			for(float j = 0; j < FieldOfView ; j++ ){
+				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
+				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
+				if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
+					mainapplet.line(playerx + x, playery + y,
+									playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
+									playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
+									);	
+					break;
+				}				
+			}		
+		}
 		 
 		 
-		//Test collision map.
 		
-		
-		/*for(int y=0;y<MyApplet.height;y++) {
-			for(int x=0;x<MyApplet.width;x++) {
-				System.out.printf("%d", array[x][y]);
-			}
-			System.out.println("");		
-		}*/
 		
 	}
 
