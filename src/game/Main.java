@@ -15,7 +15,7 @@ public class Main extends JFrame{
 		window.setContentPane(myApplet);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(windowWidth, windowHeight);
-		window.setVisible(true);
+		window.setVisible(true);	
 		window.setLocation(300, 50);
 	}
 
