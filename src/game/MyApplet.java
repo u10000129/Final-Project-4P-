@@ -8,9 +8,14 @@ public class MyApplet extends PApplet{
 	private Player player;
 	private View view;
 	private Map map;
+	private Transmission transmission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	
+	public MyApplet(Transmission transmission) {
+		this.transmission = transmission;
+	}
+
 	public void setup(){
 		size(width, height);
 		Ani.init(this);		
@@ -18,6 +23,7 @@ public class MyApplet extends PApplet{
 		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
+		transmission.sendMessage("test123");
 	}
 	
 	public void draw(){
@@ -52,13 +58,7 @@ public class MyApplet extends PApplet{
 		else {
 			moveY = player.getY()+ mouseY - MyApplet.height/2;	
 		}
-		player.move(moveX, moveY);
-		/*
-		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
-				"curX", moveX, Ani.SINE_IN_OUT);
-		Ani.to(player, (float)(speed*dist(player.curX, player.curY, moveX, moveY)), 
-				"curY", moveY, Ani.SINE_IN_OUT);
-		*/
+		player.move(moveX, moveY);		
 		
 	}
 }

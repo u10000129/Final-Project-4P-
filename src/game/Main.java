@@ -8,7 +8,8 @@ public class Main extends JFrame{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		MyApplet myApplet = new MyApplet();
+		Transmission transmission = new Transmission();
+		MyApplet myApplet = new MyApplet(transmission);
 		myApplet.init();
 		
 		JFrame window = new JFrame("Final Project");
@@ -16,7 +17,8 @@ public class Main extends JFrame{
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(windowWidth, windowHeight);
 		window.setVisible(true);
-		window.setLocation(300, 50);
+		window.setLocation(300, 50);		
+		
 	}
 
 }
