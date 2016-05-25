@@ -1,11 +1,5 @@
 package game;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,61 +10,10 @@ import processing.data.JSONObject;
 
 
 public class Transfer {
-	private Socket socket;
-	private String destinationIP;
-	private int destinationPortNum;
-	private String line;
-	private PrintWriter writer;
-	private boolean gameStart;
 	private JSONObject json;
 	
-	public Transfer(String IP, int portNum) {
-		socket = null;
-		destinationIP = IP;
-		destinationPortNum = portNum;
-		gameStart = false;
-	}
-	class ClientThread extends Thread {
-		private BufferedReader reader;
-		
-		@Override
-		public void run() {
-			if(socket != null){
-				try{
-					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					while(true) {
-						line = reader.readLine();
-						json = JSONObject.parse(line);
-					}
-				}
-				catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
 	
-	public void connect() {
-		try {
-			socket = new Socket(destinationIP, destinationPortNum);
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-		ClientThread t1 = new ClientThread();
-		t1.start();
-		
-		if(socket != null) {
-			try {
-				writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void encode(String name, 
+	public String encode(String name, 
 										int characterX, int characterY,
 										java.util.Map<Integer, List<Integer>> jewels,
 										java.util.Map <Integer, List<Integer>>hunters) {
@@ -124,15 +67,12 @@ public class Transfer {
 			}
 		}
 		obj.setJSONArray("hunters", hunterArray);
-		
-		writer.println(obj.toString());
-		writer.flush();
+		return obj.toString();
 	}
 	
 	public Boolean getGameStatus() {
 		
-		gameStart =json.getBoolean("status");
-		return gameStart;
+		return json.getBoolean("status");
 	}
 	
 	public Long getTime() {
