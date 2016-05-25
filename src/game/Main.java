@@ -16,14 +16,8 @@ public class Main extends JFrame{
 		window.setContentPane(myApplet);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(windowWidth, windowHeight);
-<<<<<<< HEAD
 		window.setVisible(true);	
-		window.setLocation(300, 50);
-=======
-		window.setVisible(true);
 		window.setLocation(300, 50);		
-		
->>>>>>> refs/remotes/origin/master
 	}
 
 }
