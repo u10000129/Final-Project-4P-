@@ -89,7 +89,6 @@ public class Transfer {
 		
 		// jewel array
 		JSONArray jewelArray =  new JSONArray();
-		int count = 0;
 		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
 			JSONObject jw = new JSONObject();
 			
@@ -98,8 +97,7 @@ public class Transfer {
 				jw.setInt("x", jewel.getValue().get(0));
 				jw.setInt("y", jewel.getValue().get(1));
 				
-				jewelArray.setJSONObject(count, jw);
-				count++;
+				jewelArray.setJSONObject(jewel.getKey(), jw);
 			}
 			catch(Exception e) {
 				System.out.println("Error occurred while setting jewelArray");
@@ -110,7 +108,6 @@ public class Transfer {
 		
 		//hunter array
 		JSONArray hunterArray = new JSONArray();
-		count = 0;
 		for(Entry<Integer, List<Integer>> hunter : hunters.entrySet()) {
 			JSONObject ht = new JSONObject();
 			
@@ -119,8 +116,7 @@ public class Transfer {
 				ht.setInt("x", hunter.getValue().get(0));
 				ht.setInt("y", hunter.getValue().get(1));
 				
-				jewelArray.setJSONObject(count, ht);
-				count++;
+				hunterArray.setJSONObject(hunter.getKey(), ht);
 			}
 			catch(Exception e) {
 				System.out.println("Error occurred while setting hunterArray");
