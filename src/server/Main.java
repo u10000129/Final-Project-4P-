@@ -1,5 +1,6 @@
 package server;
 
+import javax.swing.JFrame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,13 +11,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
-	
-	
+@SuppressWarnings("serial")
+public class Main extends JFrame{
 	
 		int portNum;
 		private ServerSocket serverSocket;
 		private List<ConnectionThread> connections = new ArrayList<ConnectionThread>();
+		public final static int windowWidth = 800, windowHeight = 600;
 		
 		public Main(int portNum) {
 			try {
@@ -111,9 +112,20 @@ public class Main {
 		
 		public static void main(String[] args) {	
 			
+			MyApplet myApplet = new MyApplet();
+			myApplet.init();
+			
+			JFrame window = new JFrame("Final Project");
+			window.setContentPane(myApplet);
+			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			window.setSize(windowWidth, windowHeight);
+			window.setVisible(true);	
+			window.setLocation(300, 50);
+			
 			Main server = new Main(8000);	//construct a server
 			server.constructGameThread(server);	//construct a gameThread
 			server.runForever();	//waiting for client forever
+			
 			
 		}
 }

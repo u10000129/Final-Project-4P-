@@ -50,9 +50,7 @@ public class View {
 		//Draw map image.
 		
 		mapImage = map.getSubMap(player.getX(), player.getY());
-		mainapplet.image(mapImage, 0, 0, 800, 600);
-		
-		 
+		mainapplet.image(mapImage, 0, 0, 800, 600);		 
 	
 		//Draw my player.
 		
