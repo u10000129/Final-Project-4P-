@@ -1,6 +1,5 @@
 package game;
 
-import java.util.Arrays;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -9,7 +8,6 @@ public class Map {
 	private PApplet parent;
 	private PImage map;
 	private int[][] collisionMap;
-	private int subMapX, subMapY;
 	
 	public Map(PApplet p) {
 		parent = p;
@@ -71,8 +69,6 @@ public class Map {
 			Y = 0;
 		else
 			Y = y - MyApplet.height/2;
-		subMapX = X;
-		subMapY = Y;
 		return map.get(X, Y, MyApplet.width, MyApplet.height);
 	}
 	
@@ -80,18 +76,4 @@ public class Map {
 		return collisionMap;
 	}
 	
-	public int[][] getSubCollisionMap(int x, int y) {
-		if(x < 0 || y< 0)
-			return null;
-		if(x > map.width || y > map.height)
-			return null;
-		
-		int[][] ret = new int[MyApplet.height][MyApplet.width];
-		for(int j=subMapX;j<MyApplet.width;j++) {
-			for(int i=subMapY;j<MyApplet.height;j++) {
-				ret[i][j] = collisionMap[i][j];
-			}
-		}
-		return ret;
-	}
 }
