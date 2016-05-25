@@ -102,8 +102,8 @@ public class View {
 		
 		}
 		mainapplet.stroke(0, 0, 0, 128);
-		mainapplet.strokeWeight(5);
-		for(float i = 0; i < 360; i++) {
+		mainapplet.strokeWeight(25);
+		for(float i = 0; i < 360; i+=5) {
 			for(float j = 0; j < FieldOfView ; j++ ){
 				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
 				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
