@@ -28,7 +28,7 @@ public class MyApplet extends PApplet{
 	
 	public void draw(){
 		background(255);
-		player.display();
+		//player.display();
 		view.display();
 	}
 	

@@ -50,7 +50,8 @@ public class View {
 		//Draw map image.
 		
 		mapImage = map.getSubMap(player.getX(), player.getY());
-		mainapplet.image(mapImage, 0, 0, 800, 600);
+		//mapImage = map.getFullMap();
+		mainapplet.image(mapImage, 0, 0, 800 , 600);
 		
 		 
 	
@@ -80,6 +81,9 @@ public class View {
 		else {
 			playery = MyApplet.height / 2;
 		}
+		mainapplet.fill(0, 255);
+		mainapplet.noStroke(); 		
+		player.collisionDetect();
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
 		//Draw other players if I can see it.
@@ -89,7 +93,7 @@ public class View {
 		 
 		//Draw a circle field of view. 
 		
-		int[][] collisionMap = map.getCollisionMap();
+		/*int[][] collisionMap = map.getCollisionMap();
 		mainapplet.fill(0, 0, 0, 128);
 		for(int i = 0; i <= MyApplet.width; i++ ){
 			for(int j = 0; j <= MyApplet.height; j++ ){
@@ -102,8 +106,10 @@ public class View {
 		
 		}
 		mainapplet.stroke(0, 0, 0, 128);
-		mainapplet.strokeWeight(25);
-		for(float i = 0; i < 360; i+=5) {
+		mainapplet.strokeWeight(5);
+		mainapplet.fill(0, 0, 0, 128);
+		//mainapplet.noFill();
+		for(float i = 0; i < 360; i+=1) {
 			for(float j = 0; j < FieldOfView ; j++ ){
 				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
 				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
@@ -115,7 +121,7 @@ public class View {
 					break;
 				}				
 			}		
-		}
+		}*/
 		 
 		 
 		
