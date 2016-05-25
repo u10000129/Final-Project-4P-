@@ -13,7 +13,7 @@ public class Transfer {
 	private JSONObject json;
 	
 	
-	public String encode(String name, 
+	public String encode(String name,
 										int characterX, int characterY,
 										java.util.Map<Integer, List<Integer>> jewels,
 										java.util.Map <Integer, List<Integer>>hunters) {
@@ -68,6 +68,10 @@ public class Transfer {
 		}
 		obj.setJSONArray("hunters", hunterArray);
 		return obj.toString();
+	}
+	
+	public void decode(String str) {
+		json = JSONObject.parse(str);
 	}
 	
 	public Boolean getGameStatus() {
