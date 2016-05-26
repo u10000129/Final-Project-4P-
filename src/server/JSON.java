@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -58,13 +59,36 @@ public class JSON {
 			j.setInt("y", jewel.getValue().get(1));
 			jewelArray.setJSONObject(jewel.getKey(), j);
 		}
-		obj.setJSONArray("jewels", jewelArray);
+		obj.setJSONArray("jewels", jewelArray);		
 		
-		return obj.toString();
+		return obj.toString().replace("\n", "");
 	}
 	
 	public JSONObject decode(String str) {
 		json = JSONObject.parse(str);
 		return json;
 	}
+	
+	public List<Integer> getPlayers() { // Map of  ID->(x,y)
+		
+		JSONArray playerArray = json.getJSONArray("players");
+		List<Integer> list = new ArrayList<Integer>();		
+		for(int i=0;i<playerArray.size();i++) {
+			JSONObject playerObject = playerArray.getJSONObject(i);
+			
+			list.add(playerObject.getInt("characterX"));
+			list.add(playerObject.getInt("characterY"));
+			
+		}
+		
+		return list;
+	}
+	/*
+	public int getX() {
+		return json.getInt("characterX");	
+	}
+	
+	public int getY() {
+		return json.getInt("characterY");	
+	}*/
 }
