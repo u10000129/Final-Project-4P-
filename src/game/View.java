@@ -93,7 +93,7 @@ public class View {
 			}		
 		}
 		
-		//Scan the circle field of view. If there is collision , draw a line to cover the area ,which is means that the area is invisible.
+		//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.
 		mainapplet.stroke(0, 0, 0, 128);
 		mainapplet.strokeWeight(5);
 		for(float i = 0; i < 360; i+=1) {
@@ -102,9 +102,9 @@ public class View {
 				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
 				if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
 					mainapplet.line(playerx + x, playery + y,
-									playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
-									playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
-									);	
+							playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
+							playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
+							);	
 					break;
 				}				
 			}		
