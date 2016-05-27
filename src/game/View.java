@@ -93,7 +93,9 @@ public class View {
 		 
 		//Draw a circle field of view. 
 		
-		/*int[][] collisionMap = map.getCollisionMap();
+		int[][] collisionMap = map.getCollisionMap();
+		
+		//Use a lot of small rectangle to cover the full map except of the circle field of view. 
 		mainapplet.fill(0, 0, 0, 128);
 		for(int i = 0; i <= MyApplet.width; i++ ){
 			for(int j = 0; j <= MyApplet.height; j++ ){
@@ -101,14 +103,10 @@ public class View {
 						mainapplet.rect(i, j, 1, 1);				
 			}		
 		}
-		for(int i = -100; i <= 100; i++ ){
-			collisionMap[7010 + i][7100] = 1;
 		
-		}
+		//Scan the circle field of view. If there is collision , draw a line to cover the area ,which is means that the area is invisible.
 		mainapplet.stroke(0, 0, 0, 128);
 		mainapplet.strokeWeight(5);
-		mainapplet.fill(0, 0, 0, 128);
-		//mainapplet.noFill();
 		for(float i = 0; i < 360; i+=1) {
 			for(float j = 0; j < FieldOfView ; j++ ){
 				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
@@ -121,11 +119,7 @@ public class View {
 					break;
 				}				
 			}		
-		}*/
-		 
-		 
-		
-		
+		}
 	}
 
 }
