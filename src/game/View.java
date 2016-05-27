@@ -10,22 +10,19 @@ import processing.data.JSONObject;
 public class View {
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
-	private Map map;
+	private PApplet mainapplet;
 	private Player player;
-	PApplet mainapplet;
-	JSONObject data;
-	JSONArray character, mapdata;
+	private Map map;
+	private PImage mapImage;
 	
-	PImage mapImage;
+	private JSONObject data;
+	private JSONArray character, mapdata;
 	
 	
 	public View (PApplet mainapplet, Map map, Player player) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
-		
-	
-		
 	}
 	
 	public void display(){
@@ -48,15 +45,11 @@ public class View {
 		}
 		*/
 		//Draw map image.
-		
 		mapImage = map.getSubMap(player.getX(), player.getY());
-		//mapImage = map.getFullMap();
 		mainapplet.image(mapImage, 0, 0, 800 , 600);
 		
-		 
 	
 		//Draw my player.
-		
 		int playerx, playery;
 		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
 		Bounds vBound = map.verticalWall(player.getX(), player.getY());
@@ -85,16 +78,12 @@ public class View {
 		mainapplet.noStroke(); 		
 		player.collisionDetect();
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
-		 
-		//Draw other players if I can see it.
 		
-		 
-		 
+		
+		
 		 
 		//Draw a circle field of view. 
-		
 		int[][] collisionMap = map.getCollisionMap();
-		
 		//Use a lot of small rectangle to cover the full map except of the circle field of view. 
 		mainapplet.fill(0, 0, 0, 128);
 		for(int i = 0; i <= MyApplet.width; i++ ){
@@ -120,6 +109,9 @@ public class View {
 				}				
 			}		
 		}
+		
+		//Draw other players if I can see it.
+		//Todo:
 	}
 
 }
