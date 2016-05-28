@@ -47,7 +47,6 @@ public class View {
 		//Draw map image.
 		mapImage = map.getSubMap(player.getX(), player.getY());
 		mainapplet.image(mapImage, 0, 0, 800 , 600);
-		
 	
 		//Draw my player.
 		int playerx, playery;
@@ -66,7 +65,6 @@ public class View {
 		//verticalBound detect
 		if(vBound == Bounds.UP){
 			playery = player.getY();
-
 		}
 		else if (vBound == Bounds.DOWN){
 			playery = player.getY() - map.getFullMap().height + MyApplet.height ;
@@ -74,13 +72,10 @@ public class View {
 		else {
 			playery = MyApplet.height / 2;
 		}
+		player.collisionDetect();
 		mainapplet.fill(0, 255);
-		mainapplet.noStroke(); 		
-		//player.collisionDetect();
+		mainapplet.noStroke(); 
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
-		
-		
-		
 		 
 		//Draw a circle field of view. 
 		int[][] collisionMap = map.getCollisionMap();
