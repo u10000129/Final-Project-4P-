@@ -5,21 +5,19 @@ import processing.core.PApplet;
 
 public class Hunter extends Character{
 	public static final double speed = 0.005;
-	private MyApplet parent;
 	private Map map;
 	Ani aniX;
 	Ani aniY;
 	int moveX, moveY;
 	int[][] collisionMap;
 	
-	Hunter(MyApplet parent, Map map) {
-		this.parent = parent;
+	Hunter(Map map, int x, int y) {
 		this.map = map;
-		this.anchorX = 5000;
-		this.anchorY = 5010;
+		this.anchorX = x;
+		this.anchorY = y;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
-		this.collisionMap = map.getCollisionMap();
+		this.collisionMap = this.map.getCollisionMap();
 	}
 
 	@Override

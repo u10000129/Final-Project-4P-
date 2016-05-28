@@ -125,8 +125,6 @@ public class Main extends JFrame{
 			Main server = new Main(8000);	//construct a server
 			server.constructGameThread(server);	//construct a gameThread
 			server.runForever();	//waiting for client forever
-			
-			
 		}
 }
 
