@@ -30,6 +30,7 @@ public class Mission {
 				ArrayList<Integer> list = new ArrayList<Integer>();
 				list.add(Integer.parseInt(data[1]));
 				list.add(Integer.parseInt(data[2]));
+				list.add(0);	//time
 				location.put(Integer.parseInt(data[0]), list);
 				pointNum++;
 			}
@@ -78,6 +79,13 @@ public class Mission {
 	
 	public int getQNum() {
 		return qNum;
+	}
+	
+	public void setCountDown(int id, int t) {
+		List<Integer> list =location.get(id);
+		List<Integer> oldList = list;
+		list.set(2, t);
+		location.replace(id, oldList, list);		
 	}
 	
 	public java.util.Map<Integer, List<Integer>> getLocation() {
