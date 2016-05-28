@@ -3,7 +3,6 @@ package server;
 import processing.core.PApplet;
 import processing.core.PImage;
 import game.Bounds;
-import game.MyApplet;
 
 public class Map {
 	private PApplet parent;
@@ -32,6 +31,14 @@ public class Map {
 			}
 		}
 		
+	}
+	
+	public int getImageWidth() {
+		return map.width;
+	}
+	
+	public int getImageHeight() {
+		return map.height;
 	}
 	
 	public Bounds horizontalWall(int x, int y) {

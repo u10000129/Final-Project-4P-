@@ -6,23 +6,40 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
-	private Hunter hunter;
+	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
+	private int hunterNum;
 	private View view;
 	private Map map;
-	private Control control;
+	private Control[] control;
 	public final static double speed = 0.005;
 	public final static int width = 800, height = 600;
 	
 	public void setup(){
 		size(width, height);
 		map = new Map(this);
-		hunter = new Hunter(map, 5000, 5010);
+		hunterNum = 8;
+		hunter = new Hunter[hunterNum];
+		hunter[0]=new Hunter(map, 5340, 5036);
+		hunter[1]=new Hunter(map, 6840, 4144);
+		hunter[2]=new Hunter(map, 5116, 5968);
+		hunter[3]=new Hunter(map, 5384, 4136);
+		hunter[4]=new Hunter(map, 3180, 4204);
+		hunter[5]=new Hunter(map, 7940, 2996);
+		hunter[6]=new Hunter(map, 5164, 7452);
+		hunter[7]=new Hunter(map, 3680, 7544);
+		
 		hunters = new ArrayList<Hunter>();
-		view = new View(this, map, hunter);
+		for(int i=0; i<8; i++) hunters.add(hunter[i]);
+		view = new View(this, map, hunters, hunterNum);
+		
 		Ani.init(this);
-		control = new Control(map, hunter);
-		control.start();
+		control = new Control[hunterNum];
+		for(int i=0; i<8; i++) {
+			control[i] = new Control(map, hunter[i]);
+			control[i].start();
+		}
+		//control[0].start();
 		smooth();
 	}
 	
@@ -30,5 +47,4 @@ public class MyApplet extends PApplet{
 		background(255);
 		view.display();
 	}
-	
 }

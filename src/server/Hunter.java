@@ -10,7 +10,7 @@ public class Hunter extends Character{
 	Ani aniY;
 	int moveX, moveY;
 	int[][] collisionMap;
-	
+		
 	Hunter(Map map, int x, int y) {
 		this.map = map;
 		this.anchorX = x;
@@ -18,6 +18,7 @@ public class Hunter extends Character{
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = this.map.getCollisionMap();
+		
 	}
 
 	@Override
