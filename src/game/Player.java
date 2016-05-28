@@ -10,6 +10,8 @@ public class Player extends Character{
 	Ani aniX;
 	Ani aniY;
 	int moveX, moveY;	//these are for collision detection
+	int[][] collisionMap;
+	
 	Player(MyApplet parent, Map map ){
 		this.parent = parent;
 		this.map = map;
@@ -17,13 +19,7 @@ public class Player extends Character{
 		this.anchorY = 7000;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
-	}
-	
-	public void display(){
-		this.collisionDetect();
-		this.parent.fill(0, 255);
-		this.parent.noStroke(); 		
-		this.parent.ellipse(this.curX, this.curY, 40, 40);
+		this.collisionMap = map.getCollisionMap();
 	}
 	
 	public void setX(int X){
@@ -53,14 +49,12 @@ public class Player extends Character{
 	}
 	
 	public void collisionDetect() {				
-		int[][] collisionMap = map.getCollisionMap();
 		if(collisionMap[curX][curY]>0) {			
 			Ani.killAll();				
 		    if(moveX>curX) curX-=10;
 		    if(moveX<curX) curX+=10;
 		    if(moveY>curY) curY-=10;
 		    if(moveY<curY) curY+=10;
-		    
 		}
 	}
 }

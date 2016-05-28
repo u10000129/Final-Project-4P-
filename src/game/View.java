@@ -23,9 +23,6 @@ public class View {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
-		
-	
-		
 	}
 	
 	public void display(){
@@ -70,7 +67,6 @@ public class View {
 		//verticalBound detect
 		if(vBound == Bounds.UP){
 			playery = player.getY();
-
 		}
 		else if (vBound == Bounds.DOWN){
 			playery = player.getY() - map.getFullMap().height + MyApplet.height ;
@@ -78,6 +74,9 @@ public class View {
 		else {
 			playery = MyApplet.height / 2;
 		}
+		player.collisionDetect();
+		mainapplet.fill(0, 255);
+		mainapplet.noStroke(); 
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
 		//Draw other players if I can see it.
