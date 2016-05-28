@@ -16,9 +16,9 @@ public class JSON {
 	public String encode(
 									Long time,
 									Boolean gameStatus,
-									java.util.Map<Integer, List<Integer>> players,
-									java.util.Map<Integer, List<Integer>> hunters,
-									java.util.Map<Integer, List<Integer>> jewels)
+									java.util.Map<Integer, List<Integer>> players,	// id -> (x,y)
+									java.util.Map<Integer, List<Integer>> hunters,	// id -> (x,y)
+									java.util.Map<Integer, Integer> jewels)		// id -> time
 	{
 		JSONObject obj = new JSONObject();
 		
@@ -50,12 +50,11 @@ public class JSON {
 		
 		
 		JSONArray jewelArray = new JSONArray();
-		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
+		for(Entry<Integer, Integer> jewel : jewels.entrySet()) {
 			JSONObject j = new JSONObject();
 			
 			j.setInt("id", jewel.getKey());
-			j.setInt("x", jewel.getValue().get(0));
-			j.setInt("y", jewel.getValue().get(1));
+			j.setInt("time", jewel.getValue());
 			jewelArray.setJSONObject(jewel.getKey(), j);
 		}
 		obj.setJSONArray("jewels", jewelArray);
