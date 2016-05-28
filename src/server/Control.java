@@ -2,41 +2,50 @@ package server;
 
 import java.util.Random;
 import processing.core.PApplet;
+import java.util.ArrayList;
 
 public class Control implements Runnable{
 	private Random ran;
-	private Hunter hunter;
+	private ArrayList<Hunter> hunters;
+	private int hunterNum;
 	private Map map;
-	private int nextX, nextY;
+	private int []nextX, nextY;
 	private int radius;
-	private float radian;
-	private float cos, sin;
+	private float [] radian;
+	private float[] cos, sin;
 	private int [][]collisionMap;
 	
-	Control(Map map, Hunter hunter) {
+	Control(Map map, ArrayList<Hunter> hunters, int hunterNum) {
 		this.ran = new Random();
 		this.map = map;
-		this.hunter = hunter;
+		this.hunters = hunters;
+		this.hunterNum = hunterNum;
 		this.radius = 300;
 		this.collisionMap = map.getCollisionMap();
+		this.radian = new float[this.hunterNum];
+		this.cos = new float[this.hunterNum];
+		this.sin = new float[this.hunterNum];
+		this.nextX = new int[this.hunterNum];
+		this.nextY = new int[this.hunterNum];
 	}
 	
-	private boolean judge_path() {
+	private boolean judge_path(int index) {
 		for(int i=0; i<=radius; i++) {
-			if(collisionMap[(int)(i*cos)+hunter.getX()][(int)(i*sin)+hunter.getY()]>0) return false;
+			if(collisionMap[(int)(i*cos[index])+
+			                hunters.get(index).getX()][(int)(i*sin[index])
+			                                   +hunters.get(index).getY()]>0) return false;
 		}
 		return true;
 	}
 	
-	private void generate() {
+	private void generate(int index) {
 		while(true) {
-			radian = PApplet.radians(90*ran.nextInt(4));
-			//System.out.println(radian);
-			cos = PApplet.cos( radian );
-			sin = PApplet.sin( radian );
-			nextX =  (int)(radius * cos) + hunter.getX();
-			nextY =  (int)(radius * sin) + hunter.getY();
-			if(map.inside(nextX, nextY)==true && judge_path()==true) break;
+			radian[index] = PApplet.radians(90*ran.nextInt(4));
+			cos[index] = PApplet.cos( radian[index] );
+			sin[index] = PApplet.sin( radian[index] );
+			nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
+			nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
+			if(map.inside(nextX[index], nextY[index])==true && judge_path(index)==true) break;
 		}
 	}
 	
@@ -47,8 +56,11 @@ public class Control implements Runnable{
 	
 	public void run(){
 		while(true) {
-			generate();
-			hunter.move(nextX, nextY);	
+			for(int i=0; i<hunterNum; i++) {
+				generate(i);
+				hunters.get(i).move(nextX[i], nextY[i]);	
+			}
+			
 			//System.out.println(nextX + " " + nextY);
 			try {
 				Thread.sleep(1500);

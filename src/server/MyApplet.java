@@ -11,7 +11,7 @@ public class MyApplet extends PApplet{
 	private int hunterNum;
 	private View view;
 	private Map map;
-	private Control[] control;
+	private Control control;
 	public final static double speed = 0.005;
 	public final static int width = 800, height = 600;
 	
@@ -34,12 +34,8 @@ public class MyApplet extends PApplet{
 		view = new View(this, map, hunters, hunterNum);
 		
 		Ani.init(this);
-		control = new Control[hunterNum];
-		for(int i=0; i<8; i++) {
-			control[i] = new Control(map, hunter[i]);
-			control[i].start();
-		}
-		//control[0].start();
+		control = new Control(map, hunters, hunterNum);
+		control.start();
 		smooth();
 	}
 	
