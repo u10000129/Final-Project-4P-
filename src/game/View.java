@@ -10,13 +10,13 @@ import processing.data.JSONObject;
 public class View {
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
-	private Map map;
+	private PApplet mainapplet;
 	private Player player;
-	PApplet mainapplet;
-	JSONObject data;
-	JSONArray character, mapdata;
+	private Map map;
+	private PImage mapImage;
 	
-	PImage mapImage;
+	private JSONObject data;
+	private JSONArray character, mapdata;
 	
 	
 	public View (PApplet mainapplet, Map map, Player player) {
@@ -45,12 +45,10 @@ public class View {
 		}
 		*/
 		//Draw map image.
-		
 		mapImage = map.getSubMap(player.getX(), player.getY());
-		mainapplet.image(mapImage, 0, 0, 800, 600);		 
+		mainapplet.image(mapImage, 0, 0, 800 , 600);
 	
 		//Draw my player.
-		
 		int playerx, playery;
 		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
 		Bounds vBound = map.verticalWall(player.getX(), player.getY());
@@ -79,14 +77,9 @@ public class View {
 		mainapplet.noStroke(); 
 		mainapplet.ellipse(playerx, playery, diameter, diameter);
 		 
-		//Draw other players if I can see it.
-		
-		 
-		 
-		 
 		//Draw a circle field of view. 
-		
 		int[][] collisionMap = map.getCollisionMap();
+		//Use a lot of small rectangle to cover the full map except of the circle field of view. 
 		mainapplet.fill(0, 0, 0, 128);
 		for(int i = 0; i <= MyApplet.width; i++ ){
 			for(int j = 0; j <= MyApplet.height; j++ ){
@@ -94,29 +87,26 @@ public class View {
 						mainapplet.rect(i, j, 1, 1);				
 			}		
 		}
-		for(int i = -100; i <= 100; i++ ){
-			collisionMap[7010 + i][7100] = 1;
 		
-		}
+		//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.
 		mainapplet.stroke(0, 0, 0, 128);
 		mainapplet.strokeWeight(5);
-		for(float i = 0; i < 360; i++) {
+		for(float i = 0; i < 360; i+=1) {
 			for(float j = 0; j < FieldOfView ; j++ ){
 				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
 				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
 				if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
 					mainapplet.line(playerx + x, playery + y,
-									playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
-									playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
-									);	
+							playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
+							playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
+							);	
 					break;
 				}				
 			}		
 		}
-		 
-		 
 		
-		
+		//Draw other players if I can see it.
+		//Todo:
 	}
 
 }
