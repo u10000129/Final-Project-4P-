@@ -1,7 +1,6 @@
 package server;
 
 import java.util.Random;
-import game.Bounds;
 import processing.core.PApplet;
 
 public class Control implements Runnable{

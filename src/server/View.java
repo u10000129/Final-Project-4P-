@@ -3,51 +3,84 @@ package server;
 import game.Bounds;
 import processing.core.PApplet;
 import processing.core.PImage;
+import java.util.ArrayList;
 
 public class View {
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
 	private Map map;
-	private Hunter hunter;
+	private ArrayList<Hunter> hunters;
+	private int hunterNum;
+	private int curHunter;
 	private PApplet mainApplet;
 	private PImage mapImage;
 	private int hunterX, hunterY;
 	
-	public View(PApplet pApplet, Map map, Hunter hunter){
+	public View(PApplet pApplet, Map map, ArrayList<Hunter> hunters, int hunterNum){
 		this.mainApplet = pApplet;
 		this.map = map;
-		this.hunter = hunter;
+		this.hunters = hunters;
+		this.hunterNum = hunterNum;
+		this.curHunter = 0;
+	}
+	
+	private int transformX(int x) {
+		return x * MyApplet.width / map.getImageWidth();
+	}
+	
+	
+	private int transformY(int y) {
+		return y * MyApplet.height / map.getImageHeight();
 	}
 	
 	public void display(){
+		/* change hunter */
+		if(this.mainApplet.keyPressed) {
+			System.out.println(this.mainApplet.key);
+			if(this.mainApplet.key == '\t') {
+				mainApplet.image(map.getFullMap(), 0, 0,MyApplet.width, MyApplet.height);
+				for(int i=0; i<hunterNum; i++) 
+					mainApplet.ellipse(transformX(hunters.get(i).getX()), 
+										transformY(hunters.get(i).getY()), 
+										diameter/4, diameter/4);
+			}
+			else {
+				int key = this.mainApplet.key - '0';
+				if(key>=0 && key<hunterNum) {
+					System.out.println(key);
+					curHunter = key;
+				}
+			}
+			
+		}
 		/* draw map */
-		mapImage = map.getSubMap(hunter.getX(), hunter.getY());
+		mapImage = map.getSubMap(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
 		mainApplet.image(mapImage, 0, 0, 800, 600);
 		
 		/* draw player */
-		Bounds hBound = map.horizontalWall(hunter.getX(), hunter.getY());
-		Bounds vBound = map.verticalWall(hunter.getX(), hunter.getY());
+		Bounds hBound = map.horizontalWall(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
+		Bounds vBound = map.verticalWall(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
 		/* HorizonBound detect */
 		if(hBound == Bounds.LEFT){
-			hunterX = hunter.getX();
+			hunterX = hunters.get(curHunter).getX();
 		}
 		else if (hBound == Bounds.RIGHT){
-			hunterX = hunter.getX() - map.getFullMap().width + MyApplet.width ;
+			hunterX = hunters.get(curHunter).getX() - map.getFullMap().width + MyApplet.width ;
 		}
 		else {
 			hunterX = MyApplet.width / 2;
 		}
 		//verticalBound detect
 		if(vBound == Bounds.UP){
-			hunterY = hunter.getY();
+			hunterY = hunters.get(curHunter).getY();
 		}
 		else if (vBound == Bounds.DOWN){
-			hunterY = hunter.getY() - map.getFullMap().height + MyApplet.height ;
+			hunterY = hunters.get(curHunter).getY() - map.getFullMap().height + MyApplet.height ;
 		}
 		else {
 			hunterY = MyApplet.height / 2;
 		}
-		hunter.collisionDetect();
+		hunters.get(curHunter).collisionDetect();
 		mainApplet.fill(125, 255);
 		mainApplet.noStroke(); 
 		mainApplet.ellipse(hunterX, hunterY, diameter, diameter);
@@ -71,7 +104,7 @@ public class View {
 				for(float j = 0; j < FieldOfView ; j++ ){
 					float x = j * PApplet.cos( PApplet.radians(i) ); 
 					float y = j * PApplet.sin( PApplet.radians(i) ); 
-					if(collisionMap[hunter.getX() + (int)x ][hunter.getY() + (int)y ] == 1){
+					if(collisionMap[hunters.get(curHunter).getX() + (int)x ][hunters.get(curHunter).getY() + (int)y ] == 1){
 						mainApplet.line(hunterX + x, hunterY + y,
 								hunterX + (FieldOfView-1)* PApplet.cos( PApplet.radians(i) ), 
 								hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) )
