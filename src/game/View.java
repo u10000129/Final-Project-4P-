@@ -55,6 +55,7 @@ public class View {
 		*/
 		if(mainapplet.keyPressed && mainapplet.key == '\t') {
 			mainapplet.image(map.getFullMap(), 0, 0,MyApplet.width, MyApplet.height);
+			player.collisionDetect();
 			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);
 			
 		} else {
