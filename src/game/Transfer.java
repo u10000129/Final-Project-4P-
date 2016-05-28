@@ -13,9 +13,9 @@ public class Transfer {
 	private JSONObject json;
 	
 	
-	public String encode(String name,
-										int characterX, int characterY,
-										java.util.Map<Integer, List<Integer>> jewels
+	public String encode(String name,													//player name
+										int characterX, int characterY,							//player coordinate
+										java.util.Map<Integer, Boolean> jewels				// jewel id -> status -> open=true
 										) {
 		
 		JSONObject obj = new JSONObject();
@@ -32,13 +32,12 @@ public class Transfer {
 		
 		// jewel array
 		JSONArray jewelArray =  new JSONArray();
-		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
+		for(Entry<Integer, Boolean> jewel : jewels.entrySet()) {
 			JSONObject jw = new JSONObject();
 			
 			try {
 				jw.setInt("id", jewel.getKey());
-				jw.setInt("x", jewel.getValue().get(0));
-				jw.setInt("y", jewel.getValue().get(1));
+				jw.setBoolean("status", jewel.getValue());
 				
 				jewelArray.setJSONObject(jewel.getKey(), jw);
 			}
