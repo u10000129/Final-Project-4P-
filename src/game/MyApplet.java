@@ -15,7 +15,7 @@ public class MyApplet extends PApplet{
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
 	}
-
+	
 	public void setup(){
 		size(width, height);
 		Ani.init(this);		
