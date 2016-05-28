@@ -1,9 +1,12 @@
 package game;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -45,16 +48,18 @@ public class Mission {
 		
 		//load question.txt
 		questions = new java.util.TreeMap<Integer, ArrayList<String>>();
-		System.out.println("reading s");
-		try {									
-			reader = new BufferedReader(new FileReader("question.txt"));
+		System.out.println("reading questions");
+		try {	
+			InputStreamReader isr = new InputStreamReader(new FileInputStream(new File("question.txt")), "UTF-8");
+			reader = new BufferedReader(isr);
 			while((line = reader.readLine()) != null) {
 				String data[] = line.split(" ");
 				ArrayList<String> list = new ArrayList<String>();
+				if(data[0].startsWith("?"))		data[0] = data[0].substring(1);
 				int id = Integer.parseInt(data[0]);
 				list.add(data[1]);	//question
 				
-				while( ! (line = reader.readLine()).startsWith("-") ) {
+				while( ! (line = reader.readLine()).startsWith("+") ) {
 					list.add(line.split(" ")[1]);
 				}
 				list.add(line.split(" ")[1]);
