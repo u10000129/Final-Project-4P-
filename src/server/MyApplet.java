@@ -28,8 +28,4 @@ public class MyApplet extends PApplet{
 		view.display();
 	}
 	
-	private void AI() {
-		
-	}
-	
 }
