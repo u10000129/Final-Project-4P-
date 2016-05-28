@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Mission {
-	private  int pointNum; 
-	private final int qNum  = 10;
+	private int pointNum; 
+	private int qNum  = 10;
 	private java.util.Map<Integer, ArrayList<String>> questions;
 	private java.util.Map<Integer, List<Integer>> location;
 	
@@ -44,7 +44,32 @@ public class Mission {
 		
 		//load question.txt
 		questions = new java.util.TreeMap<Integer, ArrayList<String>>();
-		
+		System.out.println("reading s");
+		try {									
+			reader = new BufferedReader(new FileReader("question.txt"));
+			while((line = reader.readLine()) != null) {
+				String data[] = line.split(" ");
+				ArrayList<String> list = new ArrayList<String>();
+				int id = Integer.parseInt(data[0]);
+				list.add(data[1]);	//question
+				
+				while( ! (line = reader.readLine()).startsWith("-") ) {
+					list.add(line.split(" ")[1]);
+				}
+				list.add(line.split(" ")[1]);
+				questions.put(id, list);
+				qNum++;
+				
+			}
+			reader.close();
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	public int getPointNum() {
