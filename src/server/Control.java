@@ -63,7 +63,7 @@ public class Control implements Runnable{
 			
 			//System.out.println(nextX + " " + nextY);
 			try {
-				Thread.sleep(1500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
