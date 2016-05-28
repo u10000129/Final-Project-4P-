@@ -4,7 +4,7 @@ import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 
 public class Hunter extends Character{
-	public static final double speed = 0.005;
+	public static final double speed = 0.003;
 	private Map map;
 	Ani aniX;
 	Ani aniY;
