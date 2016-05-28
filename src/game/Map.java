@@ -33,6 +33,14 @@ public class Map {
 		
 	}
 	
+	public int getImageWidth() {
+		return map.width;
+	}
+	
+	public int getImageHeight() {
+		return map.height;
+	}
+	
 	public Bounds horizontalWall(int x, int y) {
 		if(x+MyApplet.width/2 >= map.width)
 			return Bounds.RIGHT;

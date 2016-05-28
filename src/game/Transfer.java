@@ -13,10 +13,10 @@ public class Transfer {
 	private JSONObject json;
 	
 	
-	public String encode(String name,
-										int characterX, int characterY,
-										java.util.Map<Integer, List<Integer>> jewels,
-										java.util.Map <Integer, List<Integer>>hunters) {
+	public String encode(String name,													//player name
+										int characterX, int characterY,							//player coordinate
+										java.util.Map<Integer, Boolean> jewels				// jewel id -> status -> open=true
+										) {
 		
 		JSONObject obj = new JSONObject();
 		obj.setLong("time",System.currentTimeMillis());
@@ -32,13 +32,12 @@ public class Transfer {
 		
 		// jewel array
 		JSONArray jewelArray =  new JSONArray();
-		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
+		for(Entry<Integer, Boolean> jewel : jewels.entrySet()) {
 			JSONObject jw = new JSONObject();
 			
 			try {
 				jw.setInt("id", jewel.getKey());
-				jw.setInt("x", jewel.getValue().get(0));
-				jw.setInt("y", jewel.getValue().get(1));
+				jw.setBoolean("status", jewel.getValue());
 				
 				jewelArray.setJSONObject(jewel.getKey(), jw);
 			}
@@ -49,24 +48,6 @@ public class Transfer {
 		}
 		obj.setJSONArray("jewels", jewelArray);
 		
-		//hunter array
-		JSONArray hunterArray = new JSONArray();
-		for(Entry<Integer, List<Integer>> hunter : hunters.entrySet()) {
-			JSONObject ht = new JSONObject();
-			
-			try {
-				ht.setInt("id", hunter.getKey());
-				ht.setInt("x", hunter.getValue().get(0));
-				ht.setInt("y", hunter.getValue().get(1));
-				
-				hunterArray.setJSONObject(hunter.getKey(), ht);
-			}
-			catch(Exception e) {
-				System.out.println("Error occurred while setting hunterArray");
-				e.printStackTrace();
-			}
-		}
-		obj.setJSONArray("hunters", hunterArray);
 		return obj.toString();
 	}
 	
@@ -118,18 +99,14 @@ public class Transfer {
 		return hunters;
 	}
 	
-	public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
+	public java.util.Map<Integer, Integer> getJewel() {		// Map of  ID->count down time
 		
 		JSONArray jewelArray = json.getJSONArray("jewels");
 		
-		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
+		java.util.Map<Integer, Integer> jewels = new HashMap<Integer, Integer>();
 		for(int i=0;i<jewelArray.size();i++) {
 			
-			List<Integer> list = new ArrayList<Integer>();
-			list.add(json.getInt("x"));
-			list.add(json.getInt("y"));
-			
-			jewels.put(json.getInt("id"), list);
+			jewels.put(json.getInt("id"), json.getInt("time"));
 		}
 		
 		return jewels;

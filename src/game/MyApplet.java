@@ -15,7 +15,7 @@ public class MyApplet extends PApplet{
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
 	}
-
+	
 	public void setup(){
 		size(width, height);
 		Ani.init(this);		
@@ -23,8 +23,8 @@ public class MyApplet extends PApplet{
 		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
-		transmission.receiveMessage();
-		transmission.sendMessage("test123");
+		//transmission.receiveMessage();
+		//transmission.sendMessage("test123");
 	}
 	
 	public void draw(){
