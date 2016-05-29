@@ -17,6 +17,7 @@ public class GameThread extends Thread{
 	public HashMap<Integer, List<Integer>> jewelsMap = null;
 	public boolean gameStatus = false;
 	public long time = 0;
+	public int playerNum = 1;
 	
 	public GameThread(Main transmission) {
 		this.transmission = transmission;
@@ -26,8 +27,8 @@ public class GameThread extends Thread{
 	
 	public void run() {		
 		init();
-		while(transmission.getClientNum()<2) {for(int i=0;i<100;i++);}	//wait for client		
-		for(int i=0; i<2 ;i++) {
+		while(transmission.getClientNum()<playerNum) {for(int i=0;i<100;i++);}	//wait for client		
+		for(int i=0; i<playerNum ;i++) {
 			transmission.receiveMessage(i);			
 			transmission.sendMessage(Integer.toString(i), i);	
 			transmission.receiveMessage(i);	
@@ -40,7 +41,7 @@ public class GameThread extends Thread{
 		timer.schedule(new addTime(),1000, 1000);
 		
 		ArrayList<Integer> position = new ArrayList<Integer>(2);
-		for(int i=0; i<2 ;i++) {
+		for(int i=0; i<playerNum ;i++) {
 			jsonString = transmission.receiveMessage(i);
 			json.decode(jsonString);
 			position = (ArrayList<Integer>) json.getPlayers();			
