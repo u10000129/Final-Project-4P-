@@ -1,8 +1,13 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import ddf.minim.*;
+import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
@@ -15,10 +20,18 @@ public class MyApplet extends PApplet{
 	private Minim minim;
 	private AudioSample sample;
 	
+	public JSON json;
+	public String jsonString;
+	public HashMap<Integer, List<Integer>> playersMap;
+	public HashMap<Integer, List<Integer>> huntersMap;
+	public HashMap<Integer, List<Integer>> jewelsMap;
+	public boolean gameStatus;
+	public long time = 0;
+	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
 	}
-	
+
 	public void setup(){
 		size(width, height);
 		Ani.init(this);		
@@ -29,13 +42,40 @@ public class MyApplet extends PApplet{
 		minim = new Minim(this);
 		sample=minim.loadSample("res/Sugar_Zone.mp3", 2048);
 		sample.trigger();
+		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
-		//transmission.sendMessage("test123");
+		transmission.sendMessage("ready");
 	}
 	
 	public void draw(){
-		background(255);
-		view.display();
+		ArrayList<Integer> position = new ArrayList<Integer>(2);
+		
+		gameStatus = transmission.getGameStatus();
+		if(gameStatus) {
+			background(255);
+			
+			view.display();
+			
+			playersMap = transmission.getPlayers();
+			for(int i=0;i<playersMap.size();i++) {
+				position = (ArrayList<Integer>) playersMap.get(i);
+				this.fill(0, 255);
+				this.noStroke(); 
+				this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
+			}
+			huntersMap = transmission.gethunters();
+			jewelsMap = transmission.getJewel();
+			transmission.setMyPosition(player.getX(), player.getY());			
+			transmission.setHunters(huntersMap);
+			transmission.setJewel(jewelsMap);
+			
+		}else {
+			this.textSize(40);
+			this.text("Waiting...",300, 300);
+		}
+		
+		
+		
 	}
 	
 	public void mousePressed(){
