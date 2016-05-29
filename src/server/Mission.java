@@ -50,8 +50,8 @@ public class Mission {
 	public void setMission(int id) {
 		if(jewels.containsKey(id)) {
 			isSet[id] = true;
-			int oldValue = jewels.get(id);
-			jewels.replace(id, oldValue, RESET_TIME);		//set time
+			//int oldValue = jewels.get(id);
+			jewels.put(id, RESET_TIME);		//set time
 		}
 	}
 	
