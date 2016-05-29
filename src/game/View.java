@@ -1,8 +1,9 @@
 package game;
 
-import javax.swing.JFrame;
+import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
@@ -10,22 +11,37 @@ import processing.data.JSONObject;
 public class View {
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
+	private final int CrossLineLenght = 5;
 	private PApplet mainapplet;
 	private Player player;
 	private Map map;
 	private PImage mapImage;
+	private Mission mission;
 	
 	private JSONObject data;
 	private JSONArray character, mapdata;
+	private java.util.Map<Integer, List<Integer>> location;
 	
-	
+
+
 	public View (PApplet mainapplet, Map map, Player player) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
+		this.mission = new Mission();
+		this.location = mission.getLocation();
+	}
+	
+	private int transformX(int x) {
+		return x * MyApplet.width / map.getImageWidth();
+	}
+	
+	private int transformY(int y) {
+		return y * MyApplet.height / map.getImageHeight();
 	}
 	
 	public void display(){
+		
 		//this.data = data;
 		//Get other players's position from JSON file.
 		/*
@@ -44,74 +60,129 @@ public class View {
 			characters.get(source).addTarget(characters.get(target));
 		}
 		*/
-		//Draw map image.
-		mapImage = map.getSubMap(player.getX(), player.getY());
-		mainapplet.image(mapImage, 0, 0, 800 , 600);
+		if(mainapplet.keyPressed && mainapplet.key == '\t') {
+			//Draw full map.
+			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height);	
+			//Draw my player in full map.
+			player.collisionDetect();
+			mainapplet.fill(0);
+			mainapplet.noStroke();
+			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);			
+			//Draw missions in full map.
+			for(int i = 1; i <= mission.getPointNum(); i++){
+				int x = transformX(location.get(i).get(0)),
+					y = transformY(location.get(i).get(1));
+				if(location.get(i).get(2) == 0) {
+					mainapplet.stroke(0, 255, 0);
+					mainapplet.strokeWeight(2);
+					mainapplet.line(x-CrossLineLenght, y-CrossLineLenght, x+CrossLineLenght, y+CrossLineLenght);
+					mainapplet.line(x+CrossLineLenght, y-CrossLineLenght, x-CrossLineLenght, y+CrossLineLenght);
+														
+				}
+				else {
+					mainapplet.fill(150, 0, 0);
+					mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
+					mainapplet.text(location.get(i).get(2), x, y);	
+				}
+			}
+			//Draw other players in full map.
+			/*for(int k = 0; k < 10; k++){			
+				mainapplet.fill(???);
+				mainapplet.noStroke(); 		
+				mainapplet.ellipse(transformX(???), transformY(???), diameter/4, diameter/4);
+			}*/
+			
+		} else {
+			//Draw map image.
+			mapImage = map.getSubMap(player.getX(), player.getY());
+			mainapplet.image(mapImage, 0, 0, MyApplet.width, MyApplet.height);
+			
 		
+			//Draw my player.
+			int playerx, playery;
+			Bounds hBound = map.horizontalWall(player.getX(), player.getY());
+			Bounds vBound = map.verticalWall(player.getX(), player.getY());
+			//HorizonBound detect
+			if(hBound == Bounds.LEFT){
+				playerx = player.getX();
+				
+			}else if (hBound == Bounds.RIGHT){
+				playerx = player.getX() - map.getFullMap().width + MyApplet.width;
+				
+			}else {
+				playerx = MyApplet.width / 2;				
+			}
+			
+			//verticalBound detect
+			if(vBound == Bounds.UP){
+				playery = player.getY();
 	
-		//Draw my player.
-		int playerx, playery;
-		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
-		Bounds vBound = map.verticalWall(player.getX(), player.getY());
-		//HorizonBound detect
-		if(hBound == Bounds.LEFT){
-			playerx = player.getX();
-		}
-		else if (hBound == Bounds.RIGHT){
-			playerx = player.getX() - map.getFullMap().width + MyApplet.width ;
-		}
-		else {
-			playerx = MyApplet.width / 2;
-		}
-		//verticalBound detect
-		if(vBound == Bounds.UP){
-			playery = player.getY();
+			}else if (vBound == Bounds.DOWN){
+				playery = player.getY() - map.getFullMap().height + MyApplet.height;
+			
+			}else {
+				playery = MyApplet.height / 2;		
+			}
+			mainapplet.fill(0);
+			mainapplet.noStroke(); 		
+			player.collisionDetect();
+			mainapplet.ellipse(playerx, playery, diameter, diameter);			
+			  
+			 
+			//Draw a circle field of view. 
+			int[][] collisionMap = map.getCollisionMap();			
+			PGraphics shadowImage;
 
+			
+			//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.
+			shadowImage = mainapplet.createGraphics(MyApplet.width, MyApplet.height);
+			shadowImage.beginDraw();
+			for(float i = 0; i < 360; i+=1) {
+				for(float j = 0; j < FieldOfView ; j++ ){
+					float x = j * MyApplet.cos( MyApplet.radians(i) ); 
+					float y = j * MyApplet.sin( MyApplet.radians(i) ); 
+					//ArrayIndexOutOfBoundsException detect.
+					if(player.getX() + (int)x < 0 || player.getX() + (int)x >= map.getFullMap().width
+						||player.getY() + (int)y < 0 ||player.getY() + (int)y >= map.getFullMap().height
+						) break;
+					//If collide, draw a line-shape shadow.
+					if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
+						shadowImage.stroke(0, 128);	
+						shadowImage.strokeWeight(5);						
+						shadowImage.line(playerx + x, playery + y,
+								playerx + (FieldOfView-1)* MyApplet.cos( MyApplet.radians(i) ), 
+								playery + (FieldOfView-1)* MyApplet.sin( MyApplet.radians(i) )
+								);	
+						break;
+					}
+					//Draw other players if they are in the view.
+					/*for(int k = 0; k < 10; k++){
+						if(player.getX() + (int)x == ?? &&
+						  	player.getY() + (int)y == ??
+				  			)
+						mainapplet.fill(???);
+						mainapplet.noStroke(); 		
+						mainapplet.ellipse(player.getX() + (int)x, player.getY() + (int)y, diameter, diameter);
+					}*/
+				}		
+			}
+			shadowImage.endDraw();	
+			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
+			
+			//Draw a full screen rectangle shadow, and subtract a circle.
+			shadowImage = mainapplet.createGraphics(MyApplet.width, MyApplet.height);
+			shadowImage.beginDraw();
+			shadowImage.fill(0, 50);
+			shadowImage.rect(0, 0, MyApplet.width, MyApplet.height);
+			shadowImage.blendMode(PApplet.SUBTRACT);		
+			shadowImage.fill(255, 0);		
+			shadowImage.noStroke();
+			shadowImage.ellipse(playerx, playery, FieldOfView*2, FieldOfView*2);
+			shadowImage.endDraw();	
+			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
 		}
-		else if (vBound == Bounds.DOWN){
-			playery = player.getY() - map.getFullMap().height + MyApplet.height ;
-		}
-		else {
-			playery = MyApplet.height / 2;
-		}
-		mainapplet.fill(0, 255);
-		mainapplet.noStroke(); 		
-		player.collisionDetect();
-		mainapplet.ellipse(playerx, playery, diameter, diameter);
-		
-		
-		
-		 
-		//Draw a circle field of view. 
-		int[][] collisionMap = map.getCollisionMap();
-		//Use a lot of small rectangle to cover the full map except of the circle field of view. 
-		mainapplet.fill(0, 0, 0, 128);
-		for(int i = 0; i <= MyApplet.width; i++ ){
-			for(int j = 0; j <= MyApplet.height; j++ ){
-				if(mainapplet.dist(playerx, playery, i, j) > FieldOfView) 
-						mainapplet.rect(i, j, 1, 1);				
-			}		
-		}
-		
-		//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.
-		mainapplet.stroke(0, 0, 0, 128);
-		mainapplet.strokeWeight(5);
-		for(float i = 0; i < 360; i+=1) {
-			for(float j = 0; j < FieldOfView ; j++ ){
-				float x = j * mainapplet.cos( mainapplet.radians(i) ); 
-				float y = j * mainapplet.sin( mainapplet.radians(i) ); 
-				if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
-					mainapplet.line(playerx + x, playery + y,
-							playerx + (FieldOfView-1)* mainapplet.cos( mainapplet.radians(i) ), 
-							playery + (FieldOfView-1)* mainapplet.sin( mainapplet.radians(i) )
-							);	
-					break;
-				}				
-			}		
-		}
-		
-		//Draw other players if I can see it.
-		//Todo:
 	}
+	
+	
 
 }
