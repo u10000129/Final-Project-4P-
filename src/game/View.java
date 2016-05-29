@@ -1,5 +1,7 @@
 package game;
 
+import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -9,13 +11,16 @@ import processing.data.JSONObject;
 public class View {
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
+	private final int CrossLineLenght = 5;
 	private PApplet mainapplet;
 	private Player player;
 	private Map map;
 	private PImage mapImage;
+	private Mission mission;
 	
 	private JSONObject data;
 	private JSONArray character, mapdata;
+	private java.util.Map<Integer, List<Integer>> location;
 	
 
 
@@ -23,6 +28,8 @@ public class View {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
+		this.mission = new Mission();
+		this.location = mission.getLocation();
 	}
 	
 	private int transformX(int x) {
@@ -54,9 +61,31 @@ public class View {
 		}
 		*/
 		if(mainapplet.keyPressed && mainapplet.key == '\t') {
-			mainapplet.image(map.getFullMap(), 0, 0,MyApplet.width, MyApplet.height);
+			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height);	
 			player.collisionDetect();
+			mainapplet.fill(0);
+			mainapplet.noStroke();
 			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);
+			
+			
+			for(int i = 1; i <= mission.getPointNum(); i++){
+				int x = transformX(location.get(i).get(0)),
+					y = transformY(location.get(i).get(1));
+				if(location.get(i).get(2) == 0) {
+					mainapplet.stroke(0, 255, 0);
+					mainapplet.strokeWeight(2);
+					mainapplet.line(x-CrossLineLenght, y-CrossLineLenght, x+CrossLineLenght, y+CrossLineLenght);
+					mainapplet.line(x+CrossLineLenght, y-CrossLineLenght, x-CrossLineLenght, y+CrossLineLenght);
+														
+				}
+				else {
+					mainapplet.fill(150, 0, 0);
+					mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
+					mainapplet.text(location.get(i).get(2), x, y);	
+				}
+					
+			
+			}
 			
 		} else {
 			//Draw map image.
@@ -115,6 +144,10 @@ public class View {
 				for(float j = 0; j < FieldOfView ; j++ ){
 					float x = j * MyApplet.cos( MyApplet.radians(i) ); 
 					float y = j * MyApplet.sin( MyApplet.radians(i) ); 
+					//ArrayIndexOutOfBoundsException detect.
+					if(player.getX() + (int)x < 0 || player.getX() + (int)x >= map.getFullMap().width
+						||player.getY() + (int)y < 0 ||player.getY() + (int)y >= map.getFullMap().height
+						) break;
 					if(collisionMap[player.getX() + (int)x ][player.getY() + (int)y ] == 1){
 						shadowImage.stroke(0, 75);	
 						shadowImage.strokeWeight(5);						
@@ -129,7 +162,7 @@ public class View {
 			shadowImage.endDraw();	
 			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);
 			
-			
+				
 			//Draw other players if I can see it.
 			//Todo:
 		}
