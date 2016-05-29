@@ -11,7 +11,7 @@ public class Map {
 	
 	public Map(PApplet p) {
 		parent = p;
-		map = parent.loadImage("SubMap.jpg");
+		map = parent.loadImage("Map_Collision.jpg");
 		collisionMap = new int[map.height+5][map.width+5];
 		
 		System.out.printf("image size: %dx%d\n",map.width,map.height);
@@ -21,7 +21,7 @@ public class Map {
 				float r = p.red(map.get(i, j));
 				float g = p.green(map.get(i, j));
 				float b = p.blue(map.get(i, j));
-				if(r>=110 && r<160 && g>=110 && g<160 && b>=110 && b<160) {
+				if(r>=250 && r<255 && g>= 0 && g<20 && b>=0 && b<5) {
 					collisionMap[i][j] =1;
 					//System.out.println(i+" "+j);
 				}
@@ -31,6 +31,8 @@ public class Map {
 			}
 		}
 		
+		map = null;
+		map = parent.loadImage("SubMap.jpg");
 	}
 	
 	public int getImageWidth() {
