@@ -28,7 +28,9 @@ public class GameThread extends Thread{
 		init();
 		while(transmission.getClientNum()<2) {for(int i=0;i<100;i++);}	//wait for client		
 		for(int i=0; i<2 ;i++) {
-			transmission.receiveMessage(i);
+			transmission.receiveMessage(i);			
+			transmission.sendMessage(Integer.toString(i), i);	
+			transmission.receiveMessage(i);	
 		}
 		gameStatus = true;
 		while(true) {

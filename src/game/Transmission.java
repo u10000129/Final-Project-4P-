@@ -28,6 +28,7 @@ public class Transmission {
 	
 	public int myX, myY;
 	public String name = "abc";
+	public int myId;
 	
 	public Transfer transfer;
 	public String jsonString;	
@@ -80,16 +81,30 @@ class ClientThread extends Thread {
 	public void sendMessage( String message) {	//this method send message
 		writer.println(message);
 		 writer.flush();
-		 System.out.println("send: "+message);
+		 //System.out.println("send: "+message);
 	}
+	
+	
 	
 	public void run() {		
 		String message = null;
+		
+		try {
+			
+			message = reader.readLine();
+			System.out.println("receive id: "+message);			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		myId = Integer.valueOf(message);
+		System.out.println("receive 1 id: "+message);		
+		
 		while(true) {
 		try {
 			
 			message = reader.readLine();
-			System.out.println("receive: "+message);
+			//System.out.println("receive: "+message);			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,6 +131,10 @@ class ClientThread extends Thread {
 	}
 	
 }
+
+	public int getMyId() {
+		return myId;
+	}
 
 	public long getTime() {
 		return transfer.getTime();
@@ -152,9 +171,9 @@ class ClientThread extends Thread {
 	public void sendMessage( String message) {	//this method can be call outside the class
 		writer.println(message);
 		 writer.flush();
-		System.out.println("send: "+message);
+		//System.out.println("send: "+message);
 	}
-	
+	/*
 	public String receiveMessage() {
 		String message = null;
 		try {
@@ -165,6 +184,6 @@ class ClientThread extends Thread {
 		}
 		System.out.println("receive: "+message);
 		return message;		
-	}
+	}*/
 
 }
