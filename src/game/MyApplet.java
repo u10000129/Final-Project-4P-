@@ -28,6 +28,8 @@ public class MyApplet extends PApplet{
 	public boolean gameStatus;
 	public long time = 0;
 	
+	public int myId;
+	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
 	}
@@ -44,10 +46,13 @@ public class MyApplet extends PApplet{
 		sample.trigger();
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
-		transmission.sendMessage("ready");
+		transmission.sendMessage("ready");		
+		transmission.sendMessage("id reveived : "+myId);
+		myId = transmission.getMyId();		
 	}
 	
 	public void draw(){
+		myId = transmission.getMyId();		
 		ArrayList<Integer> position = new ArrayList<Integer>(2);
 		
 		gameStatus = transmission.getGameStatus();

@@ -92,13 +92,18 @@ public class Main extends JFrame{
 			for (ConnectionThread connection: connections) {
 				connection.sendMessage(message);
 			}
-			System.out.println("host broadcast: "+message);			
+			//System.out.println("host broadcast: "+message);			
 		}
 		
 		public String receiveMessage(int clientNum) {
 			String message = connections.get(clientNum).receiveMessage();
-			System.out.println("receive from "+clientNum+": "+message);
+			//System.out.println("receive from "+clientNum+": "+message);
 			return message;
+		}
+		
+		public void sendMessage(String message, int clientNum) {
+			connections.get(clientNum).sendMessage(message);
+			System.out.println("send to "+clientNum+": "+message);
 		}
 		
 		public void constructGameThread(Main transmission) {	//construct a gameThread
