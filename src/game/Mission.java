@@ -88,9 +88,8 @@ public class Mission {
 	
 	public void setCountDown(int id, int t) {
 		List<Integer> list =location.get(id);
-		List<Integer> oldList = list;
 		list.set(2, t);
-		location.replace(id, oldList, list);		
+		//location.put(id, list);		
 	}
 	
 	public java.util.Map<Integer, List<Integer>> getLocation() {
