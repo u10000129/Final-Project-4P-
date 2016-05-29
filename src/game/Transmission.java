@@ -98,7 +98,7 @@ class ClientThread extends Thread {
 			e.printStackTrace();
 		}
 		myId = Integer.valueOf(message);
-		System.out.println("receive 1 id: "+message);		
+		
 		
 		while(true) {
 		try {

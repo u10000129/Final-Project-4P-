@@ -42,12 +42,12 @@ public class MyApplet extends PApplet{
 		
 		//transmission.receiveMessage();
 		transmission.sendMessage("ready");		
-		transmission.sendMessage("received my id : "+myId);
-		myId = transmission.getMyId();
-		System.out.println("My id: "+myId);
+		transmission.sendMessage("id reveived : "+myId);
+		myId = transmission.getMyId();		
 	}
 	
 	public void draw(){
+		myId = transmission.getMyId();		
 		ArrayList<Integer> position = new ArrayList<Integer>(2);
 		
 		gameStatus = transmission.getGameStatus();
