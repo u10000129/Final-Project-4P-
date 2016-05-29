@@ -67,10 +67,10 @@ public class Transfer {
 			}
 		}
 		obj.setJSONArray("hunters", hunterArray);
-		return obj.toString().replace("\n", "");
+		return obj.toString();
 	}
 	
-	public void decode(String str) {		
+	public void decode(String str) {
 		json = JSONObject.parse(str);
 	}
 	
@@ -90,11 +90,12 @@ public class Transfer {
 		
 		java.util.Map<Integer, List<Integer>> players = new HashMap<Integer, List<Integer>>();
 		for(int i=0;i<playerArray.size();i++) {
-			JSONObject playerObject = playerArray.getJSONObject(i);
+			
 			List<Integer> list = new ArrayList<Integer>();
-			list.add(playerObject.getInt("x"));
-			list.add(playerObject.getInt("y"));			
-			players.put(playerObject.getInt("id"), list);
+			list.add(json.getInt("x"));
+			list.add(json.getInt("y"));
+			
+			players.put(json.getInt("id"), list);
 		}
 		
 		return players;
@@ -106,12 +107,12 @@ public class Transfer {
 		
 		java.util.Map<Integer, List<Integer>> hunters = new HashMap<Integer, List<Integer>>();
 		for(int i=0;i<hunterArray.size();i++) {
-			JSONObject hunterObject = hunterArray.getJSONObject(i);
-			List<Integer> list = new ArrayList<Integer>();
-			list.add(hunterObject.getInt("x"));
-			list.add(hunterObject.getInt("y"));
 			
-			hunters.put(hunterObject.getInt("id"), list);
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(json.getInt("x"));
+			list.add(json.getInt("y"));
+			
+			hunters.put(json.getInt("id"), list);
 		}
 		
 		return hunters;
@@ -123,12 +124,12 @@ public class Transfer {
 		
 		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
 		for(int i=0;i<jewelArray.size();i++) {
-			JSONObject jewelObject = jewelArray.getJSONObject(i);
-			List<Integer> list = new ArrayList<Integer>();
-			list.add(jewelObject.getInt("x"));
-			list.add(jewelObject.getInt("y"));
 			
-			jewels.put(jewelObject.getInt("id"), list);
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(json.getInt("x"));
+			list.add(json.getInt("y"));
+			
+			jewels.put(json.getInt("id"), list);
 		}
 		
 		return jewels;

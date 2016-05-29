@@ -1,12 +1,7 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
-import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
@@ -16,14 +11,6 @@ public class MyApplet extends PApplet{
 	private Transmission transmission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
-	
-	public JSON json;
-	public String jsonString;
-	public HashMap<Integer, List<Integer>> playersMap;
-	public HashMap<Integer, List<Integer>> huntersMap;
-	public HashMap<Integer, List<Integer>> jewelsMap;
-	public boolean gameStatus;
-	public long time = 0;
 	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
@@ -36,41 +23,14 @@ public class MyApplet extends PApplet{
 		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
-		//gameStatus = transmission.getGameStatus();
-		
-		//transmission.receiveMessage();
-		transmission.sendMessage("ready");
+		transmission.receiveMessage();
+		transmission.sendMessage("test123");
 	}
 	
 	public void draw(){
-		ArrayList<Integer> position = new ArrayList<Integer>(2);
-		
-		gameStatus = transmission.getGameStatus();
-		if(gameStatus) {
-			background(255);
-			player.display();
-			view.display();
-			
-			playersMap = transmission.getPlayers();
-			for(int i=0;i<playersMap.size();i++) {
-				position = (ArrayList<Integer>) playersMap.get(i);
-				this.fill(0, 255);
-				this.noStroke(); 
-				this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
-			}
-			huntersMap = transmission.gethunters();
-			jewelsMap = transmission.getJewel();
-			transmission.setMyPosition(player.getX(), player.getY());			
-			transmission.setHunters(huntersMap);
-			transmission.setJewel(jewelsMap);
-			
-		}else {
-			this.textSize(40);
-			this.text("Waiting...",300, 300);
-		}
-		
-		
-		
+		background(255);
+		player.display();
+		view.display();
 	}
 	
 	public void mousePressed(){
