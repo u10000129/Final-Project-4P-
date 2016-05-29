@@ -6,6 +6,7 @@ import java.util.List;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import ddf.minim.*;
 import server.JSON;
 
 @SuppressWarnings("serial")
@@ -16,6 +17,8 @@ public class MyApplet extends PApplet{
 	private Transmission transmission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
+	private Minim minim;
+	private AudioSample sample;
 	
 	public JSON json;
 	public String jsonString;
@@ -36,8 +39,10 @@ public class MyApplet extends PApplet{
 		player = new Player(this, map);
 		view = new View(this, map, player);
 		smooth();
+		minim = new Minim(this);
+		sample=minim.loadSample("res/Sugar_Zone.mp3", 2048);
+		sample.trigger();
 		//gameStatus = transmission.getGameStatus();
-		
 		//transmission.receiveMessage();
 		transmission.sendMessage("ready");
 	}
