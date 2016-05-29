@@ -13,7 +13,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class Main extends JFrame{
-	
+	 
 		int portNum;
 		private ServerSocket serverSocket;
 		private List<ConnectionThread> connections = new ArrayList<ConnectionThread>();

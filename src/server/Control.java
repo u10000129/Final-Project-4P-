@@ -3,6 +3,8 @@ package server;
 import java.util.Random;
 import processing.core.PApplet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Control implements Runnable{
 	private Random ran;
@@ -12,8 +14,10 @@ public class Control implements Runnable{
 	private int []nextX, nextY;
 	private int radius;
 	private float [] radian;
-	private float[] cos, sin;
-	private int [][]collisionMap;
+	private float [] cos, sin;
+	private int [][] collisionMap;
+	private HashMap<Integer, List<Integer>> hunter_information;
+	private List<Integer> list;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum) {
 		this.ran = new Random();
@@ -27,6 +31,17 @@ public class Control implements Runnable{
 		this.sin = new float[this.hunterNum];
 		this.nextX = new int[this.hunterNum];
 		this.nextY = new int[this.hunterNum];
+		this.hunter_information = new HashMap<Integer, List<Integer>>();
+		this.list = new ArrayList<Integer>();
+	}
+	
+	public HashMap<Integer, List<Integer>> getHunterInformation(){
+		for(int i=0; i<hunterNum; i++) {
+			this.list.add(hunters.get(i).getX());
+			this.list.add(hunters.get(i).getY());
+			this.hunter_information.put(i, this.list);
+		}
+		return hunter_information;
 	}
 	
 	private boolean judge_path(int index) {
