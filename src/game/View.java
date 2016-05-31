@@ -146,8 +146,7 @@ public class View {
 			 * Scan the players's and hunter's position, and store the result in 2D-array. Which is used when draw the circle view.
 			 */
 			//Players
-			PApplet.color[][] playerIsInside = new  PApplet.color[2*FieldOfView+1][2*FieldOfView+1] ;
-			Arrays.fill(playerIsInside, null);			
+			int[][] playerIsInside = new  int[2*FieldOfView+1][2*FieldOfView+1] ;
 			int myPlayerId = transmission.getMyId();
 			for(int i = 0; i < playersMap.size(); i++){		
 				if(i == myPlayerId) continue;
@@ -157,16 +156,17 @@ public class View {
 					//playerIsInside[position.get(0) - player.getX() + FieldOfView][position.get(1) - player.getY() + FieldOfView] = ???;
 				} 				
 			}	
+			
 			//Hunters
-			color[][] hunterIsInside = new  color[2*FieldOfView+1][2*FieldOfView+1] ;
-			Arrays.fill(hunterIsInside, null);			
+			boolean[][] hunterIsInside = new  boolean[2*FieldOfView+1][2*FieldOfView+1] ;
 			for(int i = 0; i < playersMap.size(); i++){	
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
 				position = (ArrayList<Integer>) playersMap.get(i);
 				if(PApplet.dist(player.getX(), player.getY(), position.get(0), position.get(1)) <= FieldOfView){
-					//hunterIsInside[position.get(0) - player.getX() + FieldOfView][position.get(1) - player.getY() + FieldOfView] = ???;
+					//hunterIsInside[position.get(0) - player.getX() + FieldOfView][position.get(1) - player.getY() + FieldOfView] = true;
 				} 					
 			}
+		
 			/*
 			 * Draw a circle field of view. 
 			 */
@@ -194,16 +194,16 @@ public class View {
 						break;
 					}
 					//Draw other players if they are in the view.
-					Color playerColor = playerIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
-					if(playerColor != null){
+					int playerColor = playerIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
+					if(playerColor != 0){						
 						mainapplet.fill(playerColor);
-						mainapplet.ellipse(playerx + x, playerx + x, diameter, diameter);
+						mainapplet.ellipse(playerx + x, playery + y, diameter, diameter);
 					}
 					//Draw hunters if they are in the view.
-					Color hunterColor = playerIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
-					if(hunter != null){
-						mainapplet.fill(playerColor);
-						mainapplet.ellipse(playerx + x, playerx + x, diameter, diameter);
+					boolean hunter = hunterIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
+					if(hunter != false){
+						mainapplet.fill(0);
+						mainapplet.ellipse(playerx + x, playery + y, diameter, diameter);
 					}
 				}		
 			}
@@ -223,7 +223,6 @@ public class View {
 			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
 		}
 	}
-	
 	
 
 }
