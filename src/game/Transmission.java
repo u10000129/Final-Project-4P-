@@ -122,7 +122,7 @@ class ClientThread extends Thread {
 		sendMessage(jsonString);
 		
 		try {
-			sleep(100);
+			sleep(3);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

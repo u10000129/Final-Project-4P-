@@ -65,8 +65,7 @@ public class GameThread extends Thread{
 		playersMap = new HashMap<Integer, List<Integer>>();
 		huntersMap = new HashMap<Integer, List<Integer>>();
 		jewelsMap = new HashMap<Integer, List<Integer>>();
-		playersMap.put(0, initPos);
-		playersMap.put(1, initPos);
+		playersMap.put(0, initPos);		
 		huntersMap.put(0, initPos);
 		jewelsMap.put(0, initPos);		
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
