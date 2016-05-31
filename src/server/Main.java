@@ -40,7 +40,7 @@ public class Main extends JFrame{
 							 + connectionToClient. getInetAddress() + ":"
 							 + connectionToClient. getPort());
 					ConnectionThread connThread = new ConnectionThread(connectionToClient);
-					connThread.start();
+					
 					this.connections.add(connThread);	// add the connection thread to a ArrayList, so that we can access it afteresrd.
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -51,7 +51,7 @@ public class Main extends JFrame{
 			}
 		}
 		
-		class ConnectionThread extends Thread {
+		class ConnectionThread {
 			Socket socket;
 			private BufferedReader reader;
 			private PrintWriter writer;
@@ -81,11 +81,8 @@ public class Main extends JFrame{
 					e.printStackTrace();
 				}
 				return message;			
-			}
+			}			
 			
-			public void run(){	
-				
-			}		
 		}
 		
 		public void broadcast(String message) {	//send message to all client
