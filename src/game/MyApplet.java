@@ -18,7 +18,7 @@ public class MyApplet extends PApplet{
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	private Minim minim;
-	private AudioSample sample;
+	private AudioSample song;
 	
 	public JSON json;
 	public String jsonString;
@@ -42,8 +42,8 @@ public class MyApplet extends PApplet{
 		view = new View(this, map, player);
 		smooth();
 		minim = new Minim(this);
-		sample=minim.loadSample("res/Sugar_Zone.mp3", 2048);
-		sample.trigger();
+		song=minim.loadSample("res/Sugar_Zone.mp3");
+		song.trigger();
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		transmission.sendMessage("ready");		
