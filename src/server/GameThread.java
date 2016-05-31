@@ -3,8 +3,7 @@ package server;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 public class GameThread extends Thread{
@@ -27,18 +26,25 @@ public class GameThread extends Thread{
 	
 	public void run() {		
 		init();
-		while(transmission.getClientNum()<playerNum) {for(int i=0;i<100;i++);}	//wait for client		
+		while(transmission.getClientNum()<playerNum) {try {
+			sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}	//wait for client		
 		for(int i=0; i<playerNum ;i++) {
 			transmission.receiveMessage(i);			
-			transmission.sendMessage(Integer.toString(i), i);	
+			transmission.sendMessage(Integer.toString(i), i);
 			transmission.receiveMessage(i);	
 		}
+		
 		gameStatus = true;
+		addTime timer = new addTime();		
+		timer.start();
 		while(true) {
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
 		transmission.broadcast(jsonString);
-		Timer timer = new Timer();		
-		timer.schedule(new addTime(),1000, 1000);
+		
 		
 		ArrayList<Integer> position = new ArrayList<Integer>(2);
 		for(int i=0; i<playerNum ;i++) {
@@ -63,17 +69,24 @@ public class GameThread extends Thread{
 		playersMap = new HashMap<Integer, List<Integer>>();
 		huntersMap = new HashMap<Integer, List<Integer>>();
 		jewelsMap = new HashMap<Integer, List<Integer>>();
-		playersMap.put(0, initPos);
-		playersMap.put(1, initPos);
+		playersMap.put(0, initPos);		
 		huntersMap.put(0, initPos);
 		jewelsMap.put(0, initPos);		
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
 	}
 	
-	class addTime extends TimerTask {
+	class addTime extends Thread {
 		@Override
 		public void run() {
-			time++;			
+			while(true) {
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				time++;
+			}
 		}		
 	}
 

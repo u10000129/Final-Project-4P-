@@ -68,7 +68,9 @@ public class MyApplet extends PApplet{
 				this.noStroke(); 
 				this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
 			}
-			huntersMap = transmission.gethunters();
+			time = transmission.getTime();
+			this.textSize(20);
+			this.text((int)time,650, 50);
 			jewelsMap = transmission.getJewel();
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
