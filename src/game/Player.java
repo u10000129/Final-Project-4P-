@@ -54,7 +54,7 @@ public class Player extends Character{
 	
 	public void collisionDetect() {				
 		if(collisionMap[curX][curY]>0) {
-			this.collide=this.minim.loadFile("res/Collision.mp3");
+			this.collide=this.minim.loadFile("res/Collision.wav");
 			this.collide.play();
 			Ani.killAll();				
 		    if(moveX>curX) curX-=10;
