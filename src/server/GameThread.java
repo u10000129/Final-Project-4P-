@@ -3,8 +3,7 @@ package server;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 public class GameThread extends Thread{
@@ -27,7 +26,12 @@ public class GameThread extends Thread{
 	
 	public void run() {		
 		init();
-		while(transmission.getClientNum()<playerNum) {for(int i=0;i<100;i++);}	//wait for client		
+		while(transmission.getClientNum()<playerNum) {try {
+			sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}	//wait for client		
 		for(int i=0; i<playerNum ;i++) {
 			transmission.receiveMessage(i);			
 			transmission.sendMessage(Integer.toString(i), i);
