@@ -2,17 +2,20 @@ package game;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import ddf.minim.*;
 
 public class Player extends Character{
 	public final static double speed = 0.004;
 	private MyApplet parent;
 	private Map map;
+	private Minim minim;
+	private AudioPlayer collide;
 	Ani aniX;
 	Ani aniY;
 	int moveX, moveY;	//these are for collision detection
 	int[][] collisionMap;
 	
-	Player(MyApplet parent, Map map ){
+	Player(MyApplet parent, Map map, Minim minim){
 		this.parent = parent;
 		this.map = map;
 		this.anchorX = 7010;
@@ -20,6 +23,7 @@ public class Player extends Character{
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = map.getCollisionMap();
+		this.minim = minim;
 	}
 	
 	public void setX(int X){
@@ -49,7 +53,9 @@ public class Player extends Character{
 	}
 	
 	public void collisionDetect() {				
-		if(collisionMap[curX][curY]>0) {			
+		if(collisionMap[curX][curY]>0) {
+			this.collide=this.minim.loadFile("res/Collision.wav");
+			this.collide.play();
 			Ani.killAll();				
 		    if(moveX>curX) curX-=10;
 		    if(moveX<curX) curX+=10;

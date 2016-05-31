@@ -18,7 +18,7 @@ public class MyApplet extends PApplet{
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	private Minim minim;
-	private AudioSample song;
+	private AudioPlayer bgm, click;
 	
 	public JSON json;
 	public String jsonString;
@@ -38,12 +38,12 @@ public class MyApplet extends PApplet{
 		size(width, height);
 		Ani.init(this);		
 		map = new Map(this);
-		player = new Player(this, map);
+		minim = new Minim(this);
+		player = new Player(this, map, minim);
 		view = new View(this, map, player);
 		smooth();
-		minim = new Minim(this);
-		song=minim.loadSample("res/Sugar_Zone.mp3");
-		song.trigger();
+		bgm=minim.loadFile("res/Sugar_Zone.mp3");
+		bgm.loop();
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		transmission.sendMessage("ready");		
@@ -80,12 +80,12 @@ public class MyApplet extends PApplet{
 			this.textSize(40);
 			this.text("Waiting...",300, 300);
 		}
-		
-		
-		
 	}
 	
 	public void mousePressed(){
+		/* Play sound */
+		click=minim.loadFile("res/Fire_Ball.mp3");
+		click.play();
 		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
 		Bounds vBound = map.verticalWall(player.getX(), player.getY());
 		int moveX, moveY;
