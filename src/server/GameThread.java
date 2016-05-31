@@ -30,9 +30,10 @@ public class GameThread extends Thread{
 		while(transmission.getClientNum()<playerNum) {for(int i=0;i<100;i++);}	//wait for client		
 		for(int i=0; i<playerNum ;i++) {
 			transmission.receiveMessage(i);			
-			transmission.sendMessage(Integer.toString(i), i);	
+			transmission.sendMessage(Integer.toString(i), i);
 			transmission.receiveMessage(i);	
 		}
+		
 		gameStatus = true;
 		while(true) {
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
