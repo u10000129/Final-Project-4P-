@@ -35,11 +35,12 @@ public class GameThread extends Thread{
 		}
 		
 		gameStatus = true;
+		addTime timer = new addTime();		
+		timer.start();
 		while(true) {
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
 		transmission.broadcast(jsonString);
-		Timer timer = new Timer();		
-		timer.schedule(new addTime(),1000, 1000);
+		
 		
 		ArrayList<Integer> position = new ArrayList<Integer>(2);
 		for(int i=0; i<playerNum ;i++) {
@@ -71,10 +72,18 @@ public class GameThread extends Thread{
 		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
 	}
 	
-	class addTime extends TimerTask {
+	class addTime extends Thread {
 		@Override
 		public void run() {
-			time++;			
+			while(true) {
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				time++;
+			}
 		}		
 	}
 

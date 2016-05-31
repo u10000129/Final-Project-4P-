@@ -136,7 +136,7 @@ class ClientThread extends Thread {
 		return myId;
 	}
 
-	public long getTime() {
+	public long getTime() {		
 		return transfer.getTime();
 	}
 	public boolean getGameStatus() {
