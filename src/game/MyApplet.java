@@ -30,6 +30,7 @@ public class MyApplet extends PApplet{
 	public long time = 0;
 	
 	public int myId;
+	private Boolean firstTime;
 	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
@@ -47,9 +48,9 @@ public class MyApplet extends PApplet{
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
+		firstTime = true;
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
-		transmission.sendMessage("ready");		
 		//transmission.sendMessage("id reveived : "+myId);
 		myId = transmission.getMyId();		
 	}
@@ -59,17 +60,21 @@ public class MyApplet extends PApplet{
 		startScreen.display(gameStatus);
 		
 		if(startScreen.getStartPressed()) {
-			transmission.sendMessage("id reveived : "+myId);
-			
+			if(firstTime) {
+				transmission.sendMessage("ready");		
+				firstTime = false;
+			}
+			else {
 			gameStatus = transmission.getGameStatus();
-			if(gameStatus) {
-				background(255);				
-				view.display();
-			
-				jewelsMap = transmission.getJewel();
-				transmission.setMyPosition(player.getX(), player.getY());			
-				transmission.setHunters(huntersMap);
-				transmission.setJewel(jewelsMap);
+				if(gameStatus) {
+					background(255);				
+					view.display();
+				
+					jewelsMap = transmission.getJewel();
+					transmission.setMyPosition(player.getX(), player.getY());			
+					transmission.setHunters(huntersMap);
+					transmission.setJewel(jewelsMap);
+				}
 			}
 		}
 	}
