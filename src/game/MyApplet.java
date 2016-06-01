@@ -43,6 +43,7 @@ public class MyApplet extends PApplet{
 		view = new View(this, map, player);
 		smooth();
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
+		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
@@ -84,7 +85,7 @@ public class MyApplet extends PApplet{
 	
 	public void mousePressed(){
 		/* Play sound */
-		click=minim.loadFile("res/Fire_Ball.mp3");
+		click.rewind();
 		click.play();
 		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
 		Bounds vBound = map.verticalWall(player.getX(), player.getY());
