@@ -33,9 +33,12 @@ public class GameThread extends Thread{
 			e.printStackTrace();
 		}}	//wait for client		
 		for(int i=0; i<playerNum ;i++) {
-			transmission.receiveMessage(i);			
+			transmission.receiveMessage(i);
+			System.out.println("received first msg");
 			transmission.sendMessage(Integer.toString(i), i);
+			System.out.println("sending ID...");
 			transmission.receiveMessage(i);	
+			System.out.println("received confirm msg");
 		}
 		
 		gameStatus = true;

@@ -11,6 +11,7 @@ import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
+	private StartScreen startScreen;
 	private Player player;
 	private View view;
 	private Map map;
@@ -36,7 +37,8 @@ public class MyApplet extends PApplet{
 
 	public void setup(){
 		size(width, height);
-		Ani.init(this);		
+		Ani.init(this);
+		startScreen = new StartScreen(this);
 		map = new Map(this);
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
@@ -53,33 +55,35 @@ public class MyApplet extends PApplet{
 	}
 	
 	public void draw(){
-		myId = transmission.getMyId();		
-		ArrayList<Integer> position = new ArrayList<Integer>(2);
 		
-		gameStatus = transmission.getGameStatus();
-		if(gameStatus) {
-			background(255);
+		startScreen.display(gameStatus);
+		
+		if(startScreen.getStartPressed()) {
+			transmission.sendMessage("id reveived : "+myId);
+			myId = transmission.getMyId();		
+			ArrayList<Integer> position = new ArrayList<Integer>(2);
 			
-			view.display();
-			
-			playersMap = transmission.getPlayers();
-			for(int i=0;i<playersMap.size();i++) {
-				position = (ArrayList<Integer>) playersMap.get(i);
-				this.fill(0, 255);
-				this.noStroke(); 
-				this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
+			gameStatus = transmission.getGameStatus();
+			if(gameStatus) {
+				background(255);
+				
+				view.display();
+				
+				playersMap = transmission.getPlayers();
+				for(int i=0;i<playersMap.size();i++) {
+					position = (ArrayList<Integer>) playersMap.get(i);
+					this.fill(0, 255);
+					this.noStroke(); 
+					this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
+				}
+				time = transmission.getTime();
+				this.textSize(20);
+				this.text((int)time,650, 50);
+				jewelsMap = transmission.getJewel();
+				transmission.setMyPosition(player.getX(), player.getY());			
+				transmission.setHunters(huntersMap);
+				transmission.setJewel(jewelsMap);
 			}
-			time = transmission.getTime();
-			this.textSize(20);
-			this.text((int)time,650, 50);
-			jewelsMap = transmission.getJewel();
-			transmission.setMyPosition(player.getX(), player.getY());			
-			transmission.setHunters(huntersMap);
-			transmission.setJewel(jewelsMap);
-			
-		}else {
-			this.textSize(40);
-			this.text("Waiting...",300, 300);
 		}
 	}
 	
