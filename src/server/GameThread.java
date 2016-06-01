@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 
 
 public class GameThread extends Thread{
@@ -17,10 +19,24 @@ public class GameThread extends Thread{
 	public boolean gameStatus = false;
 	public long time = 0;
 	public int playerNum = 1;
+	public int windowWidth = 800;
+	public int windowHeight = 600;
+	
+	
 	
 	public GameThread(Main transmission) {
 		this.transmission = transmission;
 		json = new JSON();
+		
+		MyApplet myApplet = new MyApplet();
+		myApplet.init();
+		
+		JFrame window = new JFrame("Final Project");
+		window.setContentPane(myApplet);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setSize(windowWidth, windowHeight);
+		window.setVisible(true);	
+		window.setLocation(300, 50);
 	}
 
 	

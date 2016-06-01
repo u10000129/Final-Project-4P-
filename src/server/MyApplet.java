@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
+	
 	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
