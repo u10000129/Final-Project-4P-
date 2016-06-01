@@ -58,8 +58,6 @@ public class MyApplet extends PApplet{
 		startScreen.display(gameStatus);
 		
 		if(startScreen.getStartPressed()) {
-			transmission.sendMessage("ready");
-			System.out.println("send ready to server");
 			transmission.sendMessage("id reveived : "+myId);
 			myId = transmission.getMyId();		
 			ArrayList<Integer> position = new ArrayList<Integer>(2);
