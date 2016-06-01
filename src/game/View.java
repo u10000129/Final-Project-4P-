@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -13,6 +14,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class View {
+	private int radius = 0;
 	private final int diameter = 40;
 	private final int FieldOfView = 250;
 	private final int CrossLineLenght = 5;
@@ -30,7 +32,7 @@ public class View {
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public long time = 0;
 	
-
+	public Ani ani;
 
 	public View (PApplet mainapplet, Map map, Player player, Transmission transmission) {
 		this.mainapplet = mainapplet;
@@ -39,6 +41,7 @@ public class View {
 		this.mission = new Mission();
 		this.location = mission.getLocation();
 		this.transmission = transmission;
+		this.ani =  Ani.to(this, (float) 0.5, "radius", 30, Ani.LINEAR);
 	}
 	
 	private int transformX(int x) {
@@ -50,13 +53,9 @@ public class View {
 	}
 	
 	public void display(){		
-		/*
-		 * Get transmission's message and display the time.
-		 */
+		
 		playersMap = transmission.getPlayers();	
-		time = transmission.getTime();
-		//this.textSize(20);
-		//this.text((int)time,650, 50);
+		
 		
 		/*
 		 * If user press TAB, display full map, or display local map.
@@ -80,7 +79,7 @@ public class View {
 				int x = transformX(location.get(i).get(0)),
 					y = transformY(location.get(i).get(1));
 				if(location.get(i).get(2) == 0) {
-					mainapplet.stroke(0, 255, 0);
+					mainapplet.stroke(255, 0, 0);
 					mainapplet.strokeWeight(2);
 					mainapplet.line(x-CrossLineLenght, y-CrossLineLenght, x+CrossLineLenght, y+CrossLineLenght);
 					mainapplet.line(x+CrossLineLenght, y-CrossLineLenght, x-CrossLineLenght, y+CrossLineLenght);
@@ -91,6 +90,17 @@ public class View {
 					mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
 					mainapplet.text(location.get(i).get(2), x, y);	
 				}
+				//If player get close to this position, draw a scaling up circle to cover it .
+				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 75){
+					mainapplet.stroke(255, 0, 0);
+					mainapplet.noFill();
+					mainapplet.ellipse(x, y, radius, radius);
+					if(!ani.isPlaying()){
+						ani.start();
+					}
+				}
+				
+				
 			}
 			/*
 			 * Draw other players in full map.
@@ -159,14 +169,26 @@ public class View {
 			
 			//Hunters
 			boolean[][] hunterIsInside = new  boolean[2*FieldOfView+1][2*FieldOfView+1] ;
-			for(int i = 0; i < playersMap.size(); i++){	
+			/*for(int i = 0; i < huntersMap.size(); i++){	
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
-				position = (ArrayList<Integer>) playersMap.get(i);
+				position = (ArrayList<Integer>) huntersMap.get(i);
 				if(PApplet.dist(player.getX(), player.getY(), position.get(0), position.get(1)) <= FieldOfView){
 					//hunterIsInside[position.get(0) - player.getX() + FieldOfView][position.get(1) - player.getY() + FieldOfView] = true;
 				} 					
+			}*/
+			//Mission
+			boolean[][] msiionIsInside = new  boolean[2*FieldOfView+1][2*FieldOfView+1] ;
+			for(int i = 1; i <= mission.getPointNum(); i++){
+				int x = location.get(i).get(0),
+					y = location.get(i).get(1);
+				if(location.get(i).get(2) == 0) {
+					if(PApplet.dist(player.getX(), player.getY(), x, y) <= FieldOfView){
+						msiionIsInside[x - player.getX() + FieldOfView][y - player.getY() + FieldOfView] = true;
+					} 														
+				}
 			}
-		
+			msiionIsInside[200][250] = true;
+			
 			/*
 			 * Draw a circle field of view. 
 			 */
@@ -195,15 +217,34 @@ public class View {
 					}
 					//Draw other players if they are in the view.
 					int playerColor = playerIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
-					if(playerColor != 0){						
+					if(playerColor != 0){
+						mainapplet.noStroke();
 						mainapplet.fill(playerColor);
 						mainapplet.ellipse(playerx + x, playery + y, diameter, diameter);
 					}
 					//Draw hunters if they are in the view.
 					boolean hunter = hunterIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
 					if(hunter != false){
+						mainapplet.noStroke();
 						mainapplet.fill(0);
 						mainapplet.ellipse(playerx + x, playery + y, diameter, diameter);
+					}
+					boolean mission = msiionIsInside[FieldOfView + (int)x][FieldOfView + (int)y];
+					if(mission != false){
+						mainapplet.stroke(255, 0, 0);
+						mainapplet.strokeWeight(2);
+						mainapplet.line(playerx + x-CrossLineLenght, playery + y-CrossLineLenght, 
+										playerx + x+CrossLineLenght, playery + y+CrossLineLenght);
+						mainapplet.line(playerx + x+CrossLineLenght, playery + y-CrossLineLenght,
+										playerx + x-CrossLineLenght, playery + y+CrossLineLenght);
+						if(PApplet.dist(x, y, 0, 0) < 100){
+							mainapplet.stroke(255, 0, 0);
+							mainapplet.noFill();
+							mainapplet.ellipse(playerx + x, playery + y, radius, radius);
+							if(!ani.isPlaying()){
+								ani.start();
+							}
+						}
 					}
 				}		
 			}
@@ -222,6 +263,14 @@ public class View {
 			shadowImage.endDraw();	
 			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
 		}
+		/*
+		 * Display Time
+		 */
+		time = transmission.getTime();
+		mainapplet.fill(0);
+		mainapplet.textSize(20);
+		mainapplet.text((int)time, 650, 50);
+		
 	}
 	
 
