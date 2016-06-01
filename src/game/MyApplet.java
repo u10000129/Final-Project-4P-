@@ -31,6 +31,7 @@ public class MyApplet extends PApplet{
 	
 	public int myId;
 	private Boolean firstTime;
+	ArrayList<Integer> position = new ArrayList<Integer>(2);
 	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
@@ -52,7 +53,8 @@ public class MyApplet extends PApplet{
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		//transmission.sendMessage("id reveived : "+myId);
-		myId = transmission.getMyId();		
+		myId = transmission.getMyId();
+				
 	}
 	
 	public void draw(){
@@ -74,6 +76,17 @@ public class MyApplet extends PApplet{
 					transmission.setMyPosition(player.getX(), player.getY());			
 					transmission.setHunters(huntersMap);
 					transmission.setJewel(jewelsMap);
+					
+					//-----------------------------------------
+					
+					huntersMap = transmission.gethunters();
+					for(int i=0;i<huntersMap.size();i++) {
+						position = (ArrayList<Integer>) huntersMap.get(i);
+						this.fill(100);
+						this.noStroke(); 
+						this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
+						
+					}					
 				}
 
 			}

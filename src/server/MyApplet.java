@@ -18,19 +18,16 @@ public class MyApplet extends PApplet{
 	public final static double speed = 0.005;
 	public final static int width = 800, height = 600;
 	
-	public MyApplet(Hunter[] hunter, ArrayList<Hunter> hunters, int hunterNum, View view, Map map) {
+	public MyApplet(Hunter[] hunter, ArrayList<Hunter> hunters, int hunterNum) {
 		this.hunter = hunter;
 		this.hunters = hunters;
-		this.hunterNum = hunterNum;
-		this.view = view;
-		this.map = map;
+		this.hunterNum = hunterNum;		
 	}
 	
 	public void setup(){
 		size(width, height);
-		map = new Map(this);
-		hunterNum = 8;
-		hunter = new Hunter[hunterNum];
+		map = new Map(this);		
+		
 		hunter[0]=new Hunter(map, 5340, 5036);
 		hunter[1]=new Hunter(map, 6840, 4144);
 		hunter[2]=new Hunter(map, 3116, 5968);
@@ -40,7 +37,7 @@ public class MyApplet extends PApplet{
 		hunter[6]=new Hunter(map, 5164, 7452);
 		hunter[7]=new Hunter(map, 3680, 7544);
 		
-		hunters = new ArrayList<Hunter>();
+		
 		for(int i=0; i<8; i++) hunters.add(hunter[i]);
 		view = new View(this, map, hunters, hunterNum);
 		
