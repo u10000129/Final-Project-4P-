@@ -55,8 +55,8 @@ public class View {
 		 */
 		playersMap = transmission.getPlayers();	
 		time = transmission.getTime();
-		//this.textSize(20);
-		//this.text((int)time,650, 50);
+		mainapplet.textSize(20);
+		mainapplet.text((int)time, 650, 50);
 		
 		/*
 		 * If user press TAB, display full map, or display local map.
