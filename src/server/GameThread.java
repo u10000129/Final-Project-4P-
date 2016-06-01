@@ -22,6 +22,12 @@ public class GameThread extends Thread{
 	public int windowWidth = 800;
 	public int windowHeight = 600;
 	
+	private Hunter[] hunter;
+	private ArrayList<Hunter> hunters;
+	private int hunterNum;
+	private View view;
+	private Map map;
+	
 	
 	
 	public GameThread(Main transmission) {
