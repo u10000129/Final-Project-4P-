@@ -30,6 +30,7 @@ public class MyApplet extends PApplet{
 	public long time = 0;
 	
 	public int myId;
+	private Boolean firstTime;
 	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
@@ -42,13 +43,14 @@ public class MyApplet extends PApplet{
 		map = new Map(this);
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
-		view = new View(this, map, player);
+		view = new View(this, map, player, transmission);
 		smooth();
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
+		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
+		firstTime = true;
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
-		transmission.sendMessage("ready");		
 		//transmission.sendMessage("id reveived : "+myId);
 		myId = transmission.getMyId();		
 	}
@@ -58,45 +60,29 @@ public class MyApplet extends PApplet{
 		startScreen.display(gameStatus);
 		
 		if(startScreen.getStartPressed()) {
-			transmission.sendMessage("id reveived : "+myId);
-			myId = transmission.getMyId();		
-			ArrayList<Integer> position = new ArrayList<Integer>(2);
-			
+			if(firstTime) {
+				transmission.sendMessage("ready");		
+				firstTime = false;
+			}
+			else {
 			gameStatus = transmission.getGameStatus();
-			if(gameStatus) {
-				background(255);
+				if(gameStatus) {
+					background(255);				
+					view.display();
 				
-				view.display();
-				
-				playersMap = transmission.getPlayers();
-				for(int i=0;i<playersMap.size();i++) {
-					position = (ArrayList<Integer>) playersMap.get(i);
-					this.fill(0, 255);
-					this.noStroke(); 
-					this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
+					jewelsMap = transmission.getJewel();
+					transmission.setMyPosition(player.getX(), player.getY());			
+					transmission.setHunters(huntersMap);
+					transmission.setJewel(jewelsMap);
 				}
-				
-				huntersMap = transmission.gethunters();
-				for(int i=0;i<huntersMap.size();i++) {
-					position = (ArrayList<Integer>) huntersMap.get(i);
-					this.fill(100,0,0);
-					this.noStroke(); 
-					this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
-				}
-				time = transmission.getTime();
-				this.textSize(20);
-				this.text((int)time,650, 50);
-				jewelsMap = transmission.getJewel();
-				transmission.setMyPosition(player.getX(), player.getY());			
-				transmission.setHunters(huntersMap);
-				transmission.setJewel(jewelsMap);
+
 			}
 		}
 	}
 	
 	public void mousePressed(){
 		/* Play sound */
-		click=minim.loadFile("res/Fire_Ball.mp3");
+		click.rewind();
 		click.play();
 		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
 		Bounds vBound = map.verticalWall(player.getX(), player.getY());

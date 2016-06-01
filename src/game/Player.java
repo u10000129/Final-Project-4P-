@@ -24,6 +24,7 @@ public class Player extends Character{
 		this.curY = this.anchorY;
 		this.collisionMap = map.getCollisionMap();
 		this.minim = minim;
+		this.collide=this.minim.loadFile("res/Collision.wav");
 	}
 	
 	public void setX(int X){
@@ -54,7 +55,7 @@ public class Player extends Character{
 	
 	public void collisionDetect() {				
 		if(collisionMap[curX][curY]>0) {
-			this.collide=this.minim.loadFile("res/Collision.wav");
+			this.collide.rewind();
 			this.collide.play();
 			Ani.killAll();				
 		    if(moveX>curX) curX-=10;
