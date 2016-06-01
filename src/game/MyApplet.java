@@ -11,7 +11,6 @@ import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
-	private StartScreen startScreen;
 	private Player player;
 	private View view;
 	private Map map;
@@ -30,7 +29,6 @@ public class MyApplet extends PApplet{
 	public long time = 0;
 	
 	public int myId;
-	private Boolean firstTime;
 	ArrayList<Integer> position = new ArrayList<Integer>(2);
 	
 	public MyApplet(Transmission transmission) {
@@ -38,9 +36,9 @@ public class MyApplet extends PApplet{
 	}
 
 	public void setup(){
+		
 		size(width, height);
 		Ani.init(this);
-		startScreen = new StartScreen(this);
 		map = new Map(this);
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
@@ -49,47 +47,41 @@ public class MyApplet extends PApplet{
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
-		firstTime = true;
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		//transmission.sendMessage("id reveived : "+myId);
-		myId = transmission.getMyId();
-				
+		myId = transmission.getMyId();		
+		transmission.sendMessage("ready");
 	}
 	
 	public void draw(){
 		
-		startScreen.display(gameStatus);
+		gameStatus = transmission.getGameStatus();
+		if(gameStatus) {
+			background(255);				
+			view.display();
 		
-		if(startScreen.getStartPressed()) {
-			if(firstTime) {
-				transmission.sendMessage("ready");		
-				firstTime = false;
+			jewelsMap = transmission.getJewel();
+			transmission.setMyPosition(player.getX(), player.getY());			
+			transmission.setHunters(huntersMap);
+			transmission.setJewel(jewelsMap);
+					
+			//-----------------------------------------
+			
+			huntersMap = transmission.gethunters();
+			for(int i=0;i<huntersMap.size();i++) {
+				position = (ArrayList<Integer>) huntersMap.get(i);
+				this.fill(100);
+				this.noStroke(); 
+				this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
 			}
-			else {
-			gameStatus = transmission.getGameStatus();
-				if(gameStatus) {
-					background(255);				
-					view.display();
-				
-					jewelsMap = transmission.getJewel();
-					transmission.setMyPosition(player.getX(), player.getY());			
-					transmission.setHunters(huntersMap);
-					transmission.setJewel(jewelsMap);
-					
-					//-----------------------------------------
-					
-					huntersMap = transmission.gethunters();
-					for(int i=0;i<huntersMap.size();i++) {
-						position = (ArrayList<Integer>) huntersMap.get(i);
-						this.fill(100);
-						this.noStroke(); 
-						this.ellipse(position.get(0)-player.getX()+400, position.get(1)-player.getY()+300, 40, 40);
-						
-					}					
-				}
+			
+		}	else {
 
-			}
+			background(221, 79, 67);
+			fill(0);
+			textSize(30);
+			text("Waiting for other clients...", MyApplet.width/2-StartScreen.btnWidth, MyApplet.height/2);
 		}
 	}
 	
