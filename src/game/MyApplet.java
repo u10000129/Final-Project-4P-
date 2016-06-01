@@ -48,10 +48,9 @@ public class MyApplet extends PApplet{
 		bgm.loop();
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
-		//transmission.sendMessage("ready");		
+		transmission.sendMessage("ready");		
 		//transmission.sendMessage("id reveived : "+myId);
-		myId = transmission.getMyId();
-		gameStatus = false;
+		myId = transmission.getMyId();		
 	}
 	
 	public void draw(){
