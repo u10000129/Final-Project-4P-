@@ -98,7 +98,7 @@ class ClientThread extends Thread {
 			e.printStackTrace();
 		}
 		myId = Integer.valueOf(message);
-		
+		sendMessage("id reveived : "+myId);
 		
 		while(true) {
 		try {
