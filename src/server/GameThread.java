@@ -34,7 +34,7 @@ public class GameThread extends Thread{
 		this.transmission = transmission;
 		json = new JSON();
 		
-		MyApplet myApplet = new MyApplet();
+		MyApplet myApplet = new MyApplet(hunter, hunters, hunterNum, view, map);
 		myApplet.init();
 		
 		JFrame window = new JFrame("Final Project");
@@ -71,13 +71,8 @@ public class GameThread extends Thread{
 		transmission.broadcast(jsonString);
 		
 		
-		ArrayList<Integer> position = new ArrayList<Integer>(2);
-		for(int i=0; i<playerNum ;i++) {
-			jsonString = transmission.receiveMessage(i);
-			json.decode(jsonString);
-			position = (ArrayList<Integer>) json.getPlayers();			
-			playersMap.put(i, position);			
-		}
+		setPlayerMap();
+		setHunterMap();
 		try {
 			sleep(3);
 		} catch (InterruptedException e) {
@@ -113,6 +108,26 @@ public class GameThread extends Thread{
 				time++;
 			}
 		}		
+	}
+	public void setPlayerMap() {
+		ArrayList<Integer> position = new ArrayList<Integer>(2);
+		for(int i=0; i<playerNum ;i++) {
+			jsonString = transmission.receiveMessage(i);
+			json.decode(jsonString);
+			position = (ArrayList<Integer>) json.getPlayers();			
+			playersMap.put(i, position);			
+		}
+	}
+	public void setHunterMap() {
+		ArrayList<Integer> position = new ArrayList<Integer>(2);
+		if(hunters!=null) {
+		for(int i = 0;i<hunters.size();i++) {
+			position.clear();
+			position.add(hunters.get(i).getX());
+			position.add(hunters.get(i).getY());
+			huntersMap.put(0, position);
+		}
+		}
 	}
 
 }

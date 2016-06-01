@@ -2,24 +2,28 @@ package server;
 
 import processing.core.PApplet;
 import de.looksgood.ani.Ani;
-import game.Transmission;
+
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
 	
-	/*private Hunter[] hunter;
+	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
 	private View view;
-	private Map map;*/
+	private Map map;
 	private Control control;
 	public final static double speed = 0.005;
 	public final static int width = 800, height = 600;
 	
 	public MyApplet(Hunter[] hunter, ArrayList<Hunter> hunters, int hunterNum, View view, Map map) {
-		
+		this.hunter = hunter;
+		this.hunters = hunters;
+		this.hunterNum = hunterNum;
+		this.view = view;
+		this.map = map;
 	}
 	
 	public void setup(){
