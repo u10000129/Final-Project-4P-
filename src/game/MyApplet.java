@@ -11,7 +11,6 @@ import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
-	private StartScreen startScreen;
 	private Player player;
 	private View view;
 	private Map map;
@@ -30,7 +29,6 @@ public class MyApplet extends PApplet{
 	public long time = 0;
 	
 	public int myId;
-	private Boolean firstTime;
 	
 	public MyApplet(Transmission transmission) {
 		this.transmission = transmission;
@@ -39,7 +37,6 @@ public class MyApplet extends PApplet{
 	public void setup(){
 		size(width, height);
 		Ani.init(this);
-		startScreen = new StartScreen(this);
 		map = new Map(this);
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
@@ -48,34 +45,30 @@ public class MyApplet extends PApplet{
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
-		firstTime = true;
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		//transmission.sendMessage("id reveived : "+myId);
 		myId = transmission.getMyId();		
+		transmission.sendMessage("ready");		
 	}
 	
 	public void draw(){
 		
-		startScreen.display(gameStatus);
+		gameStatus = transmission.getGameStatus();
+		if(gameStatus) {
+			background(255);				
+			view.display();
 		
-		if(startScreen.getStartPressed()) {
-			if(firstTime) {
-				transmission.sendMessage("ready");		
-				firstTime = false;
-			}
-			else {
-			gameStatus = transmission.getGameStatus();
-				if(gameStatus) {
-					background(255);				
-					view.display();
-				
-					jewelsMap = transmission.getJewel();
-					transmission.setMyPosition(player.getX(), player.getY());			
-					transmission.setHunters(huntersMap);
-					transmission.setJewel(jewelsMap);
-				}
-			}
+			jewelsMap = transmission.getJewel();
+			transmission.setMyPosition(player.getX(), player.getY());			
+			transmission.setHunters(huntersMap);
+			transmission.setJewel(jewelsMap);
+		}	else {
+
+			background(221, 79, 67);
+			fill(0);
+			textSize(30);
+			text("Waiting for other clients...", MyApplet.width/2-StartScreen.btnWidth, MyApplet.height/2);
 		}
 	}
 	
