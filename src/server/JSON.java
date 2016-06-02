@@ -18,6 +18,7 @@ public class JSON {
 									Long time,
 									Boolean gameStatus,
 									java.util.Map<Integer, List<Integer>> players,
+									java.util.Map<Integer, String> playersName,
 									java.util.Map<Integer, List<Integer>> hunters,
 									java.util.Map<Integer, List<Integer>> jewels)
 	{
@@ -33,8 +34,15 @@ public class JSON {
 			p.setInt("id", player.getKey());
 			p.setInt("x", player.getValue().get(0));
 			p.setInt("y", player.getValue().get(1));
+			
 			playerArray.setJSONObject(player.getKey(), p);
 		}
+		
+		for(int i=0;i<playerArray.size();i++) {
+			JSONObject p = playerArray.getJSONObject(i);
+			p.setString("name", playersName.get(i));
+		}
+		
 		obj.setJSONArray("players", playerArray);
 		
 		
@@ -78,10 +86,15 @@ public class JSON {
 			
 			list.add(playerObject.getInt("characterX"));
 			list.add(playerObject.getInt("characterY"));
-			
 		}
 		
 		return list;
+	}
+	
+	public String getName() {		
+		JSONArray playerArray = json.getJSONArray("players");
+		JSONObject playerObject = playerArray.getJSONObject(0);
+		return playerObject.getString("name");
 	}
 	/*
 	public int getX() {

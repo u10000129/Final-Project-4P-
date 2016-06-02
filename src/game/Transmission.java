@@ -21,6 +21,7 @@ public class Transmission {
 	private  ClientThread connection;
 	
 	public HashMap<Integer, List<Integer>> playersMap;
+	public HashMap<Integer, String> playersName;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus = false;
@@ -114,6 +115,7 @@ class ClientThread extends Thread {
 		time = transfer.getTime();
 		gameStatus = transfer.getGameStatus();
 		playersMap = (HashMap<Integer, List<Integer>>) transfer.getPlayers();
+		playersName = (HashMap<Integer, String>) transfer.getPlayersName();
 		huntersMap = (HashMap<Integer, List<Integer>>) transfer.getHunters();
 		jewelsMap = (HashMap<Integer, List<Integer>>) transfer.getJewel();
 		
@@ -147,6 +149,10 @@ class ClientThread extends Thread {
 		return (HashMap<Integer, List<Integer>>) playersMap;
 	}
 	
+	public HashMap<Integer, String> getPlayersName() {		
+		return (HashMap<Integer, String>) playersName;
+	}
+	
 	public HashMap<Integer, List<Integer>> gethunters() {		
 		return (HashMap<Integer, List<Integer>>) transfer.getHunters();
 	}
@@ -166,6 +172,10 @@ class ClientThread extends Thread {
 	
 	public void setJewel(HashMap<Integer, List<Integer>> hashMap) {
 		this.jewelsMap = hashMap;
+	}
+	
+	public void setName(String name) {
+		this.name = name; 
 	}
 
 	public void sendMessage( String message) {	//this method can be call outside the class

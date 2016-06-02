@@ -114,17 +114,6 @@ public class Main extends JFrame{
 		
 		public static void main(String[] args) {	
 			
-
-			/*MyApplet myApplet = new MyApplet();
-			myApplet.init();
-			
-			JFrame window = new JFrame("Final Project");
-			window.setContentPane(myApplet);
-			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			window.setSize(windowWidth, windowHeight);
-			window.setVisible(true);	
-			window.setLocation(300, 50);*/
-
 			Main server = new Main(8000);	//construct a server
 			server.constructGameThread(server);	//construct a gameThread
 			server.runForever();	//waiting for client forever
