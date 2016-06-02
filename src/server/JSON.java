@@ -92,7 +92,9 @@ public class JSON {
 	}
 	
 	public String getName() {		
-		return json.getString("name");
+		JSONArray playerArray = json.getJSONArray("players");
+		JSONObject playerObject = playerArray.getJSONObject(0);
+		return playerObject.getString("name");
 	}
 	/*
 	public int getX() {

@@ -53,7 +53,8 @@ public class MyApplet extends PApplet{
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		//transmission.sendMessage("id reveived : "+myId);
-		myId = transmission.getMyId();		
+		myId = transmission.getMyId();	
+		transmission.setName(name);
 		transmission.sendMessage("ready");
 	}
 	
