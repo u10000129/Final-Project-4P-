@@ -121,6 +121,7 @@ public class MyApplet extends PApplet{
 		
 	}
 	
+	/*
 	public void keyPressed() {
 		if(key == ' ') {
 			int x = player.getX();
@@ -133,4 +134,5 @@ public class MyApplet extends PApplet{
 			}
 		}
 	}
+	*/
 }

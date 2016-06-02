@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.util.Observable;
 
 import controlP5.CColor;
@@ -15,6 +14,7 @@ public class StartScreen extends Observable{
 	public static final int btnHeight =50;
 	public static final int btnGap = 30;
 	
+	@SuppressWarnings("unused")
 	private PApplet parent;
 	private ControlP5 cp5;
 	private controlP5.Textfield textField;
@@ -79,19 +79,18 @@ public class StartScreen extends Observable{
 		});
 		
 	}
-	
+	/*
 	public void display() {
-				
-		parent.background(106,165, 202);
+		
+		//parent.background(106,165, 202);
+		parent.background(0,0,0);
 		parent.fill(0);
 		parent.textSize(30);
 		parent.fill(244,130,29);
 		parent.textFont(parent.createFont("sans-serif",30));
-		parent.text("The Game", Main.windowWidth/3, Main.windowHeight/10);		
+		parent.text("The Game", Main.windowWidth/3, Main.windowHeight/10);	
 	}
-	
-	
-	
+	*/
 	public void buttonStart() {
 		startPressed = true;
 		name = textField.getText();

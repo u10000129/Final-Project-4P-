@@ -25,6 +25,7 @@ public class Main extends JFrame implements Observer{
 			name = (String)o;
 			System.out.println("Observable "+obs.getClass()+" informed the observer with argument "+o);
 			showMyApplet();
+			obs = null;
 		}
 	}
 	
@@ -35,6 +36,7 @@ public class Main extends JFrame implements Observer{
 		myApplet.init();
 		
 		window.setContentPane(myApplet);
+		
 	}
 	
 	
@@ -47,7 +49,7 @@ public class Main extends JFrame implements Observer{
 	
 		StartScreen startScreen = new StartScreen(startApplet);
 		
-		startScreen.display();
+		//startScreen.display();
 		
 		window.setContentPane(startApplet);
 		startScreen.addObserver(main);
