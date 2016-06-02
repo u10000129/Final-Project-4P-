@@ -48,7 +48,7 @@ public class MyApplet extends PApplet{
 	}
 	
 	public void draw() {
-		//background(255);
-		//view.display();
+		background(255);
+		view.display();
 	}
 }
