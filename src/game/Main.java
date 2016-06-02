@@ -22,7 +22,6 @@ public class Main extends JFrame implements Observer{
 	
 	public void update(Observable obs, Object o) {
 		name = (String)o;
-		System.out.println(obs.getClass()+" informed the observer with parameter "+o);
 		showMyApplet();
 	}
 	

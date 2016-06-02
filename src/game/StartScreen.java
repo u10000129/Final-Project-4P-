@@ -26,7 +26,7 @@ public class StartScreen extends Observable{
 		cp5 = new ControlP5(parent);
 		startPressed = false;
 		
-		PFont font = parent.createFont("sans-serif", 32);
+		PFont font = parent.createFont("sans-serif", 25);
 		
 		System.out.println();
 		

@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
@@ -15,6 +16,7 @@ public class MyApplet extends PApplet{
 	private View view;
 	private Map map;
 	private Transmission transmission;
+	private Mission mission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	private Minim minim;
@@ -43,6 +45,7 @@ public class MyApplet extends PApplet{
 		size(width, height);
 		Ani.init(this);
 		map = new Map(this);
+		mission = new Mission();
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
 		view = new View(this, map, player, transmission);
@@ -119,5 +122,18 @@ public class MyApplet extends PApplet{
 		}
 		player.move(moveX, moveY);		
 		
+	}
+	
+	public void keyPressed() {
+		if(key == ' ') {
+			int x = player.getX();
+			int y = player.getY();
+			java.util.Map<Integer, List<Integer>> locations = mission.getLocation();
+			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
+				if(Math.abs(x-entry.getValue().get(0))<=20 && Math.abs(y-entry.getValue().get(1))<=20) {
+					
+				}
+			}
+		}
 	}
 }
