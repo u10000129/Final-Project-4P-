@@ -53,7 +53,9 @@ public class Player extends Character{
 		aniY = Ani.to(this, (float)(speed*distance), "curY", moveY, Ani.LINEAR);
 	}
 	
-	public void collisionDetect() {				
+	public void collisionDetect() {
+		if(curX>0 && curX<map.getImageWidth())
+			if(curY>0 && curY<map.getImageHeight())
 		if(collisionMap[curX][curY]>0) {
 			this.collide.rewind();
 			this.collide.play();
