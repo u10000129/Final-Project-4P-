@@ -167,6 +167,10 @@ class ClientThread extends Thread {
 	public void setJewel(HashMap<Integer, List<Integer>> hashMap) {
 		this.jewelsMap = hashMap;
 	}
+	
+	public void setName(String name) {
+		this.name = name; 
+	}
 
 	public void sendMessage( String message) {	//this method can be call outside the class
 		writer.println(message);

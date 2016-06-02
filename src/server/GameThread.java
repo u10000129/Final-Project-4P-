@@ -14,7 +14,8 @@ public class GameThread extends Thread{
 	public JSON json;
 	public String jsonString;
 	public HashMap<Integer, List<Integer>> playersMap = null;
-	public HashMap<Integer, List<Integer>> huntersMap = null;
+	public HashMap<Integer, String> playersName = null;
+	public HashMap<Integer, List<Integer>> huntersMap = null;	
 	public HashMap<Integer, List<Integer>> jewelsMap = null;
 	public boolean gameStatus = false;
 	public long time = 0;
@@ -71,18 +72,18 @@ public class GameThread extends Thread{
 		addTime timer = new addTime();		
 		timer.start();
 		while(true) {
-		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
-		transmission.broadcast(jsonString);
+			jsonString = json.encode(time, gameStatus, playersMap, playersName, huntersMap, jewelsMap);
+			transmission.broadcast(jsonString);
 		
 		
-		setPlayerMap();
-		setHunterMap();
-		try {
-			sleep(3);
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
+			setPlayerMapAndName();			
+			setHunterMap();
+			try {
+				sleep(3);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -91,12 +92,14 @@ public class GameThread extends Thread{
 		initPos.add(7110);
 		initPos.add(7100);
 		playersMap = new HashMap<Integer, List<Integer>>();
+		playersName = new HashMap<Integer, String>();
 		huntersMap = new HashMap<Integer, List<Integer>>();
 		jewelsMap = new HashMap<Integer, List<Integer>>();
-		playersMap.put(0, initPos);		
+		playersMap.put(0, initPos);
+		playersName.put(0,"jack");
 		huntersMap.put(0, initPos);
 		jewelsMap.put(0, initPos);		
-		jsonString = json.encode(time, gameStatus, playersMap, huntersMap, jewelsMap);
+		jsonString = json.encode(time, gameStatus, playersMap, playersName, huntersMap, jewelsMap);
 	}
 	
 	class addTime extends Thread {
@@ -113,13 +116,17 @@ public class GameThread extends Thread{
 			}
 		}		
 	}
-	public void setPlayerMap() {
+	public void setPlayerMapAndName() {
 		for(int i=0; i<playerNum ;i++) {
 			ArrayList<Integer> position = new ArrayList<Integer>(2);
+			String name;
 			jsonString = transmission.receiveMessage(i);
 			json.decode(jsonString);
-			position = (ArrayList<Integer>) json.getPlayers();			
-			playersMap.put(i, position);			
+			position = (ArrayList<Integer>) json.getPlayers();
+			playersMap.put(i, position);
+			name = json.getName();
+			playersName.put(i, name);
+						
 		}
 	}
 	public void setHunterMap() {
