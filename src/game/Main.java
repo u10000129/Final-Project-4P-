@@ -9,6 +9,7 @@ public class Main extends JFrame implements Observer{
 	
 	public final static int windowWidth = 800, windowHeight = 600;
 	private static JFrame window;
+	private String name;
 	
 	public Main() {
 			
@@ -20,14 +21,15 @@ public class Main extends JFrame implements Observer{
 	}
 	
 	public void update(Observable obs, Object o) {
-		System.out.println(obs.getClass()+" informed the observer");
+		name = (String)o;
+		System.out.println(obs.getClass()+" informed the observer with parameter "+o);
 		showMyApplet();
 	}
 	
 	private void showMyApplet() {
 		
 		Transmission transmission = new Transmission();
-		MyApplet myApplet = new MyApplet(transmission);
+		MyApplet myApplet = new MyApplet(transmission,name);
 		myApplet.init();
 		
 		window.setContentPane(myApplet);
