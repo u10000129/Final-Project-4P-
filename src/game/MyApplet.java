@@ -27,12 +27,15 @@ public class MyApplet extends PApplet{
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus;
 	public long time = 0;
+	private String name;
 	
 	public int myId;
 	ArrayList<Integer> position = new ArrayList<Integer>(2);
 	
-	public MyApplet(Transmission transmission) {
+	public MyApplet(Transmission transmission, String name) {
 		this.transmission = transmission;
+		this.name = name;
+		System.out.println(name);
 	}
 
 	public void setup(){
