@@ -23,6 +23,7 @@ public class MyApplet extends PApplet{
 	public JSON json;
 	public String jsonString;
 	public HashMap<Integer, List<Integer>> playersMap;
+	public HashMap<Integer, String> playersName;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus;
@@ -53,7 +54,8 @@ public class MyApplet extends PApplet{
 		//gameStatus = transmission.getGameStatus();
 		//transmission.receiveMessage();
 		//transmission.sendMessage("id reveived : "+myId);
-		myId = transmission.getMyId();		
+		myId = transmission.getMyId();	
+		transmission.setName(name);
 		transmission.sendMessage("ready");
 	}
 	
@@ -70,6 +72,8 @@ public class MyApplet extends PApplet{
 			transmission.setJewel(jewelsMap);
 					
 			//-----------------------------------------
+			playersName = transmission.getPlayersName();
+			this.text(playersName.get(myId), 400, 300);
 			
 			huntersMap = transmission.gethunters();
 			for(int i=0;i<huntersMap.size();i++) {
