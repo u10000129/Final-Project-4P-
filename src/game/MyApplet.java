@@ -127,7 +127,7 @@ public class MyApplet extends PApplet{
 			int y = player.getY();
 			java.util.Map<Integer, List<Integer>> locations = mission.getLocation();
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
-				if(Math.abs(x-entry.getValue().get(0))<=20 && Math.abs(y-entry.getValue().get(1))<=20) {
+				if(PApplet.dist(entry.getValue().get(0), entry.getValue().get(1), x, y) < 100) {
 					
 				}
 			}
