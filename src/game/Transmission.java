@@ -21,6 +21,7 @@ public class Transmission {
 	private  ClientThread connection;
 	
 	public HashMap<Integer, List<Integer>> playersMap;
+	public HashMap<Integer, String> playersName;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus = false;
@@ -114,6 +115,7 @@ class ClientThread extends Thread {
 		time = transfer.getTime();
 		gameStatus = transfer.getGameStatus();
 		playersMap = (HashMap<Integer, List<Integer>>) transfer.getPlayers();
+		playersName = (HashMap<Integer, String>) transfer.getPlayersName();
 		huntersMap = (HashMap<Integer, List<Integer>>) transfer.getHunters();
 		jewelsMap = (HashMap<Integer, List<Integer>>) transfer.getJewel();
 		
@@ -145,6 +147,10 @@ class ClientThread extends Thread {
 	
 	public HashMap<Integer, List<Integer>> getPlayers() {		
 		return (HashMap<Integer, List<Integer>>) playersMap;
+	}
+	
+	public HashMap<Integer, String> getPlayersName() {		
+		return (HashMap<Integer, String>) playersName;
 	}
 	
 	public HashMap<Integer, List<Integer>> gethunters() {		
