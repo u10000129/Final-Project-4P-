@@ -100,6 +100,19 @@ public class Transfer {
 		return players;
 	}
 	
+public java.util.Map<Integer, String> getPlayersName() {
+		
+		JSONArray playerArray = json.getJSONArray("players");
+		
+		java.util.Map<Integer, String> players = new HashMap<Integer, String>();
+		for(int i=0;i<playerArray.size();i++) {
+			JSONObject playerObject = playerArray.getJSONObject(i);			
+			players.put(playerObject.getInt("id"), playerObject.getString("name"));
+		}
+		
+		return players;
+	}
+	
 	public java.util.Map<Integer, List<Integer>>   getHunters() { // Map of ID->(x,y)
 		
 		JSONArray hunterArray = json.getJSONArray("hunters");

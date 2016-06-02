@@ -60,7 +60,9 @@ public class Control implements Runnable{
 			sin[index] = PApplet.sin( radian[index] );
 			nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
 			nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
-			if(map.inside(nextX[index], nextY[index])==true && judge_path(index)==true) break;
+			if(map.inside(nextX[index], nextY[index])==true)
+				if(judge_path(index)==true) 
+					break;
 		}
 	}
 	
