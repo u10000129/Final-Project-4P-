@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 
 
 public class GameThread extends Thread{
@@ -17,10 +19,34 @@ public class GameThread extends Thread{
 	public boolean gameStatus = false;
 	public long time = 0;
 	public int playerNum = 1;
+	public int windowWidth = 800;
+	public int windowHeight = 600;
+	
+	private Hunter[] hunter;
+	private ArrayList<Hunter> hunters;
+	private int hunterNum = 8;
+	
+	
+	
 	
 	public GameThread(Main transmission) {
 		this.transmission = transmission;
 		json = new JSON();
+		
+		hunter = new Hunter[hunterNum];
+		hunters = new ArrayList<Hunter>();
+		
+		MyApplet myApplet = new MyApplet(hunter, hunters, hunterNum);
+		myApplet.init();
+		
+		JFrame window = new JFrame("Final Project");
+		window.setContentPane(myApplet);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setSize(windowWidth, windowHeight);
+		window.setVisible(true);	
+		window.setLocation(300, 50);
+		
+		
 	}
 
 	
@@ -49,17 +75,12 @@ public class GameThread extends Thread{
 		transmission.broadcast(jsonString);
 		
 		
-		ArrayList<Integer> position = new ArrayList<Integer>(2);
-		for(int i=0; i<playerNum ;i++) {
-			jsonString = transmission.receiveMessage(i);
-			json.decode(jsonString);
-			position = (ArrayList<Integer>) json.getPlayers();			
-			playersMap.put(i, position);			
-		}
+		setPlayerMap();
+		setHunterMap();
 		try {
 			sleep(3);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		}
@@ -91,6 +112,27 @@ public class GameThread extends Thread{
 				time++;
 			}
 		}		
+	}
+	public void setPlayerMap() {
+		for(int i=0; i<playerNum ;i++) {
+			ArrayList<Integer> position = new ArrayList<Integer>(2);
+			jsonString = transmission.receiveMessage(i);
+			json.decode(jsonString);
+			position = (ArrayList<Integer>) json.getPlayers();			
+			playersMap.put(i, position);			
+		}
+	}
+	public void setHunterMap() {
+		
+		if(hunters!=null) {
+		for(int i = 0;i<hunters.size();i++) {
+			ArrayList<Integer> position = new ArrayList<Integer>(2);
+			position.add(hunters.get(i).getX());
+			position.add(hunters.get(i).getY());
+			huntersMap.put(i, position);
+			
+		}
+		}	
 	}
 
 }

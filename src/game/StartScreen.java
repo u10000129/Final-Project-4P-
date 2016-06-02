@@ -1,14 +1,16 @@
 package game;
 
+import java.util.Observable;
+
 import controlP5.CallbackEvent;
 import controlP5.CallbackListener;
 import controlP5.ControlP5;
 import processing.core.PApplet;
 
-public class StartScreen {
-	private final int btnWidth = 200;
-	private final int btnHeight =50;
-	private final int btnGap = 30;
+public class StartScreen extends Observable{
+	public static final int btnWidth = 200;
+	public static final int btnHeight =50;
+	public static final int btnGap = 30;
 	
 	private PApplet parent;
 	private ControlP5 cp5;
@@ -34,7 +36,6 @@ public class StartScreen {
 				}
 			}
 		});
-		start.hide();
 								
 		quit = cp5.addButton("buttonQuit")
 								.setLabel("Quit")
@@ -49,28 +50,15 @@ public class StartScreen {
 				}
 			}
 		});
-		quit.hide();
 		
 	}
 	
-	public void display(Boolean gameStatus) {
-		if(gameStatus == false) {
-			if(startPressed == false) {
-				start.show();
-				quit.show();
-				parent.background(106,165, 202);
-				parent.fill(0);
-				parent.textSize(30);
-				parent.text("The Game", MyApplet.width/2, MyApplet.height/5);
+	public void display() {
 				
-			}	else {
-				
-				parent.background(221, 79, 67);
-				parent.fill(0);
-				parent.textSize(30);
-				parent.text("Waiting for other clients...", MyApplet.width/2-btnWidth, MyApplet.height/2);
-			}
-		}
+		parent.background(106,165, 202);
+		parent.fill(0);
+		parent.textSize(30);
+		parent.text("The Game", MyApplet.width/2, MyApplet.height/5);		
 	}
 	
 	
@@ -79,6 +67,8 @@ public class StartScreen {
 		startPressed = true;
 		start.hide();
 		quit.hide();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void buttonQuit() {
