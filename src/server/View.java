@@ -15,6 +15,8 @@ public class View {
 	private PApplet mainApplet;
 	private PImage mapImage;
 	private int hunterX, hunterY;
+	private int[][][] hunterSightMap;
+	private boolean unLookableFlag;
 	
 	public View(PApplet pApplet, Map map, ArrayList<Hunter> hunters, int hunterNum){
 		this.mainApplet = pApplet;
@@ -32,6 +34,10 @@ public class View {
 	private int transformY(int y) {
 		return y * MyApplet.height / map.getImageHeight();
 	}
+	
+	public int[][] getHunterSightMap(int index){
+		return this.hunterSightMap[index];
+ 	}
 	
 	public void display(){
 		/* change hunter */
@@ -97,18 +103,34 @@ public class View {
 				}
 				mainApplet.stroke(0, 0, 0, 128);
 				mainApplet.strokeWeight(5);
+				for(int i=0; i<hunters.size(); i++) this.hunterSightMap[i] = collisionMap;
 				for(float i = 0; i < 360; i++) {
 					for(float j = 0; j < FieldOfView ; j++ ){
 						float x = j * PApplet.cos( PApplet.radians(i) ); 
-						float y = j * PApplet.sin( PApplet.radians(i) ); 
+						float y = j * PApplet.sin( PApplet.radians(i) );
 						if(collisionMap[hunters.get(curHunter).getX() + (int)x ][hunters.get(curHunter).getY() + (int)y ] == 1){
 							mainApplet.line(hunterX + x, hunterY + y,
 									hunterX + (FieldOfView-1)* PApplet.cos( PApplet.radians(i) ), 
-									hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) )
-							);	
+									hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) ));	
 							break;
-						}				
+						}
 					}		
+				}
+				
+				for(int k=0; k<this.hunterNum; k++) {
+				for(float i = 0; i < 360; i++) {
+					this.unLookableFlag=false;
+					for(float j = 0; j < FieldOfView ; j++ ){
+						float x = j * PApplet.cos( PApplet.radians(i) ); 
+						float y = j * PApplet.sin( PApplet.radians(i) );
+						if(this.unLookableFlag==true) {
+							this.hunterSightMap[k][hunters.get(k).getX()+(int)x][hunters.get(k).getY()+(int)y]=1;
+							continue;
+						}
+						if(collisionMap[hunters.get(k).getX() + (int)x ][hunters.get(k).getY() + (int)y ] == 1)
+							this.unLookableFlag=true;
+					}		
+				}
 				}
 		}
 		

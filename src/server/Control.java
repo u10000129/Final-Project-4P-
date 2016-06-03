@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Control implements Runnable{
-	private final static int FieldOfView = 250;
+	private final int FieldOfView = 250;
 	private Random ran;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
@@ -20,8 +20,9 @@ public class Control implements Runnable{
 	private HashMap<Integer, List<Integer>> hunter_information;
 	private HashMap<Integer, List<Integer>> playersMap;
 	private List<Integer> list;
+	private View view;
 	
-	Control(Map map, ArrayList<Hunter> hunters, int hunterNum) {
+	Control(Map map, ArrayList<Hunter> hunters, int hunterNum, View view) {
 		this.ran = new Random();
 		this.map = map;
 		this.hunters = hunters;
@@ -35,6 +36,7 @@ public class Control implements Runnable{
 		this.nextY = new int[this.hunterNum];
 		this.hunter_information = new HashMap<Integer, List<Integer>>();
 		this.list = new ArrayList<Integer>();
+		this.view = view;
 	}
 	
 	public HashMap<Integer, List<Integer>> getHunterInformation(){
@@ -60,16 +62,38 @@ public class Control implements Runnable{
 		return true;
 	}
 	
+	private int hunting_start(int index){
+		for(int i=0; i<this.playersMap.size(); i++) {
+			/* judge whether player is inside hunter's sight */
+			if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
+					,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1))<=this.FieldOfView) {
+				int[][] HunterSightMap = this.view.getHunterSightMap(index);
+				/* judge whether player is reachable */
+				if(HunterSightMap[this.playersMap.get(i).get(0)][this.playersMap.get(i).get(1)]==0) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
 	private void generate(int index) {
 		while(true) {
-			radian[index] = PApplet.radians(90*ran.nextInt(4));
-			cos[index] = PApplet.cos( radian[index] );
-			sin[index] = PApplet.sin( radian[index] );
-			nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
-			nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
-			if(map.inside(nextX[index], nextY[index])==true)
-				if(judge_path(index)==true) 
-					break;
+			int target=hunting_start(index);
+			if(target==-1) {
+				radian[index] = PApplet.radians(90*ran.nextInt(4));
+				cos[index] = PApplet.cos( radian[index] );
+				sin[index] = PApplet.sin( radian[index] );
+				nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
+				nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
+				if(map.inside(nextX[index], nextY[index])==true)
+					if(judge_path(index)==true) 
+						break;
+			}
+			else {
+				nextX[index] =  playersMap.get(target).get(0);
+				nextY[index] =  playersMap.get(target).get(1);
+			}
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class MyApplet extends PApplet{
 		view = new View(this, map, hunters, hunterNum);
 		
 		Ani.init(this);
-		control = new Control(map, hunters, hunterNum);
+		control = new Control(map, hunters, hunterNum, view);
 		control.start();
 		smooth();
 	}
