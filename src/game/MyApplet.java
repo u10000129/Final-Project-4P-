@@ -16,7 +16,6 @@ public class MyApplet extends PApplet{
 	private View view;
 	private Map map;
 	private Transmission transmission;
-	private Mission mission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	private Minim minim;
@@ -46,7 +45,6 @@ public class MyApplet extends PApplet{
 		size(width, height);
 		Ani.init(this);
 		map = new Map(this);
-		mission = new Mission();
 		minim = new Minim(this);
 		player = new Player(this, map, minim);
 		view = new View(this, map, player, transmission);
