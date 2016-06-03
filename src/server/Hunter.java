@@ -48,7 +48,7 @@ public class Hunter extends Character{
 		    if(moveX<curX) curX+=10;
 		    if(moveY>curY) curY-=10;
 		    if(moveY<curY) curY+=10;
-		    
+		  
 		}
 	}
 }

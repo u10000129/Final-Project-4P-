@@ -27,6 +27,8 @@ public class GameThread extends Thread{
 	private ArrayList<Hunter> hunters;
 	private int hunterNum = 8;
 	
+	private MyApplet myApplet;
+	
 	
 	
 	
@@ -37,16 +39,16 @@ public class GameThread extends Thread{
 		hunter = new Hunter[hunterNum];
 		hunters = new ArrayList<Hunter>();
 		
-		MyApplet myApplet = new MyApplet(hunter, hunters, hunterNum);
+		myApplet = new MyApplet(hunter, hunters, hunterNum);
 		myApplet.init();
 		
-		JFrame window = new JFrame("Final Project");
+		/*JFrame window = new JFrame("Final Project");
 		window.setContentPane(myApplet);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(windowWidth, windowHeight);
 		window.setVisible(true);	
 		window.setLocation(300, 50);
-		
+		*/
 		
 	}
 
@@ -76,7 +78,8 @@ public class GameThread extends Thread{
 			transmission.broadcast(jsonString);
 		
 		
-			setPlayerMapAndName();			
+			setPlayerMapAndName();		
+			myApplet.setPlayersMap(playersMap);
 			setHunterMap();
 			try {
 				sleep(3);

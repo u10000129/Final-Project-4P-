@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Control implements Runnable{
+	private final static int FieldOfView = 250;
 	private Random ran;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
@@ -17,6 +18,7 @@ public class Control implements Runnable{
 	private float [] cos, sin;
 	private int [][] collisionMap;
 	private HashMap<Integer, List<Integer>> hunter_information;
+	private HashMap<Integer, List<Integer>> playersMap;
 	private List<Integer> list;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum) {
@@ -37,11 +39,16 @@ public class Control implements Runnable{
 	
 	public HashMap<Integer, List<Integer>> getHunterInformation(){
 		for(int i=0; i<hunterNum; i++) {
+			this.list=new ArrayList<Integer>();
 			this.list.add(hunters.get(i).getX());
 			this.list.add(hunters.get(i).getY());
 			this.hunter_information.put(i, this.list);
 		}
 		return hunter_information;
+	}
+	
+	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
+		this.playersMap = playersMap;
 	}
 	
 	private boolean judge_path(int index) {
