@@ -79,7 +79,7 @@ public class GameThread extends Thread{
 		
 		
 			setPlayerMapAndNameAndJewel();	
-			mission.setJewelsMap(jewelsMap);
+			//mission.setJewelsMap(jewelsMap);
 			setHunterMap();
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 			try {
@@ -131,8 +131,7 @@ public class GameThread extends Thread{
 			playersMap.put(i, position);
 			name = json.getName();
 			playersName.put(i, name);
-			jewelsMap = (HashMap<Integer, List<Integer>>) json.getJewel();
-						
+			mission.setMission(json.getJewelId());					
 		}
 	}
 	public void setHunterMap() {
@@ -142,8 +141,7 @@ public class GameThread extends Thread{
 			ArrayList<Integer> position = new ArrayList<Integer>(2);
 			position.add(hunters.get(i).getX());
 			position.add(hunters.get(i).getY());
-			huntersMap.put(i, position);
-			
+			huntersMap.put(i, position);			
 		}
 		}	
 	}

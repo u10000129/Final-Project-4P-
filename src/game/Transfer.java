@@ -15,7 +15,7 @@ public class Transfer {
 	
 	public String encode(String name,
 										int characterX, int characterY,
-										java.util.Map<Integer, List<Integer>> jewels,
+										int jewelId,
 										java.util.Map <Integer, List<Integer>>hunters) {
 		
 		JSONObject obj = new JSONObject();
@@ -30,7 +30,10 @@ public class Transfer {
 		playerArray.setJSONObject(0, player);
 		obj.setJSONArray("players", playerArray);
 		
+		obj.setLong("jewelId",jewelId);
+		
 		// jewel array
+		/*
 		JSONArray jewelArray =  new JSONArray();
 		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
 			JSONObject jw = new JSONObject();
@@ -42,13 +45,14 @@ public class Transfer {
 				jw.setInt("time", jewel.getValue().get(2));
 				
 				jewelArray.setJSONObject(jewel.getKey(), jw);
-			}
+			}			
 			catch(Exception e) {
 				System.out.println("Error occurred while setting jewelArray");
 				e.printStackTrace();
 			}
 		}
 		obj.setJSONArray("jewels", jewelArray);
+		
 		
 		//hunter array
 		/*

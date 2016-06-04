@@ -30,6 +30,7 @@ public class Transmission {
 	public int myX, myY;
 	public String name = "abc";
 	public int myId;
+	public int jewelId = 0;
 	
 	public Transfer transfer;
 	public String jsonString;	
@@ -82,7 +83,7 @@ class ClientThread extends Thread {
 	public void sendMessage( String message) {	//this method send message
 		writer.println(message);
 		 writer.flush();
-		 //System.out.println("send: "+message);
+		 System.out.println("send: "+message);
 	}
 	
 	
@@ -119,7 +120,7 @@ class ClientThread extends Thread {
 		huntersMap = (HashMap<Integer, List<Integer>>) transfer.getHunters();
 		jewelsMap = (HashMap<Integer, List<Integer>>) transfer.getJewel();
 		
-		jsonString = transfer.encode(name, myX, myY, jewelsMap, huntersMap);
+		jsonString = transfer.encode(name, myX, myY, jewelId, huntersMap);
 		
 		sendMessage(jsonString);
 		
@@ -143,6 +144,10 @@ class ClientThread extends Thread {
 	}
 	public boolean getGameStatus() {
 		return gameStatus;
+	}
+	
+	public void setJewelId(int id) {
+		this.jewelId = id;
 	}
 	
 	public HashMap<Integer, List<Integer>> getPlayers() {		

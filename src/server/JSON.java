@@ -98,7 +98,7 @@ public class JSON {
 		JSONObject playerObject = playerArray.getJSONObject(0);
 		return playerObject.getString("name");
 	}
-	
+	/*
 public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
 		
 		JSONArray jewelArray = json.getJSONArray("jewels");
@@ -116,5 +116,9 @@ public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
 		
 		return jewels;
 	}
-	
+	*/
+	public int getJewelId() {		
+		return json.getInt("jewelId");
+		
+	}
 }
