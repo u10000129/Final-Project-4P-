@@ -12,12 +12,12 @@ public class Map {
 	public Map(PApplet p) {
 		parent = p;
 		map = parent.loadImage("SubMap.jpg");
-		collisionMap = new int[map.height+5][map.width+5];
+		collisionMap = new int[map.width+5][map.height+5];
 		
 		System.out.printf("image size: %dx%d\n",map.width,map.height);
 		
-		for(int i=0;i<map.height;i++) {
-			for(int j=0;j<map.width;j++) {
+		for(int i=0;i<map.width;i++) {
+			for(int j=0;j<map.height;j++) {
 				float r = p.red(map.get(i, j));
 				float g = p.green(map.get(i, j));
 				float b = p.blue(map.get(i, j));
