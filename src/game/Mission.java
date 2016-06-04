@@ -96,6 +96,14 @@ public class Mission {
 		//location.put(id, list);		
 	}
 	
+	public Boolean checkMissionSet(int id) {
+		
+		if(location.get(id).get(2) > 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use
 																				// ArrayList.size() to get the questions
 		Random rand = new Random();

@@ -73,6 +73,10 @@ public class MyApplet extends PApplet implements Observer{
 	
 	public void draw(){
 		
+		if(mission.checkMissionSet(jewelID)) {
+			setJewelID(JEWEL_NOT_OPENED);
+		}
+		
 		gameStatus = transmission.getGameStatus();
 		if(gameStatus) {
 			background(255);				
