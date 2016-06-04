@@ -130,6 +130,7 @@ public class GameThread extends Thread{
 			playersMap.put(i, position);
 			name = json.getName();
 			playersName.put(i, name);
+			if(json.getJewelId()!=0)
 			mission.setMission(json.getJewelId());					
 		}
 	}

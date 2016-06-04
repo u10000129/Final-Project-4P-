@@ -106,7 +106,7 @@ public class View {
 		
 		if(FieldOfView < 450)
 			FieldOfView = ( mainapplet.getMissionScore()/3 )*50 +250;
-		
+		this.location = mission.getLocation();
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
 		playersName = transmission.getPlayersName();

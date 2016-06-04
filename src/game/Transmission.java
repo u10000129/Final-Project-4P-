@@ -83,7 +83,7 @@ class ClientThread extends Thread {
 	public void sendMessage( String message) {	//this method send message
 		writer.println(message);
 		 writer.flush();
-		 System.out.println("send: "+message);
+		 //System.out.println("send: "+message);
 	}
 	
 	
