@@ -16,7 +16,7 @@ import processing.data.JSONObject;
 public class View {
 	private int radius = 0;
 	private final int diameter = 40;
-	private final int FieldOfView = 250;
+	private int FieldOfView = 250;
 	private final int CrossLineLenght = 5;
 	private PApplet mainapplet;
 	private Player player;
@@ -30,6 +30,8 @@ public class View {
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
+	public HashMap<Integer, String> playersName;
+	
 	public long time = 0;
 	
 	public Ani ani;
@@ -80,10 +82,30 @@ public class View {
 		return  new int[] {returnX, returnY}; 
 	}
 	
-	public void display(){			
+	private void setColor(int i){
+		switch(i) {
+		case 0:
+			mainapplet.fill(200, 0, 0);
+			break;
+		case 1:
+			mainapplet.fill(0, 200, 0);
+			break;
+		case 2:
+			mainapplet.fill(0, 0, 2000);
+			break;
+		case 3:
+			mainapplet.fill(200, 200, 0);
+			break;
+		}
+	}
+	
+	public void display(){
+		if(FieldOfView < 450)
+			FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
 		
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
+		playersName = transmission.getPlayersName();
 		/*
 		 * If user press TAB, display full map, or display local map.
 		 */
@@ -118,7 +140,7 @@ public class View {
 					mainapplet.text(location.get(i).get(2), x, y);	
 				}
 				//If player get close to this position, draw a scaling up circle to cover it .
-				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 75){
+				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
 					mainapplet.stroke(255, 0, 0);
 					mainapplet.noFill();
 					mainapplet.ellipse(x, y, radius, radius);
@@ -137,9 +159,14 @@ public class View {
 				if(i == myPlayerId) continue;
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
 				position = (ArrayList<Integer>) playersMap.get(i);
+				int trsX = transformX( position.get(0) );
+				int trsY = transformY( position.get(1) );
 				//mainapplet.fill(???);
 				mainapplet.noStroke(); 		
-				mainapplet.ellipse(transformX( position.get(0) ), transformY( position.get(1) ), diameter/4, diameter/4);
+				this.setColor(i);
+				mainapplet.ellipse(trsX, trsY, diameter/4, diameter/4);
+				mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+				mainapplet.text(playersName.get(i), trsX+diameter/4/2, trsY-diameter/4/2);
 			}
 			
 		} else { // Display local map.
@@ -151,18 +178,21 @@ public class View {
 			/*
 			 * Draw my player.
 			 */
+			int myPlayerId = transmission.getMyId();
 			int[] playerPosition = this.boundsDetet(player.getX(), player.getY());			
 			mainapplet.fill(0);
 			mainapplet.noStroke(); 		
 			player.collisionDetect();
-			mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);	
+			mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);
+			mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+			mainapplet.text(playersName.get(myPlayerId), playerPosition[0]+diameter/2, playerPosition[1]-diameter/2);
 			/*
-			 * Scan the players's and hunter's position, and store the result in 2D-array. Which is used when draw the circle view.
+			 * Draw players and hunters.
 			 */
 			int[][] collisionMap = map.getCollisionMap();	
 			//Players			
-			/*				
-			int myPlayerId = transmission.getMyId();
+							
+			
 			for(int i = 0; i < playersMap.size(); i++){		
 				if(i == myPlayerId) continue;
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
@@ -181,12 +211,15 @@ public class View {
 					}
 					if(isVisible == true){
 						mainapplet.noStroke();
-						mainapplet.fill(playerColor);
-						int[] playerlocation = this.boundsDetet(position.get(0), position.get(1));
-						mainapplet.ellipse(location[0], location[1], diameter, diameter);
+						this.setColor(i);
+						int x = playerPosition[0] + position.get(0) - player.getX();
+						int y = playerPosition[1] + position.get(1) - player.getY();
+						mainapplet.ellipse(x, y, diameter, diameter);
+						mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+						mainapplet.text(playersName.get(i), x + diameter/2, y - diameter/2);
 					}					
 				} 				
-			}*/	
+			}	
 			
 			//Hunters		
 			for(int i = 0; i < huntersMap.size(); i++){	
@@ -213,14 +246,13 @@ public class View {
 			}					
 			
 			/*
-			 * Draw a circle field of view. 
-			 */
-					
+			 * Draw a circle field of view. To highlight mission's position, draw them here. 
+			 */					
 			PGraphics shadowImage;
 			//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.			 
 			shadowImage = mainapplet.createGraphics(MyApplet.width, MyApplet.height);
 			shadowImage.beginDraw();
-			for(float i = 0; i < 360; i+=1) {
+			for(float i = 0; i < 360; i+=0.5) {
 				for(float j = 0; j < FieldOfView ; j++ ){
 					float x = j * MyApplet.cos( MyApplet.radians(i) ); 
 					float y = j * MyApplet.sin( MyApplet.radians(i) ); 
@@ -247,26 +279,26 @@ public class View {
 					if(location.get(i).get(2) != 0) continue;
 				float dst =  PApplet.dist(player.getX(), player.getY(), x, y);
 				if( dst <= FieldOfView){
-					mainapplet.stroke(255, 0, 0);
-					mainapplet.strokeWeight(2);
-					mainapplet.line(playerPosition[0] + x - player.getX() - CrossLineLenght*2, playerPosition[1] + y - player.getY() - CrossLineLenght*2, 
+					shadowImage.stroke(255, 0, 0);
+					shadowImage.strokeWeight(2);
+					shadowImage.line(playerPosition[0] + x - player.getX() - CrossLineLenght*2, playerPosition[1] + y - player.getY() - CrossLineLenght*2, 
 									playerPosition[0] + x - player.getX() + CrossLineLenght*2, playerPosition[1] + y - player.getY() + CrossLineLenght*2);
-					mainapplet.line(playerPosition[0] + x - player.getX() + CrossLineLenght*2, playerPosition[1] + y - player.getY() - CrossLineLenght*2,
+					shadowImage.line(playerPosition[0] + x - player.getX() + CrossLineLenght*2, playerPosition[1] + y - player.getY() - CrossLineLenght*2,
 									playerPosition[0] + x - player.getX() - CrossLineLenght*2, playerPosition[1] + y - player.getY() + CrossLineLenght*2);
 					if(PApplet.dist(x, y, player.getX(), player.getY()) < 100){
-						mainapplet.stroke(255, 100, 100);
-						mainapplet.noFill();
-						mainapplet.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), radius*2, radius*2);
+						shadowImage.stroke(255, 0, 0);
+						shadowImage.noFill();
+						shadowImage.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), radius*2, radius*2);
 						if(!ani.isPlaying()){
 							ani.start();
 						}
 					}
 											
 				} 			
-			}
-			
+			}			
 			shadowImage.endDraw();	
 			mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
+			
 			
 			//Draw a full screen rectangle shadow, and subtract a circle.
 			shadowImage = mainapplet.createGraphics(MyApplet.width, MyApplet.height);
@@ -282,9 +314,7 @@ public class View {
 		}
 		/*
 		 * Display Time
-		 */
-		
-		
+		 */		
 		time = transmission.getTime();
 		
 		mainapplet.fill(0);
