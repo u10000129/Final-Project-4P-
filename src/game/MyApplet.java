@@ -131,7 +131,7 @@ public class MyApplet extends PApplet implements Observer{
 			
 			
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
-				if(PApplet.dist(entry.getValue().get(0), entry.getValue().get(1), x, y) < 100) {
+				if(PApplet.dist(entry.getValue().get(0),entry.getValue().get(1),x,y)<100 && entry.getValue().get(2)==0) {
 					
 					mission.setCountDown(entry.getKey(), mission.COUNTDOWN);
 					QuestionPanel qPanel = new QuestionPanel(mission);
