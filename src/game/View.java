@@ -98,7 +98,7 @@ public class View {
 	public void display(){	
 		
 		if(FieldOfView < 450)
-			FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
+			FieldOfView = ( mainapplet.getMissionScore()/3 )*50 +250;
 		
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
