@@ -34,11 +34,11 @@ public class View {
 	public Ani playerCircleAni;
 	private int playerCircle = 0;
 
-	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission) {
+	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission, Mission mission) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
-		this.mission = new Mission();
+		this.mission = mission;
 		this.location = mission.getLocation();
 		this.transmission = transmission;
 		this.missionCircleAni =  Ani.to(this, (float) 0.5, "missionCircle", 30, Ani.LINEAR);
@@ -143,6 +143,15 @@ public class View {
 					mainapplet.strokeWeight(2);
 					mainapplet.line(x-CrossLineLenght, y-CrossLineLenght, x+CrossLineLenght, y+CrossLineLenght);
 					mainapplet.line(x+CrossLineLenght, y-CrossLineLenght, x-CrossLineLenght, y+CrossLineLenght);
+					//If player get close to this position, draw a scaling up circle to cover it .
+					if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
+						mainapplet.stroke(255, 0, 0);
+						mainapplet.noFill();
+						mainapplet.ellipse(x, y, missionCircle, missionCircle);
+						if(!missionCircleAni.isPlaying()){
+							missionCircleAni.start();
+						}
+					}
 														
 				}
 				else {
@@ -151,15 +160,7 @@ public class View {
 					mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
 					mainapplet.text(location.get(i).get(2), x, y);	
 				}
-				//If player get close to this position, draw a scaling up circle to cover it .
-				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
-					mainapplet.stroke(255, 0, 0);
-					mainapplet.noFill();
-					mainapplet.ellipse(x, y, missionCircle, missionCircle);
-					if(!missionCircleAni.isPlaying()){
-						missionCircleAni.start();
-					}
-				}
+				
 				
 				
 			}
