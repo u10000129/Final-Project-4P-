@@ -10,7 +10,6 @@ import processing.core.PImage;
 
 
 public class View {
-	private int radius = 0;
 	private final int diameter = 40;
 	private int FieldOfView = 250;
 	private final int CrossLineLenght = 5;
@@ -30,7 +29,10 @@ public class View {
 	
 	public long time = 0;
 	
-	public Ani ani;
+	public Ani missionCircleAni;
+	private int missionCircle = 0;
+	public Ani playerCircleAni;
+	private int playerCircle = 0;
 
 	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission) {
 		this.mainapplet = mainapplet;
@@ -39,7 +41,8 @@ public class View {
 		this.mission = new Mission();
 		this.location = mission.getLocation();
 		this.transmission = transmission;
-		this.ani =  Ani.to(this, (float) 0.5, "radius", 30, Ani.LINEAR);
+		this.missionCircleAni =  Ani.to(this, (float) 0.5, "missionCircle", 30, Ani.LINEAR);
+		playerCircleAni =  Ani.to(this, (float) 0.5, "playerCircle", 50, Ani.LINEAR);
 	}
 	
 	private int transformX(int x) {
@@ -81,16 +84,20 @@ public class View {
 	private void setColor(int i){
 		switch(i) {
 		case 0:
-			mainapplet.fill(200, 0, 200);
+			mainapplet.fill(200, 0, 200, 160);
+			mainapplet.stroke(200, 0, 200, 160);
 			break;
 		case 1:
-			mainapplet.fill(0, 200, 0);
+			mainapplet.fill(0, 200, 0, 160);
+			mainapplet.stroke(0, 200, 0, 160);
 			break;
 		case 2:
-			mainapplet.fill(0, 0, 200);
+			mainapplet.fill(0, 0, 200, 160);
+			mainapplet.stroke(0, 0, 200, 160);
 			break;
 		case 3:
-			mainapplet.fill(200, 200, 0);
+			mainapplet.fill(200, 200, 0, 160);
+			mainapplet.stroke(200, 200, 0, 160);
 			break;
 		}
 	}
@@ -116,12 +123,15 @@ public class View {
 			 */
 			player.collisionDetect();
 			this.setColor(transmission.getMyId());
-			mainapplet.noStroke();
 			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);
-			mainapplet.noStroke();
 			mainapplet.textSize(8);
 			mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 			mainapplet.text(playersName.get(transmission.getMyId()), transformX(player.getX())+diameter/4/2, transformY(player.getY())-diameter/4/2);
+			mainapplet.noFill();
+			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), playerCircle/2, playerCircle/2);
+			if(!playerCircleAni.isPlaying()){
+				playerCircleAni.start();
+			}
 			/*
 			 * Draw missions in full map.
 			 */
@@ -145,9 +155,9 @@ public class View {
 				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
 					mainapplet.stroke(255, 0, 0);
 					mainapplet.noFill();
-					mainapplet.ellipse(x, y, radius, radius);
-					if(!ani.isPlaying()){
-						ani.start();
+					mainapplet.ellipse(x, y, missionCircle, missionCircle);
+					if(!missionCircleAni.isPlaying()){
+						missionCircleAni.start();
 					}
 				}
 				
@@ -183,12 +193,16 @@ public class View {
 			int myPlayerId = transmission.getMyId();
 			int[] playerPosition = this.boundsDetet(player.getX(), player.getY());	
 			this.setColor(transmission.getMyId());
-			mainapplet.noStroke(); 		
 			player.collisionDetect();
 			mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);
 			mainapplet.textSize(16);
 			mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 			mainapplet.text(playersName.get(myPlayerId), playerPosition[0]+diameter/2, playerPosition[1]-diameter/2);
+			mainapplet.noFill();
+			mainapplet.ellipse(playerPosition[0], playerPosition[1], playerCircle, playerCircle);
+			if(!playerCircleAni.isPlaying()){
+				playerCircleAni.start();
+			}
 			/*
 			 * Draw players and hunters.
 			 */
@@ -294,9 +308,9 @@ public class View {
 					if(PApplet.dist(x, y, player.getX(), player.getY()) < 100){
 						shadowImage.stroke(255, 0, 0);
 						shadowImage.noFill();
-						shadowImage.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), radius*2, radius*2);
-						if(!ani.isPlaying()){
-							ani.start();
+						shadowImage.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), missionCircle*2, missionCircle*2);
+						if(!missionCircleAni.isPlaying()){
+							missionCircleAni.start();
 						}
 					}
 											
