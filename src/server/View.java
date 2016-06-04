@@ -101,6 +101,9 @@ public class View {
 					for(float j = 0; j < FieldOfView ; j++ ){
 						float x = j * PApplet.cos( PApplet.radians(i) ); 
 						float y = j * PApplet.sin( PApplet.radians(i) ); 
+						if(hunters.get(curHunter).getX() + (int)x < 0 || hunters.get(curHunter).getX() + (int)x >= map.getFullMap().width
+								||hunters.get(curHunter).getY() + (int)y < 0 ||hunters.get(curHunter).getY() + (int)y >= map.getFullMap().height
+								) break;
 						if(collisionMap[hunters.get(curHunter).getX() + (int)x ][hunters.get(curHunter).getY() + (int)y ] == 1){
 							mainApplet.line(hunterX + x, hunterY + y,
 									hunterX + (FieldOfView-1)* PApplet.cos( PApplet.radians(i) ), 
