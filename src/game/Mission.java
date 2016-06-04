@@ -99,7 +99,7 @@ public class Mission {
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use
 																				// ArrayList.size() to get the questions
 		Random rand = new Random();
-		return questions.get(rand.nextInt(getQNum()+1));
+		return questions.get(rand.nextInt(getQNum())+1);
 	}
 	
 }
