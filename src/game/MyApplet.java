@@ -24,6 +24,7 @@ public class MyApplet extends PApplet implements Observer{
 	private Minim minim;
 	private AudioPlayer bgm, click;
 	private int missionScore;
+	private int jewelID;
 	
 	public JSON json;
 	public String jsonString;
@@ -133,7 +134,7 @@ public class MyApplet extends PApplet implements Observer{
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
 				if(PApplet.dist(entry.getValue().get(0),entry.getValue().get(1),x,y)<100 && entry.getValue().get(2)==0) {
 					
-					mission.setCountDown(entry.getKey(), mission.COUNTDOWN);
+					jewelID = entry.getKey();	//update the opened jewel ID
 					QuestionPanel qPanel = new QuestionPanel(mission);
 					qPanel.addObserver(this);
 					Main.window.setContentPane(qPanel.getQApplet());
@@ -154,5 +155,13 @@ public class MyApplet extends PApplet implements Observer{
 	
 	public int getMissionScore() {
 		return missionScore;
+	}
+	
+	public void setJewelID(int id) {
+		jewelID = id;
+	}
+	
+	public int getJewelID() {
+		return jewelID;
 	}
 }
