@@ -14,6 +14,8 @@ import server.JSON;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet implements Observer{
+	
+	public final int JEWEL_NOT_OPENED = 0;
 	private Player player;
 	private View view;
 	private Map map;
@@ -65,6 +67,8 @@ public class MyApplet extends PApplet implements Observer{
 		myId = transmission.getMyId();	
 		transmission.setName(name);
 		transmission.sendMessage("ready");
+		
+		jewelID = JEWEL_NOT_OPENED;
 	}
 	
 	public void draw(){
