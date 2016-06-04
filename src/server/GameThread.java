@@ -22,6 +22,7 @@ public class GameThread extends Thread{
 	public int playerNum = 1;
 	public int windowWidth = 800;
 	public int windowHeight = 600;
+	public Mission mission;
 	
 	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
@@ -98,8 +99,8 @@ public class GameThread extends Thread{
 		playersMap.put(0, initPos);
 		playersName.put(0,"jack");
 		huntersMap.put(0, initPos);
-		initPos.add(0);
-		jewelsMap.put(0, initPos);		
+		mission = new Mission();
+		jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 		jsonString = json.encode(time, gameStatus, playersMap, playersName, huntersMap, jewelsMap);
 	}
 	
