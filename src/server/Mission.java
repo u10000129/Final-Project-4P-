@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -43,7 +44,7 @@ public class Mission {
 		}
 		
 		//get jewels & jewel number
-		isSet = new Boolean[jewels.size()];
+		isSet = new Boolean[jewels.size()+5];
 		Arrays.fill(isSet, false);
 			
 		//print jewel number
@@ -89,4 +90,7 @@ public class Mission {
 		return jewels;
 	}
 	
+	public void setJewelsMap(HashMap<Integer, List<Integer>> jewelsMap) {
+		jewels = (java.util.Map<Integer, List<Integer>>) jewelsMap;
+	}
 }

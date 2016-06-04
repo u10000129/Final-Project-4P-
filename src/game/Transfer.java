@@ -39,6 +39,7 @@ public class Transfer {
 				jw.setInt("id", jewel.getKey());
 				jw.setInt("x", jewel.getValue().get(0));
 				jw.setInt("y", jewel.getValue().get(1));
+				jw.setInt("time", jewel.getValue().get(2));
 				
 				jewelArray.setJSONObject(jewel.getKey(), jw);
 			}
@@ -137,11 +138,12 @@ public java.util.Map<Integer, String> getPlayersName() {
 		JSONArray jewelArray = json.getJSONArray("jewels");
 		
 		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
-		for(int i=0;i<jewelArray.size();i++) {
+		for(int i=1;i<jewelArray.size();i++) {
 			JSONObject jewelObject = jewelArray.getJSONObject(i);
 			List<Integer> list = new ArrayList<Integer>();
 			list.add(jewelObject.getInt("x"));
 			list.add(jewelObject.getInt("y"));
+			list.add(jewelObject.getInt("time"));
 			
 			jewels.put(jewelObject.getInt("id"), list);
 		}
