@@ -18,7 +18,7 @@ public class View {
 	private final int diameter = 40;
 	private int FieldOfView = 250;
 	private final int CrossLineLenght = 5;
-	private PApplet mainapplet;
+	private MyApplet mainapplet;
 	private Player player;
 	private Map map;
 	private PImage mapImage;
@@ -36,7 +36,7 @@ public class View {
 	
 	public Ani ani;
 
-	public View (PApplet mainapplet, Map map, Player player, Transmission transmission) {
+	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
@@ -102,7 +102,7 @@ public class View {
 	public void display(){	
 		
 		if(FieldOfView < 450)
-			FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
+			//FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
 		
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
@@ -247,9 +247,10 @@ public class View {
 						mainapplet.noStroke();
 						mainapplet.fill(0);
 						mainapplet.ellipse(playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1) - player.getY(), diameter, diameter);
+						mainapplet.fill(255);
 						mainapplet.textSize(32);
 						mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
-						mainapplet.text("H", playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1));
+						mainapplet.text("H", playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1) - player.getY() - 5);
 					}					
 				} 				
 			}					
