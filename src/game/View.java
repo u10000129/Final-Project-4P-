@@ -50,10 +50,10 @@ public class View {
 	}
 	
 	private int transformY(int y) {
-		return y * MyApplet.height / map.getImageHeight();
+		return y * (MyApplet.height-50) / map.getImageHeight();
 	}
 	
-	private int[] boundsDetet(int x, int y){
+	public int[] boundsDetet(int x, int y){
 		int returnX, returnY;
 		Bounds hBound = map.horizontalWall(x, y);
 		Bounds vBound = map.verticalWall(x, y);
@@ -117,7 +117,7 @@ public class View {
 			/*
 			 * Draw full map.
 			 */
-			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height);	
+			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height-50);	
 			/*
 			 * Draw my player in full map.
 			 */
