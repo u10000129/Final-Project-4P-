@@ -1,17 +1,13 @@
 package game;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
+
 
 public class View {
 	private int radius = 0;
@@ -102,7 +98,7 @@ public class View {
 	public void display(){	
 		
 		if(FieldOfView < 450)
-			//FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
+			FieldOfView = ( mainapplet.getMissionScore()%3 )*50 +250;
 		
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
