@@ -104,7 +104,7 @@ public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
 		JSONArray jewelArray = json.getJSONArray("jewels");
 		
 		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
-		for(int i=0;i<jewelArray.size();i++) {
+		for(int i=1;i<jewelArray.size();i++) {
 			JSONObject jewelObject = jewelArray.getJSONObject(i);
 			List<Integer> list = new ArrayList<Integer>();
 			list.add(jewelObject.getInt("x"));

@@ -22,6 +22,7 @@ public class GameThread extends Thread{
 	public int playerNum = 1;
 	public int windowWidth = 800;
 	public int windowHeight = 600;
+	public Mission mission;
 	
 	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
@@ -36,6 +37,7 @@ public class GameThread extends Thread{
 		
 		hunter = new Hunter[hunterNum];
 		hunters = new ArrayList<Hunter>();
+		mission = new Mission();
 		
 		MyApplet myApplet = new MyApplet(hunter, hunters, hunterNum);
 		myApplet.init();
@@ -76,8 +78,10 @@ public class GameThread extends Thread{
 			transmission.broadcast(jsonString);
 		
 		
-			setPlayerMapAndName();			
+			setPlayerMapAndNameAndJewel();	
+			mission.setJewelsMap(jewelsMap);
 			setHunterMap();
+			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 			try {
 				sleep(3);
 			} catch (InterruptedException e) {
@@ -98,8 +102,8 @@ public class GameThread extends Thread{
 		playersMap.put(0, initPos);
 		playersName.put(0,"jack");
 		huntersMap.put(0, initPos);
-		initPos.add(0);
-		jewelsMap.put(0, initPos);		
+		
+		jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 		jsonString = json.encode(time, gameStatus, playersMap, playersName, huntersMap, jewelsMap);
 	}
 	
@@ -117,7 +121,7 @@ public class GameThread extends Thread{
 			}
 		}		
 	}
-	public void setPlayerMapAndName() {
+	public void setPlayerMapAndNameAndJewel() {
 		for(int i=0; i<playerNum ;i++) {
 			ArrayList<Integer> position = new ArrayList<Integer>(2);
 			String name;
@@ -127,6 +131,7 @@ public class GameThread extends Thread{
 			playersMap.put(i, position);
 			name = json.getName();
 			playersName.put(i, name);
+			jewelsMap = (HashMap<Integer, List<Integer>>) json.getJewel();
 						
 		}
 	}

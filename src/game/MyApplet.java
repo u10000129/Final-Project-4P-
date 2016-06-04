@@ -53,7 +53,7 @@ public class MyApplet extends PApplet implements Observer{
 		missionScore = 0;
 		mission = new Mission();
 		player = new Player(this, map, minim);
-		view = new View(this, map, player, transmission);
+		view = new View(this, map, player, transmission, mission);
 		smooth();
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
@@ -73,8 +73,8 @@ public class MyApplet extends PApplet implements Observer{
 			background(255);				
 			view.display();
 		
-			transmission.getJewel();
-			//mission.setLocation(transmission.getJewel());
+			//transmission.getJewel();
+			mission.setLocation(transmission.getJewel());
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
 			transmission.setJewel(mission.getLocation());
