@@ -48,7 +48,7 @@ public class Control implements Runnable{
 		for(int i=0; i<=radius; i++) {
 			if(this.map.inside((int)(i*cos[index])+
 	                hunters.get(index).getX(), (int)(i*sin[index])
-                    +hunters.get(index).getY())==false) break;
+                    +hunters.get(index).getY())==false) return false;
 			if(collisionMap[(int)(i*cos[index])+
 			                hunters.get(index).getX()][(int)(i*sin[index])
 			                                   +hunters.get(index).getY()]>0) return false;
