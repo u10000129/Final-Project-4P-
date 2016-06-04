@@ -12,15 +12,16 @@ import java.util.List;
 import java.util.Random;
 
 public class Mission {
+	public final int COUNTDOWN = 600;
 	private int pointNum; 
 	private int qNum  = 10;
 	private java.util.Map<Integer, ArrayList<String>> questions;
-	private java.util.Map<Integer, List<Integer>> location;
+	private java.util.HashMap<Integer, List<Integer>> location;
 	
 	
 	public Mission() {
 		// load point.txt
-		location = new java.util.TreeMap<Integer, List<Integer>>();
+		location = new java.util.HashMap<Integer, List<Integer>>();
 		BufferedReader reader;
 		String line;
 		pointNum = 0;
@@ -86,14 +87,18 @@ public class Mission {
 		return qNum;
 	}
 	
+	public void setLocation(java.util.HashMap<Integer, List<Integer>> map) {
+		this.location = map;
+	}
+	
+	public java.util.HashMap<Integer, List<Integer>> getLocation() {
+		return location;
+	}
+	
 	public void setCountDown(int id, int t) {
 		List<Integer> list =location.get(id);
 		list.set(2, t);
 		//location.put(id, list);		
-	}
-	
-	public java.util.Map<Integer, List<Integer>> getLocation() {
-		return location;
 	}
 	
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use

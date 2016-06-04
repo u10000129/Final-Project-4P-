@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
@@ -11,22 +13,24 @@ import ddf.minim.*;
 import server.JSON;
 
 @SuppressWarnings("serial")
-public class MyApplet extends PApplet{
+public class MyApplet extends PApplet implements Observer{
 	private Player player;
 	private View view;
 	private Map map;
 	private Transmission transmission;
+	private Mission mission;
 	public final static double speed = 0.004;
 	public final static int width = 800, height = 600;
 	private Minim minim;
 	private AudioPlayer bgm, click;
+	private int missionScore;
 	
 	public JSON json;
 	public String jsonString;
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, String> playersName;
 	public HashMap<Integer, List<Integer>> huntersMap;
-	public HashMap<Integer, List<Integer>> jewelsMap;
+	//public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus;
 	public long time = 0;
 	private String name;
@@ -46,6 +50,8 @@ public class MyApplet extends PApplet{
 		Ani.init(this);
 		map = new Map(this);
 		minim = new Minim(this);
+		missionScore = 0;
+		mission = new Mission();
 		player = new Player(this, map, minim);
 		view = new View(this, map, player, transmission);
 		smooth();
@@ -67,10 +73,11 @@ public class MyApplet extends PApplet{
 			background(255);				
 			view.display();
 		
-			jewelsMap = transmission.getJewel();
+			transmission.getJewel();
+			//mission.setLocation(transmission.getJewel());
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
-			transmission.setJewel(jewelsMap);
+			transmission.setJewel(mission.getLocation());
 					
 			//-----------------------------------------
 			playersName = transmission.getPlayersName();
@@ -119,18 +126,38 @@ public class MyApplet extends PApplet{
 		
 	}
 	
-	/*
+	
 	public void keyPressed() {
 		if(key == ' ') {
 			int x = player.getX();
 			int y = player.getY();
 			java.util.Map<Integer, List<Integer>> locations = mission.getLocation();
+			
+			
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
 				if(PApplet.dist(entry.getValue().get(0), entry.getValue().get(1), x, y) < 100) {
 					
+					System.out.println("Space Pressed");
+					mission.setCountDown(entry.getKey(), mission.COUNTDOWN);
+					QuestionPanel qPanel = new QuestionPanel();
+					qPanel.addObserver(this);
+					Main.window.setContentPane(qPanel.getQApplet());
 				}
 			}
 		}
 	}
-	*/
+	
+	public void update(Observable obs, Object o) {
+		if(obs.getClass() == QuestionPanel.class) {
+			
+			if((Boolean) o == true) {
+				missionScore++;
+			}
+			Main.window.setContentPane(this);
+		}
+	}
+	
+	public int getMissionScore() {
+		return missionScore;
+	}
 }

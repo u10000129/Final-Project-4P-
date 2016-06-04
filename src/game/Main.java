@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class Main extends JFrame implements Observer{
 	
 	public final static int windowWidth = 800, windowHeight = 600;
-	private static JFrame window;
+	public static JFrame window;
 	private String name;
 	
 	public Main() {
