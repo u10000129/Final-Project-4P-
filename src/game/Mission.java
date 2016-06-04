@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Mission {
-	public final int COUNTDOWN = 600;
-	private int pointNum; 
-	private int qNum  = 10;
+	public final int COUNTDOWN = 600; 
 	private java.util.Map<Integer, ArrayList<String>> questions;
 	private java.util.HashMap<Integer, List<Integer>> location;
 	
@@ -24,7 +22,6 @@ public class Mission {
 		location = new java.util.HashMap<Integer, List<Integer>>();
 		BufferedReader reader;
 		String line;
-		pointNum = 0;
 		
 		System.out.println("reading mission points");
 		try {									
@@ -36,7 +33,6 @@ public class Mission {
 				list.add(Integer.parseInt(data[2]));
 				list.add(0);	//time
 				location.put(Integer.parseInt(data[0]), list);
-				pointNum++;
 			}
 			reader.close();
 		}
@@ -65,7 +61,6 @@ public class Mission {
 				}
 				list.add(line.split(" ")[1]);
 				questions.put(id, list);
-				qNum++;
 				
 			}
 			reader.close();
@@ -80,11 +75,11 @@ public class Mission {
 	}
 	
 	public int getPointNum() {
-		return pointNum;
+		return location.size();
 	}
 	
 	public int getQNum() {
-		return qNum;
+		return questions.size();
 	}
 	
 	public void setLocation(java.util.HashMap<Integer, List<Integer>> map) {
@@ -104,7 +99,7 @@ public class Mission {
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use
 																				// ArrayList.size() to get the questions
 		Random rand = new Random();
-		return questions.get(rand.nextInt(qNum));
+		return questions.get(rand.nextInt(getQNum()+1));
 	}
 	
 }

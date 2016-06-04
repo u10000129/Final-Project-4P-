@@ -137,9 +137,8 @@ public class MyApplet extends PApplet implements Observer{
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
 				if(PApplet.dist(entry.getValue().get(0), entry.getValue().get(1), x, y) < 100) {
 					
-					System.out.println("Space Pressed");
 					mission.setCountDown(entry.getKey(), mission.COUNTDOWN);
-					QuestionPanel qPanel = new QuestionPanel();
+					QuestionPanel qPanel = new QuestionPanel(mission);
 					qPanel.addObserver(this);
 					Main.window.setContentPane(qPanel.getQApplet());
 				}

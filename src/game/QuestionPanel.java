@@ -16,7 +16,6 @@ public class QuestionPanel extends Observable{
 	public static final int btnHeight =50;
 	public static final int btnGap = 30;
 	
-	private Mission mission;
 	private QuestionApplet qApplet;
 	private ArrayList<String> qandA;
 	
@@ -40,30 +39,34 @@ public class QuestionPanel extends Observable{
 			cp5 = new ControlP5(this);
 			
 			//create radio buttons for choices
-			r = cp5.addRadioButton("radioButton")
+			r = cp5.addRadioButton("")
 			         .setPosition(20,160)
 			         .setSize(40,20)
 			         .setColorForeground(color(120))
 			         .setColorActive(color(255))
 			         .setColorLabel(color(255))
-			         .setItemsPerRow(5)
-			         .setSpacingColumn(50)
+			         .setItemsPerRow(1)
+			         .setSpacingColumn(50);
+			         /*
 			         .addItem("50",1)
 			         .addItem("100",2)
 			         .addItem("150",3)
 			         .addItem("200",4)
 			         .addItem("250",5);
-			
+					*/
+			for(int i=1;i<qandA.size();i++)
+				r.addItem(qandA.get(i), i);
 			
 			//create confirm button
 			
 			confirm = cp5.addButton("buttonConfirm")
 								.setLabel("確定")
 								.setPosition(Main.windowWidth/2, Main.windowHeight*2/3)
-								.setSize(btnWidth, btnHeight);
+								.setSize(btnWidth, btnHeight)
+								.setColorLabel(color(255,255,255));
 			
 			
-			confirm.setColor(new CColor(color(49,236,111),
+			confirm.setColor(new CColor(color(255,255,255),
 									  	color(49,236,111),
 									  	color(23,160,94),
 									  	color(255,255,255),
@@ -104,12 +107,10 @@ public class QuestionPanel extends Observable{
 	}
 	
 	
-	public QuestionPanel() {
+	public QuestionPanel(Mission m) {
 		
-		mission = new Mission();
+		qandA = m.getQuestion();
 		qApplet = new QuestionApplet();
-		qandA = mission.getQuestion();
-		mission = null;		//free the memory
 		
 		qApplet.init();
 		
