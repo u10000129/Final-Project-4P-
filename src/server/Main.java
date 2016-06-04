@@ -89,7 +89,7 @@ public class Main extends JFrame{
 			for (ConnectionThread connection: connections) {
 				connection.sendMessage(message);
 			}
-			//System.out.println("host broadcast: "+message);			
+			System.out.println("host broadcast: "+message);			
 		}
 		
 		public String receiveMessage(int clientNum) {

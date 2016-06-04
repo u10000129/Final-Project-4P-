@@ -78,8 +78,7 @@ public class GameThread extends Thread{
 			transmission.broadcast(jsonString);
 		
 		
-			setPlayerMapAndNameAndJewel();	
-			//mission.setJewelsMap(jewelsMap);
+			setPlayerMapAndNameAndJewel();				
 			setHunterMap();
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 			try {

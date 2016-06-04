@@ -79,10 +79,10 @@ public class MyApplet extends PApplet implements Observer{
 			view.display();
 		
 			//transmission.getJewel();
-			mission.setLocation(transmission.getJewel());
+			transmission.setJewelId(jewelID);
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
-			transmission.setJewel(mission.getLocation());
+			mission.setLocation(transmission.getJewel());
 						
 			
 		}	else {
