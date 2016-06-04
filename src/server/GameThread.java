@@ -98,6 +98,7 @@ public class GameThread extends Thread{
 		playersMap.put(0, initPos);
 		playersName.put(0,"jack");
 		huntersMap.put(0, initPos);
+		initPos.add(0);
 		jewelsMap.put(0, initPos);		
 		jsonString = json.encode(time, gameStatus, playersMap, playersName, huntersMap, jewelsMap);
 	}
