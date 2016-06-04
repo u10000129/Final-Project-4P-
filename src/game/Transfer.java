@@ -50,6 +50,7 @@ public class Transfer {
 		obj.setJSONArray("jewels", jewelArray);
 		
 		//hunter array
+		/*
 		JSONArray hunterArray = new JSONArray();
 		for(Entry<Integer, List<Integer>> hunter : hunters.entrySet()) {
 			JSONObject ht = new JSONObject();
@@ -67,6 +68,7 @@ public class Transfer {
 			}
 		}
 		obj.setJSONArray("hunters", hunterArray);
+		*/
 		return obj.toString().replace("\n", "");
 	}
 	
