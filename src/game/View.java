@@ -28,6 +28,7 @@ public class View {
 	private HashMap<Integer, List<Integer>> playersMap;
 	private HashMap<Integer, List<Integer>> huntersMap;
 	private HashMap<Integer, String> playersName;	
+	public HashMap<Integer, Integer> playersLife;
 	private long time = 0;
 	
 	private Ani missionCircleAni;
@@ -113,7 +114,8 @@ public class View {
 		}
 	}
 	
-	public void display(){			
+	public void display(){		
+		
 		/**
 		 *  Is dead.
 		 */
@@ -122,6 +124,7 @@ public class View {
 			playersMap = transmission.getPlayers();
 			huntersMap = transmission.gethunters();	
 			playersName = transmission.getPlayersName();
+			playersLife = transmission.getPlayersLife();
 			if(mainapplet.keyPressed && mainapplet.key == '\t') { //Display full map.
 				/*
 				 * Draw full map.
@@ -136,6 +139,11 @@ public class View {
 				mainapplet.textSize(8);
 				mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 				mainapplet.text(playersName.get(transmission.getMyId()), transformX(player.getGhostX())+diameter/4/2, transformY(player.getGhostY())-diameter/4/2);
+				mainapplet.ellipse(20, 100+ 15*transmission.getMyId(), diameter/4, diameter/4);
+				mainapplet.textSize(12);
+				mainapplet.text(playersName.get(transmission.getMyId()), 30, 100+ 15*transmission.getMyId());
+				mainapplet.line(20, 100 + 15*transmission.getMyId(), 20 + 10 + mainapplet.textWidth(playersName.get(transmission.getMyId())), 100 + 15*transmission.getMyId());
+
 				mainapplet.noFill();
 				mainapplet.ellipse(transformX(player.getGhostX()), transformY(player.getGhostY()), playerCircle/2, playerCircle/2);
 				if(!playerCircleAni.isPlaying()){
@@ -180,6 +188,11 @@ public class View {
 					mainapplet.textSize(8);
 					mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 					mainapplet.text(playersName.get(i), trsX+diameter/4/2, trsY-diameter/4/2);
+					
+					mainapplet.ellipse(20, 100 + 15*i, diameter/4, diameter/4);
+					mainapplet.textSize(12);
+					mainapplet.text(playersName.get(i), 30, 100+ 15*i);
+					if(playersLife.get(i) == 0) mainapplet.line(20, 100 + 15*i, 20 + 10 + mainapplet.textWidth(playersName.get(i)), 100 + 15*i);
 				}
 				
 			} else { // Display local map.
@@ -278,6 +291,7 @@ public class View {
 			playersMap = transmission.getPlayers();
 			huntersMap = transmission.gethunters();	
 			playersName = transmission.getPlayersName();
+			playersLife = transmission.getPlayersLife();
 			/*
 			 * If user press TAB, display full map, or display local map.
 			 */
@@ -295,6 +309,9 @@ public class View {
 				mainapplet.textSize(8);
 				mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 				mainapplet.text(playersName.get(transmission.getMyId()), transformX(player.getX())+diameter/4/2, transformY(player.getY())-diameter/4/2);
+				mainapplet.ellipse(20, 100+ 15*transmission.getMyId(), diameter/4, diameter/4);
+				mainapplet.textSize(12);
+				mainapplet.text(playersName.get(transmission.getMyId()), 30, 100+ 15*transmission.getMyId());
 				mainapplet.noFill();
 				mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), playerCircle/2, playerCircle/2);
 				if(!playerCircleAni.isPlaying()){
@@ -345,6 +362,11 @@ public class View {
 					mainapplet.textSize(8);
 					mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
 					mainapplet.text(playersName.get(i), trsX+diameter/4/2, trsY-diameter/4/2);
+					mainapplet.ellipse(20, 100 + 15*i, diameter/4, diameter/4);
+					mainapplet.textSize(12);
+					mainapplet.text(playersName.get(i), 30, 100+ 15*i);
+					if(playersLife.get(i) == 0) mainapplet.line(20, 100 + 15*i, 20 + 10 + mainapplet.textWidth("playersName.get(i)"), 100 + 15*i);
+				
 				}
 				
 			} else { // Display local map.
@@ -507,18 +529,7 @@ public class View {
 				shadowImage.endDraw();	
 				mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
 			}
-			/*
-			 * Display Time
-			 */		
-			time = transmission.getTime();
-			
-			mainapplet.fill(0);
-			mainapplet.textSize(20);
-			mainapplet.textAlign(MyApplet.RIGHT, MyApplet.CENTER);
-			if(FieldOfView < 450)
-				mainapplet.text("Time: " + (int)time + "    FieldOfView: " + this.FieldOfView, 780, 25);
-			else
-				mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 25);		
+					
 		
 		}
 		
@@ -526,12 +537,15 @@ public class View {
 		/*
 		 * Display Time and Score
 		 */		
+		/*
+		 * Display Time and Score
+		 */		
 		time = transmission.getTime();		
-		mainapplet.fill(100);
-		mainapplet.textSize(10);
+		mainapplet.fill(0, 255, 0);
+		mainapplet.textSize(15);
 		mainapplet.textAlign(MyApplet.LEFT, MyApplet.BOTTOM);
 		mainapplet.text("t", 40, 40);
-		mainapplet.textSize(20);
+		mainapplet.textSize(30);
 		mainapplet.textAlign(MyApplet.RIGHT, MyApplet.BOTTOM);
 		mainapplet.text(mainapplet.getMissionScore() + "P", 40, 40);		
 		if(FieldOfView < 450)
