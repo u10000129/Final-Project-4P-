@@ -37,7 +37,7 @@ public class MyApplet extends PApplet implements Observer{
 	public HashMap<Integer, Integer> playersLife;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	//public HashMap<Integer, List<Integer>> jewelsMap;
-	public boolean gameStatus;
+	public int gameStatus = 0;
 	public long time = 0;
 	private String name;
 	public int lifeStatus = 1;	
@@ -85,7 +85,7 @@ public class MyApplet extends PApplet implements Observer{
 		}
 		
 		gameStatus = transmission.getGameStatus();
-		if(gameStatus) {
+		if(gameStatus == 1) {
 			background(255);				
 			view.display();
 				
@@ -97,7 +97,7 @@ public class MyApplet extends PApplet implements Observer{
 			transmission.setSpeed(speed);
 						
 			
-		}	else {
+		}	else if(gameStatus == 0){
 
 			background(221, 79, 67);
 			fill(0);

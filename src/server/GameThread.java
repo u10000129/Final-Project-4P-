@@ -19,7 +19,7 @@ public class GameThread extends Thread{
 	public HashMap<Integer, Double> playersSpeed = null;
 	public HashMap<Integer, List<Integer>> huntersMap = null;	
 	public HashMap<Integer, List<Integer>> jewelsMap = null;
-	public boolean gameStatus = false;
+	public int gameStatus = 0;
 	public long time = 0;
 	public int playerNum = 1;
 	public int windowWidth = 800;
@@ -74,7 +74,7 @@ public class GameThread extends Thread{
 			System.out.println("received confirm msg");
 		}
 		
-		gameStatus = true;
+		gameStatus = 1;
 		addTime timer = new addTime();		
 		timer.start();
 		while(true) {

@@ -43,9 +43,9 @@ public class Transfer {
 		json = JSONObject.parse(str);
 	}
 	
-	public Boolean getGameStatus() {
+	public int getGameStatus() {
 		
-		return json.getBoolean("status");
+		return json.getInt("status");
 	}
 	
 	public Long getTime() {
