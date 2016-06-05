@@ -15,6 +15,8 @@ public class Player extends Character{
 	int moveX, moveY;	//these are for collision detection
 	int[][] collisionMap;
 	
+	private int ghostX, ghostY;
+	
 	Player(MyApplet parent, Map map, Minim minim){
 		this.parent = parent;
 		this.map = map;
@@ -130,6 +132,27 @@ public class Player extends Character{
 		    
 		}
 			}
+	}
+	
+	public void stopAni(){
+		Ani.killAll();
+	}
+	public void ghostMove(int moveX, int moveY){
+		this.moveX = moveX;
+		this.moveY = moveY;
+		float distance = PApplet.dist(this.ghostX, this.ghostY, moveX, moveY);
+		aniX = Ani.to(this, (float)(speed*distance), "ghostX", moveX, Ani.LINEAR);
+		aniY = Ani.to(this, (float)(speed*distance), "ghostY", moveY, Ani.LINEAR);
+	}
+	public void setGhostPosition(int x, int y){
+		this.ghostX = x;
+		this.ghostY = y;		
+	}
+	public int getGhostX() {
+		return ghostX;
+	}
+	public int getGhostY() {
+		return ghostY;
 	}
 }
 
