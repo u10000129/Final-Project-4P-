@@ -98,11 +98,13 @@ public class Control implements Runnable{
 					float y = j * PApplet.sin((float)angle);
 					if(this.collisionMap[(int)(hunter.x+x)][(int)(hunter.y+y)]==1) continue;
 					hunters.get(index).setHuntState(true);
+					hunters.get(index).speedy();
 					return i;
 				}
 			}
 		}
 		hunters.get(index).setHuntState(false);
+		hunters.get(index).speedy();
 		return -1;
 	}
 	
