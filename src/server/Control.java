@@ -5,6 +5,7 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.awt.Point;
 
 public class Control implements Runnable{
 	private Random ran;
@@ -54,9 +55,8 @@ public class Control implements Runnable{
 	
 	private boolean judge_path(int index) {
 		for(int i=0; i<=radius; i++) {
-			if(this.map.inside((int)(i*cos[index])+
-	                hunters.get(index).getX(), (int)(i*sin[index])
-                    +hunters.get(index).getY())==false) return false;
+			if(this.map.inside((int)(i*cos[index])+hunters.get(index).getX(), 
+					(int)(i*sin[index])+hunters.get(index).getY())==false) return false;
 			if(collisionMap[(int)(i*cos[index])+
 			                hunters.get(index).getX()][(int)(i*sin[index])
 			                                   +hunters.get(index).getY()]>0) return false;
@@ -64,14 +64,25 @@ public class Control implements Runnable{
 		return true;
 	}
 	
+	private float getAngle(Point hunter, Point player) {
+		float angle = (float) Math.toDegrees(Math.atan2(hunter.y-player.y, hunter.x-player.x));
+		
+		if(angle<0) {
+			angle+=360;
+		}
+		
+		return angle;
+	}
+	
 	private int hunting_start(int index){
-		/*for(int i=0; i<this.playersMap.size(); i++) {
+		for(int i=0; i<this.playersMap.size(); i++) {
 			/* judge whether player is inside hunter's sight */
-			/*if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
+			if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
 					,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1))<=this.view.FieldOfView) {
 				/* judge whether player is reachable */
-			/*}
-		}*/
+				
+			}
+		}
 		return -1;
 	}
 	
