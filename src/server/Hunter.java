@@ -7,7 +7,7 @@ import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 
 public class Hunter extends Character{
-	public static final double speed = 0.003;
+	public double speed = 0.007;
 	private Map map;
 	Ani aniX;
 	Ani aniY;
@@ -46,6 +46,11 @@ public class Hunter extends Character{
 		float distance = PApplet.dist(this.curX, this.curY, moveX, moveY);
 		aniX = Ani.to(this, (float)(speed*distance), "curX", moveX, Ani.LINEAR);
 		aniY = Ani.to(this, (float)(speed*distance), "curY", moveY, Ani.LINEAR);
+	}
+	
+	public void speedy(){
+		if(speed==0.007) speed = 0.005;
+		else if(speed==0.005) speed = 0.007;
 	}
 	
 	public void collisionDetect() {				

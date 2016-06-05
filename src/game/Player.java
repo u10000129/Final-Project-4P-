@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import ddf.minim.*;
 
 public class Player extends Character{
-	public final static double speed = 0.004;
+	public final static double speed = 0.006;
 	private MyApplet parent;
 	private Map map;
 	private Minim minim;
