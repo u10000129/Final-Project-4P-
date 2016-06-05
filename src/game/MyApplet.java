@@ -124,12 +124,6 @@ public class MyApplet extends PApplet implements Observer{
 			time = transmission.getTime();
 			text("Your Time : "+time+" s", 450, 450);
 		}
-		
-		
-			textSize(20);
-			for(int i = 0;i<playersLife.size() && i<playersName.size();i++) {
-				text(playersName.get(i)+" : "+ playersLife.get(i), 700, 100+i*20);
-			}
 		 
 	}
 	
