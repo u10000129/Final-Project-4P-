@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class View {
 	private final int diameter = 40;
-	private final int FieldOfView = 250;
+	public final int FieldOfView = 400;
 	private Map map;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
@@ -15,6 +15,8 @@ public class View {
 	private PApplet mainApplet;
 	private PImage mapImage;
 	private int hunterX, hunterY;
+	private int[][][] hunterSightMap;
+	//private boolean unLookableFlag;
 	
 	public View(PApplet pApplet, Map map, ArrayList<Hunter> hunters, int hunterNum){
 		this.mainApplet = pApplet;
@@ -32,6 +34,10 @@ public class View {
 	private int transformY(int y) {
 		return y * MyApplet.height / map.getImageHeight();
 	}
+	
+	/*public int[][] getHunterSightMap(int index){
+		return this.hunterSightMap[index];
+ 	}*/
 	
 	public void display(){
 		/* change hunter */
@@ -54,7 +60,7 @@ public class View {
 			mapImage = map.getSubMap(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
 			mainApplet.image(mapImage, 0, 0, 800, 600);
 			
-			/* draw player */
+			/* draw hunters */
 			Bounds hBound = map.horizontalWall(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
 			Bounds vBound = map.verticalWall(hunters.get(curHunter).getX(), hunters.get(curHunter).getY());
 			/* HorizonBound detect */
@@ -78,13 +84,14 @@ public class View {
 				hunterY = MyApplet.height / 2;
 			}
 			hunters.get(curHunter).collisionDetect();
+			hunters.get(curHunter).huntingDetect();
 			mainApplet.fill(125, 255);
 			mainApplet.noStroke(); 
 			mainApplet.ellipse(hunterX, hunterY, diameter, diameter);
 			
 			//Draw a circle field of view. 
-			
-			int[][] collisionMap = map.getCollisionMap();
+			/* not useful for hunter */
+			/*int[][] collisionMap = map.getCollisionMap();
 			mainApplet.fill(0, 0, 0, 128);
 			for(int i = 0; i <= MyApplet.width; i++ ){
 				for(int j = 0; j <= MyApplet.height; j++ ){
@@ -97,6 +104,7 @@ public class View {
 				}
 				mainApplet.stroke(0, 0, 0, 128);
 				mainApplet.strokeWeight(5);
+				for(int i=0; i<hunters.size(); i++) this.hunterSightMap[i] = collisionMap;
 				for(float i = 0; i < 360; i++) {
 					for(float j = 0; j < FieldOfView ; j++ ){
 						float x = j * PApplet.cos( PApplet.radians(i) ); 
@@ -107,12 +115,12 @@ public class View {
 						if(collisionMap[hunters.get(curHunter).getX() + (int)x ][hunters.get(curHunter).getY() + (int)y ] == 1){
 							mainApplet.line(hunterX + x, hunterY + y,
 									hunterX + (FieldOfView-1)* PApplet.cos( PApplet.radians(i) ), 
-									hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) )
-							);	
+									hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) ));	
 							break;
-						}				
+						}
 					}		
-				}
+				}*/
+				
 		}
 		
 	}

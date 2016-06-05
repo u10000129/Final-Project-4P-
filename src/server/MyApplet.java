@@ -5,6 +5,8 @@ import de.looksgood.ani.Ani;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class MyApplet extends PApplet{
@@ -42,7 +44,7 @@ public class MyApplet extends PApplet{
 		view = new View(this, map, hunters, hunterNum);
 		
 		Ani.init(this);
-		control = new Control(map, hunters, hunterNum);
+		control = new Control(map, hunters, hunterNum, view);
 		control.start();
 		smooth();
 	}
@@ -50,5 +52,11 @@ public class MyApplet extends PApplet{
 	public void draw() {
 		background(255);
 		view.display();
+	}
+	
+	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
+		this.control.setPlayersMap(playersMap);
+		for(int i=0; i<this.hunterNum; i++) 
+			this.hunters.get(i).setPlayersMap(playersMap);
 	}
 }
