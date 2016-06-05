@@ -77,8 +77,15 @@ public class MyApplet extends PApplet implements Observer{
 	
 	public void draw(){
 		if(mousePressed && !isAnswering){
-			int[] move = this.boundsDetet(mouseX, mouseY);
-			player.move(move[0], move[1]);	
+			if(lifeStatus == 0) {
+				int[] move = this.boundsDetet(mouseX, mouseY, player.getGhostX(), player.getGhostY());
+				player.ghostMove(move[0], move[1]);	
+				
+			} else {
+				int[] move = this.boundsDetet(mouseX, mouseY, player.getX(), player.getY());
+				player.move(move[0], move[1]);	
+			}			
+			
 		}
 		if(mission.checkMissionSet(jewelID)) {
 			setJewelID(JEWEL_NOT_OPENED);
@@ -107,6 +114,7 @@ public class MyApplet extends PApplet implements Observer{
 	}
 	
 	public void mousePressed(){
+		if(lifeStatus == 0) return;
 		/* Play sound */
 		click.rewind();
 		click.play();	
@@ -115,6 +123,7 @@ public class MyApplet extends PApplet implements Observer{
 	
 	
 	public void keyPressed() {
+		if(lifeStatus == 0) return;
 		if(key == ' ') {
 			int x = player.getX();
 			int y = player.getY();
@@ -162,10 +171,10 @@ public class MyApplet extends PApplet implements Observer{
 		return jewelID;
 	}
 	
-	private int[] boundsDetet(int x, int y){
+	private int[] boundsDetet(int x, int y, int fx, int fy){
 		int returnX, returnY;
-		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
-		Bounds vBound = map.verticalWall(player.getX(), player.getY());
+		Bounds hBound = map.horizontalWall(fx, fy);
+		Bounds vBound = map.verticalWall(fx, fy);
 		//HorizonBound detect
 		if(hBound == Bounds.LEFT){ // At Left bounds.
 			returnX = x;
@@ -174,7 +183,7 @@ public class MyApplet extends PApplet implements Observer{
 			returnX = map.getFullMap().width - MyApplet.width +  x;
 		}
 		else {
-			returnX = player.getX() + x - MyApplet.width/2 ;
+			returnX = fx + x - MyApplet.width/2 ;
 		}
 		
 		//verticalBound detect
@@ -185,8 +194,15 @@ public class MyApplet extends PApplet implements Observer{
 			returnY = map.getFullMap().height - MyApplet.height + y;
 		}
 		else {
-			returnY = player.getY()+ y - MyApplet.height/2;	
+			returnY = fy + y - MyApplet.height/2;	
 		}
 		return  new int[] {returnX, returnY}; 
+	}
+	
+	public void setLifeStatus (int life){
+		this.lifeStatus = life;
+	}
+	public int getLifeStatus (){
+		return this.lifeStatus;
 	}
 }
