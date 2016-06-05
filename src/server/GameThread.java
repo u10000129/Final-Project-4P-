@@ -87,6 +87,7 @@ public class GameThread extends Thread{
 
 			setPlayerMapAndNameAndJewel();				
 			myApplet.setPlayersMap(playersMap);
+			myApplet.setPlayersLife(playersLife);
 			setHunterMap();
 			for(int i=0;i<playersLife.size();i++) {
 				gameStatus = 2;
