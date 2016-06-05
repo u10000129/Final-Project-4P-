@@ -385,7 +385,8 @@ public class View {
 				mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);
 				mainapplet.textSize(16);
 				mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
-				mainapplet.text(playersName.get(myPlayerId), playerPosition[0]+diameter/2, playerPosition[1]-diameter/2);
+				if(myPlayerId +1 <= playersName.size())
+					mainapplet.text(playersName.get(myPlayerId), playerPosition[0]+diameter/2, playerPosition[1]-diameter/2);
 				mainapplet.noFill();
 				mainapplet.ellipse(playerPosition[0], playerPosition[1], playerCircle, playerCircle);
 				if(!playerCircleAni.isPlaying()){
