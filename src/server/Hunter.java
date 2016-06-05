@@ -15,6 +15,7 @@ public class Hunter extends Character{
 	int[][] collisionMap;
 	View view;
 	HashMap<Integer, List<Integer>> playersMap;
+	boolean isHunting;
 		
 	Hunter(Map map, int x, int y) {
 		this.map = map;
@@ -23,7 +24,8 @@ public class Hunter extends Character{
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = this.map.getCollisionMap();
-		
+		this.playersMap = null;
+		this.isHunting = false;
 	}
 
 	@Override
@@ -58,13 +60,19 @@ public class Hunter extends Character{
 	}
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
-		this.playersMap = playersMap;
+		if(playersMap!=null) this.playersMap = playersMap;
+	}
+	
+	public void setHuntState(boolean flag) {
+		this.isHunting = flag;
 	}
 	
 	public void huntingDetect(){
-		for(int i=0; i<this.playersMap.size(); i++) {
-			if(PApplet.dist(curX, curY, this.playersMap.get(i).get(0), this.playersMap.get(i).get(0))<view.FieldOfView) {
-				Ani.killAll();
+		if(this.playersMap!=null) {
+			for(int i=0; i<this.playersMap.size(); i++) {
+				if(PApplet.dist(curX, curY, this.playersMap.get(i).get(0), this.playersMap.get(i).get(0))<view.FieldOfView) {
+					if(this.isHunting==false) Ani.killAll();
+				}
 			}
 		}
 	}
