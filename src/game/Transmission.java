@@ -22,6 +22,7 @@ public class Transmission {
 	
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, String> playersName;
+	public HashMap<Integer, Integer> playersLife;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus = false;
@@ -31,6 +32,7 @@ public class Transmission {
 	public String name = "abc";
 	public int myId;
 	public int jewelId = 0;
+	public int lifeStatus;
 	
 	public Transfer transfer;
 	public String jsonString;	
@@ -120,7 +122,7 @@ class ClientThread extends Thread {
 		huntersMap = (HashMap<Integer, List<Integer>>) transfer.getHunters();
 		jewelsMap = (HashMap<Integer, List<Integer>>) transfer.getJewel();
 		
-		jsonString = transfer.encode(name, myX, myY, jewelId, huntersMap);
+		jsonString = transfer.encode(name, myX, myY, jewelId, huntersMap, lifeStatus);
 		
 		sendMessage(jsonString);
 		
@@ -158,6 +160,10 @@ class ClientThread extends Thread {
 		return (HashMap<Integer, String>) playersName;
 	}
 	
+	public HashMap<Integer, Integer> getPlayersLife() {		
+		return (HashMap<Integer, Integer>) playersLife;
+	}
+	
 	public HashMap<Integer, List<Integer>> gethunters() {		
 		return (HashMap<Integer, List<Integer>>) transfer.getHunters();
 	}
@@ -181,6 +187,10 @@ class ClientThread extends Thread {
 	
 	public void setName(String name) {
 		this.name = name; 
+	}
+	
+	public void setLifeStatus(int lifeStatus) {
+		this.lifeStatus = lifeStatus;
 	}
 
 	public void sendMessage( String message) {	//this method can be call outside the class

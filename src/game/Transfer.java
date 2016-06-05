@@ -16,7 +16,8 @@ public class Transfer {
 	public String encode(String name,
 										int characterX, int characterY,
 										int jewelId,
-										java.util.Map <Integer, List<Integer>>hunters) {
+										java.util.Map <Integer, List<Integer>>hunters,
+										int lifeStatus) {
 		
 		JSONObject obj = new JSONObject();
 		obj.setLong("time",System.currentTimeMillis());
@@ -27,53 +28,12 @@ public class Transfer {
 		player.setString("name", name);
 		player.setString("characterX", String.valueOf(characterX));
 		player.setString("characterY", String.valueOf(characterY));
+		player.setInt("lifeStatus", lifeStatus);
 		playerArray.setJSONObject(0, player);
 		obj.setJSONArray("players", playerArray);
 		
-		obj.setLong("jewelId",jewelId);
+		obj.setLong("jewelId",jewelId);		
 		
-		// jewel array
-		/*
-		JSONArray jewelArray =  new JSONArray();
-		for(Entry<Integer, List<Integer>> jewel : jewels.entrySet()) {
-			JSONObject jw = new JSONObject();
-			
-			try {
-				jw.setInt("id", jewel.getKey());
-				jw.setInt("x", jewel.getValue().get(0));
-				jw.setInt("y", jewel.getValue().get(1));
-				jw.setInt("time", jewel.getValue().get(2));
-				
-				jewelArray.setJSONObject(jewel.getKey(), jw);
-			}			
-			catch(Exception e) {
-				System.out.println("Error occurred while setting jewelArray");
-				e.printStackTrace();
-			}
-		}
-		obj.setJSONArray("jewels", jewelArray);
-		
-		
-		//hunter array
-		/*
-		JSONArray hunterArray = new JSONArray();
-		for(Entry<Integer, List<Integer>> hunter : hunters.entrySet()) {
-			JSONObject ht = new JSONObject();
-			
-			try {
-				ht.setInt("id", hunter.getKey());
-				ht.setInt("x", hunter.getValue().get(0));
-				ht.setInt("y", hunter.getValue().get(1));
-				
-				hunterArray.setJSONObject(hunter.getKey(), ht);
-			}
-			catch(Exception e) {
-				System.out.println("Error occurred while setting hunterArray");
-				e.printStackTrace();
-			}
-		}
-		obj.setJSONArray("hunters", hunterArray);
-		*/
 		return obj.toString().replace("\n", "");
 	}
 	
@@ -119,6 +79,19 @@ public java.util.Map<Integer, String> getPlayersName() {
 		
 		return players;
 	}
+
+public java.util.Map<Integer, Integer> getPlayersLife() {
+	
+	JSONArray playerArray = json.getJSONArray("players");
+	
+	java.util.Map<Integer, Integer> players = new HashMap<Integer, Integer>();
+	for(int i=0;i<playerArray.size();i++) {
+		JSONObject playerObject = playerArray.getJSONObject(i);			
+		players.put(playerObject.getInt("id"), playerObject.getInt("lifeStatus"));
+	}
+	
+	return players;
+}
 	
 	public java.util.Map<Integer, List<Integer>>   getHunters() { // Map of ID->(x,y)
 		

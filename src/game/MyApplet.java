@@ -32,11 +32,13 @@ public class MyApplet extends PApplet implements Observer{
 	public String jsonString;
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, String> playersName;
+	public HashMap<Integer, Integer> playersLife;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	//public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus;
 	public long time = 0;
 	private String name;
+	public int lifeStatus = 1;
 	
 	public int myId;
 	ArrayList<Integer> position = new ArrayList<Integer>(2);
@@ -61,9 +63,7 @@ public class MyApplet extends PApplet implements Observer{
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
 		bgm.loop();
-		//gameStatus = transmission.getGameStatus();
-		//transmission.receiveMessage();
-		//transmission.sendMessage("id reveived : "+myId);
+		
 		myId = transmission.getMyId();	
 		transmission.setName(name);
 		transmission.sendMessage("ready");
@@ -86,7 +86,7 @@ public class MyApplet extends PApplet implements Observer{
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
 			mission.setLocation(transmission.getJewel());
-			System.out.println(mission.getLocation().get(13).get(2));
+			transmission.setLifeStatus(lifeStatus);
 						
 			
 		}	else {

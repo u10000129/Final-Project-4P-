@@ -20,6 +20,7 @@ public class JSON {
 									Boolean gameStatus,
 									java.util.Map<Integer, List<Integer>> players,
 									java.util.Map<Integer, String> playersName,
+									java.util.Map<Integer, Integer> playersLife,
 									java.util.Map<Integer, List<Integer>> hunters,
 									java.util.Map<Integer, List<Integer>> jewels)
 	{
@@ -42,6 +43,11 @@ public class JSON {
 		for(int i=0;i<playerArray.size();i++) {
 			JSONObject p = playerArray.getJSONObject(i);
 			p.setString("name", playersName.get(i));
+		}
+		
+		for(int i=0;i<playerArray.size();i++) {
+			JSONObject p = playerArray.getJSONObject(i);
+			p.setInt("lifeStatus", playersLife.get(i));
 		}
 		
 		obj.setJSONArray("players", playerArray);
@@ -98,25 +104,13 @@ public class JSON {
 		JSONObject playerObject = playerArray.getJSONObject(0);
 		return playerObject.getString("name");
 	}
-	/*
-public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
-		
-		JSONArray jewelArray = json.getJSONArray("jewels");
-		
-		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
-		for(int i=1;i<jewelArray.size();i++) {
-			JSONObject jewelObject = jewelArray.getJSONObject(i);
-			List<Integer> list = new ArrayList<Integer>();
-			list.add(jewelObject.getInt("x"));
-			list.add(jewelObject.getInt("y"));
-			list.add(jewelObject.getInt("time"));
-			
-			jewels.put(jewelObject.getInt("id"), list);
-		}
-		
-		return jewels;
+	
+	public int getLife() {		
+		JSONArray playerArray = json.getJSONArray("players");
+		JSONObject playerObject = playerArray.getJSONObject(0);
+		return playerObject.getInt("lifeStatus");
 	}
-	*/
+	
 	public int getJewelId() {		
 		return json.getInt("jewelId");
 		
