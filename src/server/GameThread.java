@@ -29,6 +29,7 @@ public class GameThread extends Thread{
 	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum = 8;
+	boolean valid;
 	
 	private MyApplet myApplet;
 	
@@ -46,13 +47,13 @@ public class GameThread extends Thread{
 		myApplet = new MyApplet(hunter, hunters, hunterNum);
 		myApplet.init();
 		
-		/*JFrame window = new JFrame("Final Project");
+		JFrame window = new JFrame("Final Project");
 		window.setContentPane(myApplet);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(windowWidth, windowHeight);
 		window.setVisible(true);	
 		window.setLocation(300, 50);
-		*/
+		
 		
 	}
 
@@ -89,11 +90,14 @@ public class GameThread extends Thread{
 			myApplet.setPlayersMap(playersMap);
 			myApplet.setPlayersLife(playersLife);
 			setHunterMap();
-			for(int i=0;i<playersLife.size();i++) {
-				gameStatus = 2;
-				if(playersLife.get(i)>0) gameStatus = 1;
-				
+			for(int i=0;i<playersLife.size();i++) {	
+				valid = false;				
+				if(playersLife.get(i)>0) valid = true;							
 			}
+			if(valid == false) gameStatus = 2;
+			else gameStatus = 1;
+			
+			
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 			try {
 				sleep(3);
@@ -127,7 +131,7 @@ public class GameThread extends Thread{
 	class addTime extends Thread {
 		@Override
 		public void run() {
-			while(true) {
+			while(gameStatus == 1) {
 				try {
 					sleep(1000);
 				} catch (InterruptedException e) {
