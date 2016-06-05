@@ -38,7 +38,7 @@ public class MyApplet extends PApplet implements Observer{
 	public boolean gameStatus;
 	public long time = 0;
 	private String name;
-	public int lifeStatus = 1;
+	public int lifeStatus = 1;	
 	
 	public int myId;
 	ArrayList<Integer> position = new ArrayList<Integer>(2);
@@ -87,6 +87,7 @@ public class MyApplet extends PApplet implements Observer{
 			transmission.setHunters(huntersMap);
 			mission.setLocation(transmission.getJewel());
 			transmission.setLifeStatus(lifeStatus);
+			transmission.setSpeed(speed);
 						
 			
 		}	else {

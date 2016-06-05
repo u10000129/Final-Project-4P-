@@ -17,7 +17,8 @@ public class Transfer {
 										int characterX, int characterY,
 										int jewelId,
 										java.util.Map <Integer, List<Integer>>hunters,
-										int lifeStatus) {
+										int lifeStatus,
+										double speed) {
 		
 		JSONObject obj = new JSONObject();
 		obj.setLong("time",System.currentTimeMillis());
@@ -29,6 +30,7 @@ public class Transfer {
 		player.setString("characterX", String.valueOf(characterX));
 		player.setString("characterY", String.valueOf(characterY));
 		player.setInt("lifeStatus", lifeStatus);
+		player.setDouble("speed", speed);
 		playerArray.setJSONObject(0, player);
 		obj.setJSONArray("players", playerArray);
 		
@@ -88,6 +90,19 @@ public java.util.Map<Integer, Integer> getPlayersLife() {
 	for(int i=0;i<playerArray.size();i++) {
 		JSONObject playerObject = playerArray.getJSONObject(i);			
 		players.put(playerObject.getInt("id"), playerObject.getInt("lifeStatus"));
+	}
+	
+	return players;
+}
+
+public java.util.Map<Integer, Double> getPlayersSpeed() {
+	
+	JSONArray playerArray = json.getJSONArray("players");
+	
+	java.util.Map<Integer, Double> players = new HashMap<Integer, Double>();
+	for(int i=0;i<playerArray.size();i++) {
+		JSONObject playerObject = playerArray.getJSONObject(i);			
+		players.put(playerObject.getInt("id"), playerObject.getDouble("speed"));
 	}
 	
 	return players;

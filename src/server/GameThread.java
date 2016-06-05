@@ -16,6 +16,7 @@ public class GameThread extends Thread{
 	public HashMap<Integer, List<Integer>> playersMap = null;
 	public HashMap<Integer, String> playersName = null;
 	public HashMap<Integer, Integer> playersLife = null;
+	public HashMap<Integer, Double> playersSpeed = null;
 	public HashMap<Integer, List<Integer>> huntersMap = null;	
 	public HashMap<Integer, List<Integer>> jewelsMap = null;
 	public boolean gameStatus = false;
@@ -75,7 +76,7 @@ public class GameThread extends Thread{
 		addTime timer = new addTime();		
 		timer.start();
 		while(true) {
-			jsonString = json.encode(time, gameStatus, playersMap, playersName, playersLife, huntersMap, jewelsMap);
+			jsonString = json.encode(time, gameStatus, playersMap, playersName, playersLife, playersSpeed, huntersMap, jewelsMap);
 			transmission.broadcast(jsonString);
 		
 		
@@ -98,15 +99,17 @@ public class GameThread extends Thread{
 		playersMap = new HashMap<Integer, List<Integer>>();
 		playersName = new HashMap<Integer, String>();
 		playersLife = new HashMap<Integer, Integer>();
+		playersSpeed = new HashMap<Integer, Double>();
 		huntersMap = new HashMap<Integer, List<Integer>>();
 		jewelsMap = new HashMap<Integer, List<Integer>>();
 		playersMap.put(0, initPos);
 		playersName.put(0,"jack");
 		playersLife.put(0,1);
+		playersSpeed.put(0,0.5);
 		huntersMap.put(0, initPos);
 		
 		jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
-		jsonString = json.encode(time, gameStatus, playersMap, playersName, playersLife, huntersMap, jewelsMap);
+		jsonString = json.encode(time, gameStatus, playersMap, playersName, playersLife, playersSpeed, huntersMap, jewelsMap);
 	}
 	
 	class addTime extends Thread {
@@ -125,17 +128,17 @@ public class GameThread extends Thread{
 	}
 	public void setPlayerMapAndNameAndJewel() {
 		for(int i=0; i<playerNum ;i++) {
-			ArrayList<Integer> position = new ArrayList<Integer>(2);
-			String name;
-			int lifeStatus;
+			ArrayList<Integer> position = new ArrayList<Integer>(2);			
 			jsonString = transmission.receiveMessage(i);
 			json.decode(jsonString);
 			position = (ArrayList<Integer>) json.getPlayers();
 			playersMap.put(i, position);
-			name = json.getName();
-			lifeStatus = json.getLife();
+			String name = json.getName();
+			int lifeStatus = json.getLife();
+			double speed = json.getSpeed();
 			playersName.put(i, name);
 			playersLife.put(i, lifeStatus);
+			playersSpeed.put(i, speed);
 			if(json.getJewelId()!=0)
 			mission.setMission(json.getJewelId());					
 		}

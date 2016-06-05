@@ -21,6 +21,7 @@ public class JSON {
 									java.util.Map<Integer, List<Integer>> players,
 									java.util.Map<Integer, String> playersName,
 									java.util.Map<Integer, Integer> playersLife,
+									java.util.Map<Integer, Double> playersSpeed,
 									java.util.Map<Integer, List<Integer>> hunters,
 									java.util.Map<Integer, List<Integer>> jewels)
 	{
@@ -48,6 +49,11 @@ public class JSON {
 		for(int i=0;i<playerArray.size();i++) {
 			JSONObject p = playerArray.getJSONObject(i);
 			p.setInt("lifeStatus", playersLife.get(i));
+		}
+		
+		for(int i=0;i<playerArray.size();i++) {
+			JSONObject p = playerArray.getJSONObject(i);
+			p.setDouble("speed", playersSpeed.get(i));
 		}
 		
 		obj.setJSONArray("players", playerArray);
@@ -109,6 +115,12 @@ public class JSON {
 		JSONArray playerArray = json.getJSONArray("players");
 		JSONObject playerObject = playerArray.getJSONObject(0);
 		return playerObject.getInt("lifeStatus");
+	}
+	
+	public double getSpeed() {		
+		JSONArray playerArray = json.getJSONArray("players");
+		JSONObject playerObject = playerArray.getJSONObject(0);
+		return playerObject.getDouble("speed");
 	}
 	
 	public int getJewelId() {		
