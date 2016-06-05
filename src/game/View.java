@@ -539,9 +539,7 @@ public class View {
 		}
 		
 		
-		/*
-		 * Display Time and Score
-		 */		
+			
 		/*
 		 * Display Time and Score
 		 */		
