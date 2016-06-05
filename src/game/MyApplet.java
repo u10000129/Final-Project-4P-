@@ -25,6 +25,7 @@ public class MyApplet extends PApplet implements Observer{
 	public final static int width = 800, height = 600;
 	private Minim minim;
 	private AudioPlayer bgm, click;
+	private AudioPlayer CorrectAnswer, WrongAnswer;
 	private int missionScore;
 	private int jewelID;
 	private boolean isAnswering = false;
@@ -63,6 +64,8 @@ public class MyApplet extends PApplet implements Observer{
 		smooth();
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
+		CorrectAnswer = minim.loadFile("res/CorrectAnswer.mp3");
+		WrongAnswer = minim.loadFile("res/WrongAnswer.mp3");		
 		bgm.loop();
 		
 		myId = transmission.getMyId();	
@@ -136,6 +139,11 @@ public class MyApplet extends PApplet implements Observer{
 			
 			if((Boolean) o == true) {
 				missionScore++;
+				CorrectAnswer.rewind();
+				CorrectAnswer.play();
+			} else {
+				WrongAnswer.rewind();
+				WrongAnswer.play();
 			}
 			Main.window.setContentPane(this);
 			isAnswering = false;
