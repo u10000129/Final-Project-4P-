@@ -87,6 +87,7 @@ public class GameThread extends Thread{
 
 			setPlayerMapAndNameAndJewel();				
 			myApplet.setPlayersMap(playersMap);
+			myApplet.setPlayersLife(playersLife);
 			setHunterMap();
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
 			try {
