@@ -20,8 +20,8 @@ public class Player extends Character{
 	Player(MyApplet parent, Map map, Minim minim){
 		this.parent = parent;
 		this.map = map;
-		this.anchorX = 7010;
-		this.anchorY = 7000;
+		this.anchorX = 9000;
+		this.anchorY = 9000;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = map.getCollisionMap();

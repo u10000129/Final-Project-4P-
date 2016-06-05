@@ -90,6 +90,7 @@ public class GameThread extends Thread{
 			myApplet.setPlayersMap(playersMap);
 			myApplet.setPlayersLife(playersLife);
 			setHunterMap();
+			System.out.println(gameStatus);
 			for(int i=0;i<playersLife.size();i++) {	
 				valid = false;				
 				if(playersLife.get(i)>0) valid = true;							
