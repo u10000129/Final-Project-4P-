@@ -64,7 +64,7 @@ public class Control implements Runnable{
 		return true;
 	}
 	
-	private float getAngle(Point hunter, Point player) {
+	/*private float getAngle(Point hunter, Point player) {
 		float angle = (float) Math.toDegrees(Math.atan2(hunter.y-player.y, hunter.x-player.x));
 		
 		if(angle<0) {
@@ -72,15 +72,25 @@ public class Control implements Runnable{
 		}
 		
 		return angle;
-	}
+	}*/
 	
 	private int hunting_start(int index){
 		for(int i=0; i<this.playersMap.size(); i++) {
 			/* judge whether player is inside hunter's sight */
-			if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
-					,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1))<=this.view.FieldOfView) {
+			float distance = PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
+											,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1));
+			if(distance<=this.view.FieldOfView) {
 				/* judge whether player is reachable */
-				
+				Point hunter = new Point(hunters.get(index).getX(), hunters.get(index).getY());
+				Point player = new Point(playersMap.get(i).get(0), playersMap.get(i).get(1));
+				double angle = Math.atan2(hunter.y-player.y, hunter.x-player.x);
+				for(int j=0; j<distance; j++) {
+					float x = j * PApplet.cos((float)angle);
+					float y = j * PApplet.sin((float)angle);
+					if((int)(hunter.x+x)>player.x||(int)(hunter.y+y)>player.y) continue;
+					if(this.collisionMap[(int)(hunter.x+x)][(int)(hunter.y+y)]==1) continue;
+					return i;
+				}
 			}
 		}
 		return -1;
