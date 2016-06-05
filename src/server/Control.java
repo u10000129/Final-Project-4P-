@@ -89,8 +89,12 @@ public class Control implements Runnable{
 		if(this.playersMap==null) return -1;
 		for(int i=0; i<this.playersMap.size(); i++) {
 			if(this.playersLife.get(i)==0) continue;
-			if(this.huntingMap[index]==10) {
-				this.huntingMap[index]=0;
+			if(this.huntingMap[index]<0) {
+				this.huntingMap[index]++;
+				continue;
+			}
+			if(this.huntingMap[index]==5) {
+				this.huntingMap[index]=-3;
 				continue;
 			}
 			/* judge whether player is inside hunter's sight */
@@ -105,15 +109,19 @@ public class Control implements Runnable{
 					float x = j * PApplet.cos((float)angle);
 					float y = j * PApplet.sin((float)angle);
 					if(this.collisionMap[(int)(hunter.x+x)][(int)(hunter.y+y)]==1) continue;
-					hunters.get(index).setHuntState(true);
-					hunters.get(index).speedy();
+					if(hunters.get(index).isHunting==false) {
+						hunters.get(index).setHuntState(true);
+						hunters.get(index).speedy();
+					}
 					this.huntingMap[index]++;
 					return i;
 				}
 			}
 		}
-		hunters.get(index).setHuntState(false);
-		hunters.get(index).speedy();
+		if(hunters.get(index).isHunting==true) {
+			hunters.get(index).setHuntState(false);
+			hunters.get(index).speedy();
+		}
 		return -1;
 	}
 	
