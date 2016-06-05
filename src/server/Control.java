@@ -54,6 +54,9 @@ public class Control implements Runnable{
 	
 	private boolean judge_path(int index) {
 		for(int i=0; i<=radius; i++) {
+			if(this.map.inside((int)(i*cos[index])+
+	                hunters.get(index).getX(), (int)(i*sin[index])
+                    +hunters.get(index).getY())==false) return false;
 			if(collisionMap[(int)(i*cos[index])+
 			                hunters.get(index).getX()][(int)(i*sin[index])
 			                                   +hunters.get(index).getY()]>0) return false;

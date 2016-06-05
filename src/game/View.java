@@ -1,24 +1,19 @@
 package game;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
+
 
 public class View {
-	private int radius = 0;
 	private final int diameter = 40;
-	private final int FieldOfView = 250;
+	private int FieldOfView = 250;
 	private final int CrossLineLenght = 5;
-	private PApplet mainapplet;
+	private MyApplet mainapplet;
 	private Player player;
 	private Map map;
 	private PImage mapImage;
@@ -30,18 +25,24 @@ public class View {
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
+	public HashMap<Integer, String> playersName;
+	
 	public long time = 0;
 	
-	public Ani ani;
+	public Ani missionCircleAni;
+	private int missionCircle = 0;
+	public Ani playerCircleAni;
+	private int playerCircle = 0;
 
-	public View (PApplet mainapplet, Map map, Player player, Transmission transmission) {
+	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission, Mission mission) {
 		this.mainapplet = mainapplet;
 		this.map =  map;
 		this.player = player;
-		this.mission = new Mission();
+		this.mission = mission;
 		this.location = mission.getLocation();
 		this.transmission = transmission;
-		this.ani =  Ani.to(this, (float) 0.5, "radius", 30, Ani.LINEAR);
+		this.missionCircleAni =  Ani.to(this, (float) 0.5, "missionCircle", 30, Ani.LINEAR);
+		playerCircleAni =  Ani.to(this, (float) 0.5, "playerCircle", 50, Ani.LINEAR);
 	}
 	
 	private int transformX(int x) {
@@ -49,10 +50,10 @@ public class View {
 	}
 	
 	private int transformY(int y) {
-		return y * MyApplet.height / map.getImageHeight();
+		return y * (MyApplet.height-50) / map.getImageHeight();
 	}
 	
-	private int[] boundsDetet(int x, int y){
+	public int[] boundsDetet(int x, int y){
 		int returnX, returnY;
 		Bounds hBound = map.horizontalWall(x, y);
 		Bounds vBound = map.verticalWall(x, y);
@@ -80,10 +81,35 @@ public class View {
 		return  new int[] {returnX, returnY}; 
 	}
 	
-	public void display(){			
+	private void setColor(int i){
+		switch(i) {
+		case 0:
+			mainapplet.fill(200, 0, 200, 160);
+			mainapplet.stroke(200, 0, 200, 160);
+			break;
+		case 1:
+			mainapplet.fill(0, 200, 0, 160);
+			mainapplet.stroke(0, 200, 0, 160);
+			break;
+		case 2:
+			mainapplet.fill(0, 0, 200, 160);
+			mainapplet.stroke(0, 0, 200, 160);
+			break;
+		case 3:
+			mainapplet.fill(200, 200, 0, 160);
+			mainapplet.stroke(200, 200, 0, 160);
+			break;
+		}
+	}
+	
+	public void display(){	
 		
+		if(FieldOfView < 450)
+			FieldOfView = ( mainapplet.getMissionScore()/3 )*50 +250;
+		this.location = mission.getLocation();
 		playersMap = transmission.getPlayers();
 		huntersMap = transmission.gethunters();	
+		playersName = transmission.getPlayersName();
 		/*
 		 * If user press TAB, display full map, or display local map.
 		 */
@@ -91,14 +117,21 @@ public class View {
 			/*
 			 * Draw full map.
 			 */
-			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height);	
+			mainapplet.image(map.getFullMap(), 0, 0, MyApplet.width, MyApplet.height-50);	
 			/*
 			 * Draw my player in full map.
 			 */
 			player.collisionDetect();
-			mainapplet.fill(0);
-			mainapplet.noStroke();
-			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);			
+			this.setColor(transmission.getMyId());
+			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), diameter/4, diameter/4);
+			mainapplet.textSize(8);
+			mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+			mainapplet.text(playersName.get(transmission.getMyId()), transformX(player.getX())+diameter/4/2, transformY(player.getY())-diameter/4/2);
+			mainapplet.noFill();
+			mainapplet.ellipse(transformX(player.getX()), transformY(player.getY()), playerCircle/2, playerCircle/2);
+			if(!playerCircleAni.isPlaying()){
+				playerCircleAni.start();
+			}
 			/*
 			 * Draw missions in full map.
 			 */
@@ -110,22 +143,24 @@ public class View {
 					mainapplet.strokeWeight(2);
 					mainapplet.line(x-CrossLineLenght, y-CrossLineLenght, x+CrossLineLenght, y+CrossLineLenght);
 					mainapplet.line(x+CrossLineLenght, y-CrossLineLenght, x-CrossLineLenght, y+CrossLineLenght);
+					//If player get close to this position, draw a scaling up circle to cover it .
+					if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
+						mainapplet.stroke(255, 0, 0);
+						mainapplet.noFill();
+						mainapplet.ellipse(x, y, missionCircle, missionCircle);
+						if(!missionCircleAni.isPlaying()){
+							missionCircleAni.start();
+						}
+					}
 														
 				}
 				else {
 					mainapplet.fill(150, 0, 0);
+					mainapplet.textSize(16);
 					mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
 					mainapplet.text(location.get(i).get(2), x, y);	
 				}
-				//If player get close to this position, draw a scaling up circle to cover it .
-				if(PApplet.dist(location.get(i).get(0), location.get(i).get(1), player.getX(), player.getY()) < 100){
-					mainapplet.stroke(255, 0, 0);
-					mainapplet.noFill();
-					mainapplet.ellipse(x, y, radius, radius);
-					if(!ani.isPlaying()){
-						ani.start();
-					}
-				}
+				
 				
 				
 			}
@@ -137,9 +172,14 @@ public class View {
 				if(i == myPlayerId) continue;
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
 				position = (ArrayList<Integer>) playersMap.get(i);
-				//mainapplet.fill(???);
+				int trsX = transformX( position.get(0) );
+				int trsY = transformY( position.get(1) );
 				mainapplet.noStroke(); 		
-				mainapplet.ellipse(transformX( position.get(0) ), transformY( position.get(1) ), diameter/4, diameter/4);
+				this.setColor(i);
+				mainapplet.ellipse(trsX, trsY, diameter/4, diameter/4);
+				mainapplet.textSize(8);
+				mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+				mainapplet.text(playersName.get(i), trsX+diameter/4/2, trsY-diameter/4/2);
 			}
 			
 		} else { // Display local map.
@@ -151,18 +191,24 @@ public class View {
 			/*
 			 * Draw my player.
 			 */
-			int[] playerPosition = this.boundsDetet(player.getX(), player.getY());			
-			mainapplet.fill(0);
-			mainapplet.noStroke(); 		
+			int myPlayerId = transmission.getMyId();
+			int[] playerPosition = this.boundsDetet(player.getX(), player.getY());	
+			this.setColor(transmission.getMyId());
 			player.collisionDetect();
-			mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);	
+			mainapplet.ellipse(playerPosition[0], playerPosition[1], diameter, diameter);
+			mainapplet.textSize(16);
+			mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+			mainapplet.text(playersName.get(myPlayerId), playerPosition[0]+diameter/2, playerPosition[1]-diameter/2);
+			mainapplet.noFill();
+			mainapplet.ellipse(playerPosition[0], playerPosition[1], playerCircle, playerCircle);
+			if(!playerCircleAni.isPlaying()){
+				playerCircleAni.start();
+			}
 			/*
 			 * Draw players and hunters.
 			 */
 			int[][] collisionMap = map.getCollisionMap();	
-			//Players			
-			/*				
-			int myPlayerId = transmission.getMyId();
+			//Players						
 			for(int i = 0; i < playersMap.size(); i++){		
 				if(i == myPlayerId) continue;
 				ArrayList<Integer> position = new ArrayList<Integer>(2);
@@ -181,12 +227,16 @@ public class View {
 					}
 					if(isVisible == true){
 						mainapplet.noStroke();
-						mainapplet.fill(playerColor);
-						int[] playerlocation = this.boundsDetet(position.get(0), position.get(1));
-						mainapplet.ellipse(location[0], location[1], diameter, diameter);
+						this.setColor(i);
+						int x = playerPosition[0] + position.get(0) - player.getX();
+						int y = playerPosition[1] + position.get(1) - player.getY();
+						mainapplet.ellipse(x, y, diameter, diameter);
+						mainapplet.textSize(16);
+						mainapplet.textAlign(MyApplet.LEFT, MyApplet.CENTER);
+						mainapplet.text(playersName.get(i), x + diameter/2, y - diameter/2);
 					}					
 				} 				
-			}*/	
+			}	
 			
 			//Hunters		
 			for(int i = 0; i < huntersMap.size(); i++){	
@@ -208,6 +258,10 @@ public class View {
 						mainapplet.noStroke();
 						mainapplet.fill(0);
 						mainapplet.ellipse(playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1) - player.getY(), diameter, diameter);
+						mainapplet.fill(255);
+						mainapplet.textSize(32);
+						mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
+						mainapplet.text("H", playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1) - player.getY() - 5);
 					}					
 				} 				
 			}					
@@ -219,7 +273,7 @@ public class View {
 			//Scan the circle field of view. If there is collision , draw a line to cover the area ,which  means that the area is invisible.			 
 			shadowImage = mainapplet.createGraphics(MyApplet.width, MyApplet.height);
 			shadowImage.beginDraw();
-			for(float i = 0; i < 360; i+=1) {
+			for(float i = 0; i < 360; i+=0.5) {
 				for(float j = 0; j < FieldOfView ; j++ ){
 					float x = j * MyApplet.cos( MyApplet.radians(i) ); 
 					float y = j * MyApplet.sin( MyApplet.radians(i) ); 
@@ -255,9 +309,9 @@ public class View {
 					if(PApplet.dist(x, y, player.getX(), player.getY()) < 100){
 						shadowImage.stroke(255, 0, 0);
 						shadowImage.noFill();
-						shadowImage.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), radius*2, radius*2);
-						if(!ani.isPlaying()){
-							ani.start();
+						shadowImage.ellipse(playerPosition[0] + x - player.getX(), playerPosition[1] + y - player.getY(), missionCircle*2, missionCircle*2);
+						if(!missionCircleAni.isPlaying()){
+							missionCircleAni.start();
 						}
 					}
 											
@@ -286,8 +340,11 @@ public class View {
 		
 		mainapplet.fill(0);
 		mainapplet.textSize(20);
-		mainapplet.text((int)time, 650, 50);
-		
+		mainapplet.textAlign(MyApplet.RIGHT, MyApplet.CENTER);
+		if(FieldOfView < 450)
+			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + this.FieldOfView, 780, 25);
+		else
+			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 25);
 	}
 	
 

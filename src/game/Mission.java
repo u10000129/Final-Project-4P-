@@ -12,18 +12,16 @@ import java.util.List;
 import java.util.Random;
 
 public class Mission {
-	private int pointNum; 
-	private int qNum  = 10;
+	public final int COUNTDOWN = 600; 
 	private java.util.Map<Integer, ArrayList<String>> questions;
-	private java.util.Map<Integer, List<Integer>> location;
+	private java.util.HashMap<Integer, List<Integer>> location;
 	
 	
 	public Mission() {
 		// load point.txt
-		location = new java.util.TreeMap<Integer, List<Integer>>();
+		location = new java.util.HashMap<Integer, List<Integer>>();
 		BufferedReader reader;
 		String line;
-		pointNum = 0;
 		
 		System.out.println("reading mission points");
 		try {									
@@ -35,7 +33,6 @@ public class Mission {
 				list.add(Integer.parseInt(data[2]));
 				list.add(0);	//time
 				location.put(Integer.parseInt(data[0]), list);
-				pointNum++;
 			}
 			reader.close();
 		}
@@ -64,7 +61,6 @@ public class Mission {
 				}
 				list.add(line.split(" ")[1]);
 				questions.put(id, list);
-				qNum++;
 				
 			}
 			reader.close();
@@ -79,11 +75,19 @@ public class Mission {
 	}
 	
 	public int getPointNum() {
-		return pointNum;
+		return location.size();
 	}
 	
 	public int getQNum() {
-		return qNum;
+		return questions.size();
+	}
+	
+	public void setLocation(java.util.HashMap<Integer, List<Integer>> map) {
+		this.location = map;
+	}
+	
+	public java.util.HashMap<Integer, List<Integer>> getLocation() {
+		return location;
 	}
 	
 	public void setCountDown(int id, int t) {
@@ -92,14 +96,25 @@ public class Mission {
 		//location.put(id, list);		
 	}
 	
-	public java.util.Map<Integer, List<Integer>> getLocation() {
-		return location;
+	public Boolean checkMissionSet(int id) {
+		try {
+			if(location.containsKey(id)) {
+				if(location.get(id).get(2) > 0)
+					return true;
+				else
+					return false;
+			} else {
+				return false;
+			}
+		} catch(NullPointerException e) {
+			return false;
+		}
 	}
 	
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use
 																				// ArrayList.size() to get the questions
 		Random rand = new Random();
-		return questions.get(rand.nextInt(qNum));
+		return questions.get(rand.nextInt(getQNum())+1);
 	}
 	
 }

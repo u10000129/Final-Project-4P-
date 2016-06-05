@@ -1,6 +1,7 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -65,6 +66,7 @@ public class JSON {
 			j.setInt("id", jewel.getKey());
 			j.setInt("x", jewel.getValue().get(0));
 			j.setInt("y", jewel.getValue().get(1));
+			j.setInt("time", jewel.getValue().get(2));
 			jewelArray.setJSONObject(jewel.getKey(), j);
 		}
 		obj.setJSONArray("jewels", jewelArray);		
@@ -97,11 +99,26 @@ public class JSON {
 		return playerObject.getString("name");
 	}
 	/*
-	public int getX() {
-		return json.getInt("characterX");	
+public java.util.Map<Integer, List<Integer>> getJewel() {		// Map of  ID->(x,y)
+		
+		JSONArray jewelArray = json.getJSONArray("jewels");
+		
+		java.util.Map<Integer, List<Integer>> jewels = new HashMap<Integer, List<Integer>>();
+		for(int i=1;i<jewelArray.size();i++) {
+			JSONObject jewelObject = jewelArray.getJSONObject(i);
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(jewelObject.getInt("x"));
+			list.add(jewelObject.getInt("y"));
+			list.add(jewelObject.getInt("time"));
+			
+			jewels.put(jewelObject.getInt("id"), list);
+		}
+		
+		return jewels;
 	}
-	
-	public int getY() {
-		return json.getInt("characterY");	
-	}*/
+	*/
+	public int getJewelId() {		
+		return json.getInt("jewelId");
+		
+	}
 }

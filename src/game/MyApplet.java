@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
@@ -11,7 +13,9 @@ import ddf.minim.*;
 import server.JSON;
 
 @SuppressWarnings("serial")
-public class MyApplet extends PApplet{
+public class MyApplet extends PApplet implements Observer{
+	
+	public final int JEWEL_NOT_OPENED = 0;
 	private Player player;
 	private View view;
 	private Map map;
@@ -21,13 +25,15 @@ public class MyApplet extends PApplet{
 	public final static int width = 800, height = 600;
 	private Minim minim;
 	private AudioPlayer bgm, click;
+	private int missionScore;
+	private int jewelID;
 	
 	public JSON json;
 	public String jsonString;
 	public HashMap<Integer, List<Integer>> playersMap;
 	public HashMap<Integer, String> playersName;
 	public HashMap<Integer, List<Integer>> huntersMap;
-	public HashMap<Integer, List<Integer>> jewelsMap;
+	//public HashMap<Integer, List<Integer>> jewelsMap;
 	public boolean gameStatus;
 	public long time = 0;
 	private String name;
@@ -46,10 +52,11 @@ public class MyApplet extends PApplet{
 		size(width, height);
 		Ani.init(this);
 		map = new Map(this);
-		mission = new Mission();
 		minim = new Minim(this);
+		missionScore = 0;
+		mission = new Mission();
 		player = new Player(this, map, minim);
-		view = new View(this, map, player, transmission);
+		view = new View(this, map, player, transmission, mission);
 		smooth();
 		bgm=minim.loadFile("res/Sugar_Zone.mp3");
 		click=minim.loadFile("res/Fire_Ball.mp3");
@@ -60,24 +67,27 @@ public class MyApplet extends PApplet{
 		myId = transmission.getMyId();	
 		transmission.setName(name);
 		transmission.sendMessage("ready");
+		
+		jewelID = JEWEL_NOT_OPENED;
 	}
 	
 	public void draw(){
+		
+		if(mission.checkMissionSet(jewelID)) {
+			setJewelID(JEWEL_NOT_OPENED);
+		}
 		
 		gameStatus = transmission.getGameStatus();
 		if(gameStatus) {
 			background(255);				
 			view.display();
-		
-			jewelsMap = transmission.getJewel();
+				
+			transmission.setJewelId(jewelID);
 			transmission.setMyPosition(player.getX(), player.getY());			
 			transmission.setHunters(huntersMap);
-			transmission.setJewel(jewelsMap);
-					
-			//-----------------------------------------
-			playersName = transmission.getPlayersName();
-			this.text(playersName.get(myId), 400, 300);
-			
+			mission.setLocation(transmission.getJewel());
+			System.out.println(mission.getLocation().get(13).get(2));
+						
 			
 		}	else {
 
@@ -121,18 +131,45 @@ public class MyApplet extends PApplet{
 		
 	}
 	
-	/*
+	
 	public void keyPressed() {
 		if(key == ' ') {
 			int x = player.getX();
 			int y = player.getY();
 			java.util.Map<Integer, List<Integer>> locations = mission.getLocation();
+			
+			
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
-				if(PApplet.dist(entry.getValue().get(0), entry.getValue().get(1), x, y) < 100) {
+				if(PApplet.dist(entry.getValue().get(0),entry.getValue().get(1),x,y)<100 && entry.getValue().get(2)==0) {
 					
+					jewelID = entry.getKey();	//update the opened jewel ID
+					QuestionPanel qPanel = new QuestionPanel(mission);
+					qPanel.addObserver(this);
+					Main.window.setContentPane(qPanel.getQApplet());
 				}
 			}
 		}
 	}
-	*/
+	
+	public void update(Observable obs, Object o) {
+		if(obs.getClass() == QuestionPanel.class) {
+			
+			if((Boolean) o == true) {
+				missionScore++;
+			}
+			Main.window.setContentPane(this);
+		}
+	}
+	
+	public int getMissionScore() {
+		return missionScore;
+	}
+	
+	public void setJewelID(int id) {
+		jewelID = id;
+	}
+	
+	public int getJewelID() {
+		return jewelID;
+	}
 }
