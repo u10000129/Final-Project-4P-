@@ -113,21 +113,11 @@ public class View {
 		}
 	}
 	
-	public void display(){	
-		if(mainapplet.keyPressed && mainapplet.key == 'o') {
-			dieTextAni.start();
-			die.rewind();
-			die.play();
-			player.stopAni();
-			player.setGhostPosition(player.getX(), player.getY());
-			mainapplet.setLifeStatus(0);
-		}
-		if(mainapplet.keyPressed && mainapplet.key == 'p') {
-			mainapplet.setLifeStatus(1);
-		}
-		
-		if(mainapplet.getLifeStatus() == 0){ // Is dead.	
-			
+	public void display(){			
+		/**
+		 *  Is dead.
+		 */
+		if(mainapplet.getLifeStatus() == 0){ 				
 			this.location = mission.getLocation();
 			playersMap = transmission.getPlayers();
 			huntersMap = transmission.gethunters();	
@@ -215,7 +205,7 @@ public class View {
 					playerCircleAni.start();
 				}
 				/*
-				 * Draw players and hunters.
+				 * Draw players, hunters and msiions.
 				 */
 					
 				//Players						
@@ -266,10 +256,10 @@ public class View {
 										x - CrossLineLenght*2, y + CrossLineLenght*2);
 					}		
 				}			
-
+				// Cover a shadow full of window.
 				mainapplet.fill(0, 128);			
 				mainapplet.rect(0, 0, MyApplet.width, MyApplet.height);	
-				//Die text.
+				//Show die text.
 				mainapplet.fill(255, 0, 0);
 				mainapplet.textSize(50);
 				mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
@@ -277,10 +267,13 @@ public class View {
 			}
 		
 			
-			
-		} else {// Is Alive.
-			if(FieldOfView < 450)
+		/**
+		 *  Is Alive.
+		 */
+		} else {
+			if(FieldOfView < 450) // FieldOfView will get larger when get score.
 				FieldOfView = ( mainapplet.getMissionScore()/3 )*50 +250;
+			//Update data.
 			this.location = mission.getLocation();
 			playersMap = transmission.getPlayers();
 			huntersMap = transmission.gethunters();	
@@ -334,10 +327,7 @@ public class View {
 						mainapplet.textSize(16);
 						mainapplet.textAlign(MyApplet.CENTER, MyApplet.CENTER);
 						mainapplet.text(location.get(i).get(2), x, y);	
-					}
-					
-					
-					
+					}		
 				}
 				/*
 				 * Draw other players in full map.
@@ -439,7 +429,7 @@ public class View {
 							mainapplet.text("H", playerPosition[0] + position.get(0) - player.getX(), playerPosition[1] + position.get(1) - player.getY() - 5);
 						}					
 					}
-					//If player is catched.
+					//If player is caught.
 					if(dst <= 10){
 						dieTextAni.start();
 						die.rewind();
@@ -502,7 +492,7 @@ public class View {
 					} 			
 				}			
 				shadowImage.endDraw();	
-				mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);			
+				mainapplet.image(shadowImage, 0, 0, MyApplet.width, MyApplet.height);		
 				
 				
 				//Draw a full screen rectangle shadow, and subtract a circle.
@@ -528,24 +518,26 @@ public class View {
 			if(FieldOfView < 450)
 				mainapplet.text("Time: " + (int)time + "    FieldOfView: " + this.FieldOfView, 780, 25);
 			else
-				mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 25);
-		
+				mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 25);		
 		
 		}
 		
 		
 		/*
-		 * Display Time
+		 * Display Time and Score
 		 */		
-		time = transmission.getTime();
-		
-		mainapplet.fill(0);
+		time = transmission.getTime();		
+		mainapplet.fill(100);
+		mainapplet.textSize(10);
+		mainapplet.textAlign(MyApplet.LEFT, MyApplet.BOTTOM);
+		mainapplet.text("t", 40, 40);
 		mainapplet.textSize(20);
-		mainapplet.textAlign(MyApplet.RIGHT, MyApplet.CENTER);
+		mainapplet.textAlign(MyApplet.RIGHT, MyApplet.BOTTOM);
+		mainapplet.text(mainapplet.getMissionScore() + "P", 40, 40);		
 		if(FieldOfView < 450)
-			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + this.FieldOfView, 780, 25);
+			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + this.FieldOfView , 780, 40);
 		else
-			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 25);
+			mainapplet.text("Time: " + (int)time + "    FieldOfView: " + "MAX", 780, 40);
 	}
 	
 
