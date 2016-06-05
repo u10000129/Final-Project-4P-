@@ -1,5 +1,8 @@
 package server;
 
+import java.util.HashMap;
+import java.util.List;
+
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 
@@ -10,6 +13,9 @@ public class Hunter extends Character{
 	Ani aniY;
 	int moveX, moveY;
 	int[][] collisionMap;
+	View view;
+	HashMap<Integer, List<Integer>> playersMap;
+	boolean isHunting;
 		
 	Hunter(Map map, int x, int y) {
 		this.map = map;
@@ -18,7 +24,8 @@ public class Hunter extends Character{
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = this.map.getCollisionMap();
-		
+		this.playersMap = null;
+		this.isHunting = false;
 	}
 
 	@Override
@@ -48,7 +55,25 @@ public class Hunter extends Character{
 		    if(moveX<curX) curX+=10;
 		    if(moveY>curY) curY-=10;
 		    if(moveY<curY) curY+=10;
-		    
+		  
+		}
+	}
+	
+	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
+		if(playersMap!=null) this.playersMap = playersMap;
+	}
+	
+	public void setHuntState(boolean flag) {
+		this.isHunting = flag;
+	}
+	
+	public void huntingDetect(){
+		if(this.playersMap!=null) {
+			for(int i=0; i<this.playersMap.size(); i++) {
+				if(PApplet.dist(curX, curY, this.playersMap.get(i).get(0), this.playersMap.get(i).get(0))<view.FieldOfView) {
+					if(this.isHunting==false) Ani.killAll();
+				}
+			}
 		}
 	}
 }
