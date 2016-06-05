@@ -110,6 +110,11 @@ public class MyApplet extends PApplet implements Observer{
 			fill(0);
 			textSize(30);
 			text("Waiting for other clients...", MyApplet.width/2-StartScreen.btnWidth, MyApplet.height/2);
+		}	else if(gameStatus == 2) {
+			background(50, 200, 67);
+			textSize(30);
+			text("GameOver", 200, 200);
+			text("Your Time : "+time+ " s", 200, 250);
 		}
 	}
 	
