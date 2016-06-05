@@ -49,8 +49,8 @@ public class Hunter extends Character{
 	}
 	
 	public void speedy(){
-		if(speed==0.007) speed = 0.005;
-		else if(speed==0.005) speed = 0.007;
+		if(speed==0.0065) speed = 0.0045;
+		else if(speed==0.0045) speed = 0.0065;
 	}
 	
 	public void collisionDetect() {				
