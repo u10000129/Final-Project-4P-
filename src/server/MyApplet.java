@@ -59,4 +59,8 @@ public class MyApplet extends PApplet{
 		for(int i=0; i<this.hunterNum; i++) 
 			this.hunters.get(i).setPlayersMap(playersMap);
 	}
+	
+	public void setPlayersLife(HashMap<Integer, Integer> playersLife){
+		this.control.setPlayersLife(playersLife);
+	}
 }
