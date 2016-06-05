@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Control implements Runnable{
-	private final int FieldOfView = 250;
 	private Random ran;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
@@ -17,9 +16,9 @@ public class Control implements Runnable{
 	private float [] radian;
 	private float [] cos, sin;
 	private int [][] collisionMap;
-	private HashMap<Integer, List<Integer>> hunter_information;
+	//private HashMap<Integer, List<Integer>> hunter_information;
 	private HashMap<Integer, List<Integer>> playersMap;
-	private List<Integer> list;
+	//private List<Integer> list;
 	private View view;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum, View view) {
@@ -34,12 +33,12 @@ public class Control implements Runnable{
 		this.sin = new float[this.hunterNum];
 		this.nextX = new int[this.hunterNum];
 		this.nextY = new int[this.hunterNum];
-		this.hunter_information = new HashMap<Integer, List<Integer>>();
-		this.list = new ArrayList<Integer>();
+		//this.hunter_information = new HashMap<Integer, List<Integer>>();
+		//this.list = new ArrayList<Integer>();
 		this.view = view;
 	}
 	
-	public HashMap<Integer, List<Integer>> getHunterInformation(){
+	/*public HashMap<Integer, List<Integer>> getHunterInformation(){
 		for(int i=0; i<hunterNum; i++) {
 			this.list=new ArrayList<Integer>();
 			this.list.add(hunters.get(i).getX());
@@ -47,7 +46,7 @@ public class Control implements Runnable{
 			this.hunter_information.put(i, this.list);
 		}
 		return hunter_information;
-	}
+	}*/
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
 		this.playersMap = playersMap;
@@ -63,17 +62,13 @@ public class Control implements Runnable{
 	}
 	
 	private int hunting_start(int index){
-		for(int i=0; i<this.playersMap.size(); i++) {
+		/*for(int i=0; i<this.playersMap.size(); i++) {
 			/* judge whether player is inside hunter's sight */
-			if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
-					,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1))<=this.FieldOfView) {
-				int[][] HunterSightMap = this.view.getHunterSightMap(index);
+			/*if(PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
+					,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1))<=this.view.FieldOfView) {
 				/* judge whether player is reachable */
-				if(HunterSightMap[this.playersMap.get(i).get(0)][this.playersMap.get(i).get(1)]==0) {
-					return i;
-				}
-			}
-		}
+			/*}
+		}*/
 		return -1;
 	}
 	

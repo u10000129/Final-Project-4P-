@@ -35,7 +35,7 @@ public class Transmission {
 	public String jsonString;	
 	
 	public Transmission() {
-		this.setIPAddress("127.0.0.1").setPort(8000).connect();	//set client socket
+		this.setIPAddress("140.114.86.56").setPort(8000).connect();	//set client socket
 		transfer = new Transfer();
 	}
 	
