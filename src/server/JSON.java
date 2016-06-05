@@ -17,7 +17,7 @@ public class JSON {
 	
 	public String encode(
 									Long time,
-									Boolean gameStatus,
+									int gameStatus,
 									java.util.Map<Integer, List<Integer>> players,
 									java.util.Map<Integer, String> playersName,
 									java.util.Map<Integer, Integer> playersLife,
@@ -28,7 +28,7 @@ public class JSON {
 		JSONObject obj = new JSONObject();
 		
 		obj.setLong("time", time);
-		obj.setBoolean("status", gameStatus);
+		obj.setInt("status", gameStatus);
 		
 		JSONArray playerArray = new JSONArray();
 		for(Entry<Integer, List<Integer>> player : players.entrySet()) {

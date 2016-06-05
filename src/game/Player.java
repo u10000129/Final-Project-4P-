@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import ddf.minim.*;
 
 public class Player extends Character{
-	public final static double speed = 0.004;
+	public final static double speed = 0.006;
 	private MyApplet parent;
 	private Map map;
 	private Minim minim;
@@ -20,8 +20,8 @@ public class Player extends Character{
 	Player(MyApplet parent, Map map, Minim minim){
 		this.parent = parent;
 		this.map = map;
-		this.anchorX = 7010;
-		this.anchorY = 7000;
+		this.anchorX = 9000;
+		this.anchorY = 9000;
 		this.curX = this.anchorX;
 		this.curY = this.anchorY;
 		this.collisionMap = map.getCollisionMap();
@@ -119,9 +119,7 @@ public class Player extends Character{
 				}
 			}*/
 				
-		if(collisionMap[curX][curY]>0 || collisionMap[curX+2][curY+2]>0
-				|| collisionMap[curX-2][curY-2]>0  || collisionMap[curX-2][curY+2]>0
-				  || collisionMap[curX+2][curY-2]>0) {
+		if(collisionMap[curX][curY]>0) {
 			this.collide.rewind();
 			this.collide.play();
 			Ani.killAll();				

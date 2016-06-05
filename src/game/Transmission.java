@@ -26,14 +26,14 @@ public class Transmission {
 	public HashMap<Integer, Double> playersSpeed;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	public HashMap<Integer, List<Integer>> jewelsMap;
-	public boolean gameStatus = false;
+	public int gameStatus = 0;
 	public long time = 0;
 	
 	public int myX, myY;
 	public String name = "abc";
 	public int myId;
 	public int jewelId = 0;
-	public int lifeStatus;
+	public int lifeStatus = 1;
 	public double speed;
 	
 	public Transfer transfer;
@@ -148,7 +148,7 @@ class ClientThread extends Thread {
 	public long getTime() {		
 		return transfer.getTime();
 	}
-	public boolean getGameStatus() {
+	public int getGameStatus() {
 		return gameStatus;
 	}
 	
