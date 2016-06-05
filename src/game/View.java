@@ -22,16 +22,16 @@ public class View {
 	private java.util.Map<Integer, List<Integer>> location;
 	
 	private Transmission transmission;	
-	public HashMap<Integer, List<Integer>> playersMap;
-	public HashMap<Integer, List<Integer>> huntersMap;
-	public HashMap<Integer, List<Integer>> jewelsMap;
-	public HashMap<Integer, String> playersName;
+	private HashMap<Integer, List<Integer>> playersMap;
+	private HashMap<Integer, List<Integer>> huntersMap;
+	private HashMap<Integer, List<Integer>> jewelsMap;
+	private HashMap<Integer, String> playersName;
 	
-	public long time = 0;
+	private long time = 0;
 	
-	public Ani missionCircleAni;
+	private Ani missionCircleAni;
 	private int missionCircle = 0;
-	public Ani playerCircleAni;
+	private Ani playerCircleAni;
 	private int playerCircle = 0;
 
 	public View (MyApplet mainapplet, Map map, Player player, Transmission transmission, Mission mission) {
@@ -53,10 +53,10 @@ public class View {
 		return y * (MyApplet.height-50) / map.getImageHeight();
 	}
 	
-	public int[] boundsDetet(int x, int y){
+	private int[] boundsDetet(int x, int y){
 		int returnX, returnY;
-		Bounds hBound = map.horizontalWall(x, y);
-		Bounds vBound = map.verticalWall(x, y);
+		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
+		Bounds vBound = map.verticalWall(player.getX(), player.getY());
 		//HorizonBound detect
 		if(hBound == Bounds.LEFT){
 			returnX = x;

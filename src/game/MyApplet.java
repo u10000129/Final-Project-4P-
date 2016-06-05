@@ -27,6 +27,7 @@ public class MyApplet extends PApplet implements Observer{
 	private AudioPlayer bgm, click;
 	private int missionScore;
 	private int jewelID;
+	private boolean isAnswering = false;
 	
 	public JSON json;
 	public String jsonString;
@@ -72,7 +73,10 @@ public class MyApplet extends PApplet implements Observer{
 	}
 	
 	public void draw(){
-		
+		if(mousePressed && !isAnswering){
+			int[] move = this.boundsDetet(mouseX, mouseY);
+			player.move(move[0], move[1]);	
+		}
 		if(mission.checkMissionSet(jewelID)) {
 			setJewelID(JEWEL_NOT_OPENED);
 		}
@@ -102,33 +106,7 @@ public class MyApplet extends PApplet implements Observer{
 	public void mousePressed(){
 		/* Play sound */
 		click.rewind();
-		click.play();
-		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
-		Bounds vBound = map.verticalWall(player.getX(), player.getY());
-		int moveX, moveY;
-		
-		//HorizonBound detect
-		if(hBound == Bounds.LEFT){ // At Left bounds.
-			moveX = mouseX;
-		}
-		else if (hBound == Bounds.RIGHT){ // At Right bounds.
-			moveX = map.getFullMap().width - MyApplet.width +  mouseX;
-		}
-		else {
-			moveX = player.getX() + mouseX - MyApplet.width/2 ;
-		}
-		
-		//verticalBound detect
-		if(vBound == Bounds.UP){ // At Up bounds.
-			moveY = mouseY;
-		}
-		else if (vBound == Bounds.DOWN){ // At Down bounds.
-			moveY = map.getFullMap().height - MyApplet.height + mouseY;
-		}
-		else {
-			moveY = player.getY()+ mouseY - MyApplet.height/2;	
-		}
-		player.move(moveX, moveY);		
+		click.play();	
 		
 	}
 	
@@ -143,6 +121,7 @@ public class MyApplet extends PApplet implements Observer{
 			for(Entry<Integer, List<Integer>> entry : locations.entrySet()) {
 				if(PApplet.dist(entry.getValue().get(0),entry.getValue().get(1),x,y)<100 && entry.getValue().get(2)==0) {
 					
+					isAnswering = true;
 					jewelID = entry.getKey();	//update the opened jewel ID
 					QuestionPanel qPanel = new QuestionPanel(mission);
 					qPanel.addObserver(this);
@@ -159,6 +138,7 @@ public class MyApplet extends PApplet implements Observer{
 				missionScore++;
 			}
 			Main.window.setContentPane(this);
+			isAnswering = false;
 		}
 	}
 	
@@ -172,5 +152,33 @@ public class MyApplet extends PApplet implements Observer{
 	
 	public int getJewelID() {
 		return jewelID;
+	}
+	
+	private int[] boundsDetet(int x, int y){
+		int returnX, returnY;
+		Bounds hBound = map.horizontalWall(player.getX(), player.getY());
+		Bounds vBound = map.verticalWall(player.getX(), player.getY());
+		//HorizonBound detect
+		if(hBound == Bounds.LEFT){ // At Left bounds.
+			returnX = x;
+		}
+		else if (hBound == Bounds.RIGHT){ // At Right bounds.
+			returnX = map.getFullMap().width - MyApplet.width +  x;
+		}
+		else {
+			returnX = player.getX() + x - MyApplet.width/2 ;
+		}
+		
+		//verticalBound detect
+		if(vBound == Bounds.UP){ // At Up bounds.
+			returnY = y;
+		}
+		else if (vBound == Bounds.DOWN){ // At Down bounds.
+			returnY = map.getFullMap().height - MyApplet.height + y;
+		}
+		else {
+			returnY = player.getY()+ y - MyApplet.height/2;	
+		}
+		return  new int[] {returnX, returnY}; 
 	}
 }
