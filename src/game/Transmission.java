@@ -33,7 +33,7 @@ public class Transmission {
 	public String name = "abc";
 	public int myId;
 	public int jewelId = 0;
-	public int lifeStatus;
+	public int lifeStatus = 1;
 	public double speed;
 	
 	public Transfer transfer;
