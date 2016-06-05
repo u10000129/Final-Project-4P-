@@ -17,6 +17,7 @@ public class Control implements Runnable{
 	private float [] radian;
 	private float [] cos, sin;
 	private int [][] collisionMap;
+	private int [] huntingMap;
 	private HashMap<Integer, Integer> playersLife;
 	//private HashMap<Integer, List<Integer>> hunter_information;
 	private HashMap<Integer, List<Integer>> playersMap;
@@ -35,6 +36,9 @@ public class Control implements Runnable{
 		this.sin = new float[this.hunterNum];
 		this.nextX = new int[this.hunterNum];
 		this.nextY = new int[this.hunterNum];
+		this.huntingMap = new int[this.hunterNum];
+		for(int i=0; i<this.hunterNum; i++) 
+			this.huntingMap[i]=0;
 		//this.hunter_information = new HashMap<Integer, List<Integer>>();
 		//this.list = new ArrayList<Integer>();
 		this.view = view;
@@ -85,6 +89,14 @@ public class Control implements Runnable{
 		if(this.playersMap==null) return -1;
 		for(int i=0; i<this.playersMap.size(); i++) {
 			if(this.playersLife.get(i)==0) continue;
+			if(this.huntingMap[index]<0) {
+				this.huntingMap[index]++;
+				continue;
+			}
+			if(this.huntingMap[index]==5) {
+				this.huntingMap[index]=-3;
+				continue;
+			}
 			/* judge whether player is inside hunter's sight */
 			float distance = PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
 											,this.playersMap.get(i).get(0), this.playersMap.get(i).get(1));
@@ -97,12 +109,19 @@ public class Control implements Runnable{
 					float x = j * PApplet.cos((float)angle);
 					float y = j * PApplet.sin((float)angle);
 					if(this.collisionMap[(int)(hunter.x+x)][(int)(hunter.y+y)]==1) continue;
-					hunters.get(index).setHuntState(true);
+					if(hunters.get(index).isHunting==false) {
+						hunters.get(index).setHuntState(true);
+						hunters.get(index).speedy();
+					}
+					this.huntingMap[index]++;
 					return i;
 				}
 			}
 		}
-		hunters.get(index).setHuntState(false);
+		if(hunters.get(index).isHunting==true) {
+			hunters.get(index).setHuntState(false);
+			hunters.get(index).speedy();
+		}
 		return -1;
 	}
 	

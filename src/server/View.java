@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class View {
 	private final int diameter = 40;
-	public final int FieldOfView = 400;
+	public final int FieldOfView = 300;
 	private Map map;
 	private ArrayList<Hunter> hunters;
 	private int hunterNum;
