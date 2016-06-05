@@ -37,7 +37,7 @@ public class MyApplet extends PApplet implements Observer{
 	public HashMap<Integer, Integer> playersLife;
 	public HashMap<Integer, List<Integer>> huntersMap;
 	//public HashMap<Integer, List<Integer>> jewelsMap;
-	public boolean gameStatus;
+	public int gameStatus = 0;
 	public long time = 0;
 	private String name;
 	public int lifeStatus = 1;	
@@ -92,7 +92,7 @@ public class MyApplet extends PApplet implements Observer{
 		}
 		
 		gameStatus = transmission.getGameStatus();
-		if(gameStatus) {
+		if(gameStatus == 1) {
 			background(255);				
 			view.display();
 				
@@ -104,12 +104,20 @@ public class MyApplet extends PApplet implements Observer{
 			transmission.setSpeed(speed);
 						
 			
-		}	else {
+		}	else if(gameStatus == 0){
 
 			background(221, 79, 67);
 			fill(0);
 			textSize(30);
 			text("Waiting for other clients...", MyApplet.width/2-StartScreen.btnWidth, MyApplet.height/2);
+		}	else if(gameStatus == 2) {
+			background(0);				
+			//view.display();
+			fill(255);
+			textSize(50);
+			text("GameOver", 450, 400);
+			time = transmission.getTime();
+			text("Your Time : "+time+" s", 450, 450);
 		}
 	}
 	

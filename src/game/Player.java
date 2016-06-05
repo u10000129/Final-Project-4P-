@@ -119,9 +119,7 @@ public class Player extends Character{
 				}
 			}*/
 				
-		if(collisionMap[curX][curY]>0 || collisionMap[curX+2][curY+2]>0
-				|| collisionMap[curX-2][curY-2]>0  || collisionMap[curX-2][curY+2]>0
-				  || collisionMap[curX+2][curY-2]>0) {
+		if(collisionMap[curX][curY]>0) {
 			this.collide.rewind();
 			this.collide.play();
 			Ani.killAll();				
