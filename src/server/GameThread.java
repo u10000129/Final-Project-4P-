@@ -100,12 +100,7 @@ public class GameThread extends Thread{
 			
 			
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
-			try {
-				sleep(3);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
+			
 		}
 	}
 	
