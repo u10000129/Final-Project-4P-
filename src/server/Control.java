@@ -37,6 +37,7 @@ public class Control implements Runnable{
 		//this.hunter_information = new HashMap<Integer, List<Integer>>();
 		//this.list = new ArrayList<Integer>();
 		this.view = view;
+		this.playersMap=null;
 	}
 	
 	/*public HashMap<Integer, List<Integer>> getHunterInformation(){
@@ -50,7 +51,7 @@ public class Control implements Runnable{
 	}*/
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
-		this.playersMap = playersMap;
+		if(playersMap!=null) this.playersMap = playersMap;
 	}
 	
 	private boolean judge_path(int index) {
@@ -75,6 +76,7 @@ public class Control implements Runnable{
 	}*/
 	
 	private int hunting_start(int index){
+		if(this.playersMap==null) return -1;
 		for(int i=0; i<this.playersMap.size(); i++) {
 			/* judge whether player is inside hunter's sight */
 			float distance = PApplet.dist(this.hunters.get(index).getX(), this.hunters.get(index).getY()
@@ -112,6 +114,7 @@ public class Control implements Runnable{
 			else {
 				nextX[index] =  playersMap.get(target).get(0);
 				nextY[index] =  playersMap.get(target).get(1);
+				if(map.inside(nextX[index], nextY[index])==true) break;
 			}
 		}
 	}

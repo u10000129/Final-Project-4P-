@@ -84,6 +84,7 @@ public class View {
 				hunterY = MyApplet.height / 2;
 			}
 			hunters.get(curHunter).collisionDetect();
+			hunters.get(curHunter).huntingDetect();
 			mainApplet.fill(125, 255);
 			mainApplet.noStroke(); 
 			mainApplet.ellipse(hunterX, hunterY, diameter, diameter);
