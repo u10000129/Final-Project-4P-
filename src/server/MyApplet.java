@@ -38,9 +38,16 @@ public class MyApplet extends PApplet{
 		hunter[5]=new Hunter(map, 7940, 2996);
 		hunter[6]=new Hunter(map, 5164, 7452);
 		hunter[7]=new Hunter(map, 3680, 7544);
+		hunter[8]=new Hunter(map, 6800, 4200);
+		hunter[9]=new Hunter(map, 3000, 6000);
+		hunter[10]=new Hunter(map, 5400, 4200);
+		hunter[11]=new Hunter(map, 3200, 3200);
+		hunter[12]=new Hunter(map, 8000, 3000);
+		hunter[13]=new Hunter(map, 5200, 7500);
+		hunter[14]=new Hunter(map, 3700, 7500);
 		
 		
-		for(int i=0; i<8; i++) hunters.add(hunter[i]);
+		for(int i=0; i<this.hunterNum; i++) hunters.add(hunter[i]);
 		view = new View(this, map, hunters, hunterNum);
 		
 		Ani.init(this);
