@@ -68,6 +68,9 @@ public class MyApplet extends PApplet implements Observer{
 		WrongAnswer = minim.loadFile("res/WrongAnswer.mp3");		
 		bgm.loop();
 		
+		playersName = new HashMap<Integer, String>();
+		playersLife = new HashMap<Integer, Integer>();
+		
 		myId = transmission.getMyId();	
 		transmission.setName(name);
 		transmission.sendMessage("ready");
@@ -103,7 +106,7 @@ public class MyApplet extends PApplet implements Observer{
 			transmission.setLifeStatus(lifeStatus);
 			transmission.setSpeed(speed);
 			playersLife = transmission.getPlayersLife();
-			
+			playersName = transmission.getPlayersName();
 						
 			
 		}	else if(gameStatus == 0){
@@ -121,13 +124,13 @@ public class MyApplet extends PApplet implements Observer{
 			time = transmission.getTime();
 			text("Your Time : "+time+" s", 450, 450);
 		}
-		/*
-		 	fill(0);
+		
+		
 			textSize(20);
 			for(int i = 0;i<playersLife.size() && i<playersName.size();i++) {
 				text(playersName.get(i)+" : "+ playersLife.get(i), 700, 100+i*20);
 			}
-		 */
+		 
 	}
 	
 	public void mousePressed(){
