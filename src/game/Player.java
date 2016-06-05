@@ -55,16 +55,81 @@ public class Player extends Character{
 	
 	public void collisionDetect() {
 		if(curX>0 && curX<map.getImageWidth())
-			if(curY>0 && curY<map.getImageHeight())
-		if(collisionMap[curX][curY]>0) {
+			if(curY>0 && curY<map.getImageHeight()) {
+				/*
+				if(collisionMap[curX+15][curY]>0) {
+					curX-=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX-15][curY]>0) {
+					curX+=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX][curY+15]>0) {
+					curY-=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX][curY-15]>0) {
+					curY+=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX+15][curY+15]>0) {
+					curX-=20;curY-=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX-15][curY+15]>0) {
+					curX+=20;curY-=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX+15][curY-15]>0) {
+					curX-=20;curY+=20;
+					this.collide.rewind();
+					this.collide.play();
+				}
+				else if(collisionMap[curX-15][curY-15]>0) {
+					curX+=20;curY+=20;
+					this.collide.rewind();
+					this.collide.play();
+				}*/
+				/*
+				if(collisionMap[curX][curY]>0 || collisionMap[curX+10][curY+10]>0
+						|| collisionMap[curX-10][curY-10]>0  || collisionMap[curX-10][curY+10]>0
+						  || collisionMap[curX+10][curY-10]>0) {
+					this.collide.rewind();
+					this.collide.play();
+					Ani.killAll();				
+				    
+				    	curX-=(moveX-curX)/10;				    
+				    	curY-=(moveY-curY)/10;
+				    	if(moveX>curX) curX-=5;
+					    if(moveX<curX) curX+=5;
+					    if(moveY>curY) curY-=5;
+					    if(moveY<curY) curY+=5;
+					    moveX = curX;
+					    moveY = curY;
+					    
+				}
+			}*/
+				
+		if(collisionMap[curX][curY]>0 || collisionMap[curX+2][curY+2]>0
+				|| collisionMap[curX-2][curY-2]>0  || collisionMap[curX-2][curY+2]>0
+				  || collisionMap[curX+2][curY-2]>0) {
 			this.collide.rewind();
 			this.collide.play();
 			Ani.killAll();				
-		    if(moveX>curX) curX-=10;
-		    if(moveX<curX) curX+=10;
-		    if(moveY>curY) curY-=10;
-		    if(moveY<curY) curY+=10;
+		    if(moveX>curX) curX-=20;
+		    if(moveX<curX) curX+=20;
+		    if(moveY>curY) curY-=20;
+		    if(moveY<curY) curY+=20;
+		    
 		}
+			}
 	}
 }
 
