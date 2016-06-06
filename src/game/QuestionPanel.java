@@ -51,7 +51,7 @@ public class QuestionPanel extends Observable{
 			//create radio buttons for choices
 			
 			r = cp5.addRadioButton("")					
-			         .setSize(20,20)			         
+			         .setSize(30,30)			         
 			         .setPosition(BOUNDRY_WIDTH,160)
 			         .setColorForeground(color(180))
 			         .setColorActive(color(255))
