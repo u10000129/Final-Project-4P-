@@ -32,7 +32,7 @@ public class StartScreen extends Observable{
 		
 		
 		textField = cp5.addTextfield("Please enter your name")
-							.setPosition(Main.windowWidth/2, Main.windowHeight*2/5)
+							.setPosition(Main.windowWidth/2-btnWidth/2, Main.windowHeight*2/5)
 							  .setSize(200, 40)
 								.setFont(font)
 								  .setFocus(true)
@@ -41,8 +41,10 @@ public class StartScreen extends Observable{
 		
 		start = cp5.addButton("buttonStart")
 								.setLabel("Start")
-								.setPosition(Main.windowWidth/2, Main.windowHeight*2/3)
+								.setPosition(Main.windowWidth/2-btnWidth/2, Main.windowHeight*2/3)
 								.setSize(btnWidth, btnHeight);
+		start.getCaptionLabel().setSize(20);
+								
 		start.setColor(new CColor(parent.color(49,236,111),
 								  parent.color(49,236,111),
 								  parent.color(23,160,94),
@@ -60,8 +62,9 @@ public class StartScreen extends Observable{
 								
 		quit = cp5.addButton("buttonQuit")
 								.setLabel("Quit")
-								.setPosition(Main.windowWidth/2, Main.windowHeight*2/3+btnHeight+btnGap)
+								.setPosition(Main.windowWidth/2-btnWidth/2, Main.windowHeight*2/3+btnHeight+btnGap)
 								.setSize(btnWidth, btnHeight);
+		quit.getCaptionLabel().setSize(20);
 		quit.setColor(new CColor(parent.color(49,236,111),
 				  				 parent.color(49,236,111),
 							     parent.color(23,160,94),

@@ -22,13 +22,15 @@ public class QuestionPanel extends Observable{
 	private class QuestionApplet extends PApplet{
 
 		private static final long serialVersionUID = 1L;
-		private final int BOUNDRY_WIDTH = 50;
+		private final int BOUNDRY_HEIGHT = 50;
+		private int BOUNDRY_WIDTH ;
 		private ControlP5 cp5;
 		private RadioButton r;
 		private Button confirm;
 		
 		public QuestionApplet() {
 			super();
+			
 		}
 		
 		public void setup() {
@@ -36,15 +38,22 @@ public class QuestionPanel extends Observable{
 			super.setup();
 			size(MyApplet.width, MyApplet.height);
 			
+			fill(255,255,255);
+			textFont(createFont("sans-serif", 28));
+			BOUNDRY_WIDTH = Main.windowWidth/2 - (int) (this.textWidth(qandA.get(0))/2);
+			text(qandA.get(0), BOUNDRY_WIDTH, BOUNDRY_HEIGHT);
+			
+			
 			cp5 = new ControlP5(this);
 			
 			cp5.setFont(createFont("/res/NotoSansHantRegular",20));
 			
 			//create radio buttons for choices
-			r = cp5.addRadioButton("")
-			         .setPosition(20,160)
-			         .setSize(40,20)
-			         .setColorForeground(color(120))
+			
+			r = cp5.addRadioButton("")					
+			         .setSize(20,20)			         
+			         .setPosition(BOUNDRY_WIDTH,160)
+			         .setColorForeground(color(180))
 			         .setColorActive(color(255))
 			         .setColorLabel(color(255))
 			         .setItemsPerRow(1)
@@ -57,8 +66,8 @@ public class QuestionPanel extends Observable{
 			//create confirm button
 			
 			confirm = cp5.addButton("buttonConfirm")
-								.setLabel("Confirm")
-								.setPosition(Main.windowWidth/2, Main.windowHeight*2/3)
+								.setLabel("Confirm")								
+								.setPosition(Main.windowWidth*2/3, Main.windowHeight*4/5)
 								.setSize(btnWidth, btnHeight)
 								.setColorLabel(color(255,255,255));
 			
@@ -87,7 +96,7 @@ public class QuestionPanel extends Observable{
 			//Question
 			fill(255,255,255);
 			textFont(createFont("sans-serif", 28));
-			text(qandA.get(0),BOUNDRY_WIDTH, BOUNDRY_WIDTH);
+			text(qandA.get(0), BOUNDRY_WIDTH, BOUNDRY_HEIGHT);
 			
 
 		}
