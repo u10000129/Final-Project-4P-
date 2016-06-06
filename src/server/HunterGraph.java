@@ -112,7 +112,7 @@ public class HunterGraph {
 
 	}
 	
-	public List<PVector> getRandomPathList(PVector src) {
+	public List<PVector> getRandomPathEdgeList(PVector src) {
 		
 		Random rand = new Random();
 		PVector dst=null;
