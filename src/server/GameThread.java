@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 
 
 
+
+
 public class GameThread extends Thread{
 	
 	public Main transmission;
@@ -30,7 +32,9 @@ public class GameThread extends Thread{
 	private ArrayList<Hunter> hunters;
 	private int hunterNum = 15;
 	boolean valid;
-	
+	private List<ReceiveThread> receiver = new ArrayList<ReceiveThread>();
+	private List<String> line = new ArrayList<String>();
+	private List<JSON> myjson = new ArrayList<JSON>();
 	private MyApplet myApplet;
 	
 	
@@ -53,8 +57,7 @@ public class GameThread extends Thread{
 		window.setSize(windowWidth, windowHeight);
 		window.setVisible(true);	
 		window.setLocation(300, 50);
-		
-		
+			
 	}
 
 	
@@ -73,11 +76,15 @@ public class GameThread extends Thread{
 			System.out.println("sending ID...");
 			transmission.receiveMessage(i);	
 			System.out.println("received confirm msg");
+			ReceiveThread receThread = new ReceiveThread(i);
+			receiver.add(receThread);
+			
 		}
 		
 		gameStatus = 1;
 		addTime timer = new addTime();		
 		timer.start();
+		for(int i=0; i<playerNum ;i++) receiver.get(i).start();
 		while(true) {
 			jsonString = json.encode(time, gameStatus, playersMap, playersName, playersLife, playersSpeed, huntersMap, jewelsMap);
 			transmission.broadcast(jsonString);
@@ -86,7 +93,7 @@ public class GameThread extends Thread{
 	
 			
 
-			setPlayerMapAndNameAndJewel();				
+			//setPlayerMapAndNameAndJewel();				
 			myApplet.setPlayersMap(playersMap);
 			myApplet.setPlayersLife(playersLife);
 			setHunterMap();
@@ -100,6 +107,12 @@ public class GameThread extends Thread{
 			
 			
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	}
@@ -165,6 +178,39 @@ public class GameThread extends Thread{
 			huntersMap.put(i, position);			
 		}
 		}	
+	}
+	
+	class ReceiveThread extends Thread {
+		int i;
+		public ReceiveThread(int a) {
+			i = a;
+		}
+		public void run() {
+			while(true) {
+			ArrayList<Integer> position = new ArrayList<Integer>(2);	
+			String line = transmission.receiveMessage(i);
+			JSON myjson = new JSON();
+			myjson.decode(line);
+			position = (ArrayList<Integer>) myjson.getPlayers();
+			playersMap.put(i, position);
+			String name = myjson.getName();
+			int lifeStatus = myjson.getLife();
+			double speed = myjson.getSpeed();
+			playersName.put(i, name);
+			playersLife.put(i, lifeStatus);
+			playersSpeed.put(i, speed);
+			if(myjson.getJewelId()!=0)
+			mission.setMission(myjson.getJewelId());	
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+		}
+		
+		
 	}
 
 }

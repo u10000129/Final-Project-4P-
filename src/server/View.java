@@ -83,44 +83,11 @@ public class View {
 			else {
 				hunterY = MyApplet.height / 2;
 			}
-			hunters.get(curHunter).collisionDetect();
-			//hunters.get(curHunter).huntingDetect();
+			hunters.get(curHunter).collisionDetect();			
 			mainApplet.fill(125, 255);
 			mainApplet.noStroke(); 
 			mainApplet.ellipse(hunterX, hunterY, diameter, diameter);
-			
-			//Draw a circle field of view. 
-			/* not useful for hunter */
-			/*int[][] collisionMap = map.getCollisionMap();
-			mainApplet.fill(0, 0, 0, 128);
-			for(int i = 0; i <= MyApplet.width; i++ ){
-				for(int j = 0; j <= MyApplet.height; j++ ){
-					if(PApplet.dist(hunterX, hunterY, i, j) > FieldOfView) 
-							mainApplet.rect(i, j, 1, 1);				
-						}		
-					}
-				for(int i = -100; i <= 100; i++ ){
-					collisionMap[7010 + i][7100] = 1;	
-				}
-				mainApplet.stroke(0, 0, 0, 128);
-				mainApplet.strokeWeight(5);
-				for(int i=0; i<hunters.size(); i++) this.hunterSightMap[i] = collisionMap;
-				for(float i = 0; i < 360; i++) {
-					for(float j = 0; j < FieldOfView ; j++ ){
-						float x = j * PApplet.cos( PApplet.radians(i) ); 
-						float y = j * PApplet.sin( PApplet.radians(i) ); 
-						if(hunters.get(curHunter).getX() + (int)x < 0 || hunters.get(curHunter).getX() + (int)x >= map.getFullMap().width
-								||hunters.get(curHunter).getY() + (int)y < 0 ||hunters.get(curHunter).getY() + (int)y >= map.getFullMap().height
-								) break;
-						if(collisionMap[hunters.get(curHunter).getX() + (int)x ][hunters.get(curHunter).getY() + (int)y ] == 1){
-							mainApplet.line(hunterX + x, hunterY + y,
-									hunterX + (FieldOfView-1)* PApplet.cos( PApplet.radians(i) ), 
-									hunterY + (FieldOfView-1)* PApplet.sin( PApplet.radians(i) ));	
-							break;
-						}
-					}		
-				}*/
-				
+					
 		}
 		
 	}
