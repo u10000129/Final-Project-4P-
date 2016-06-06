@@ -49,10 +49,14 @@ public class Mission {
 		try {	
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(new File("question.txt")), "UTF-8");
 			reader = new BufferedReader(isr);
+			Boolean firstTime = true;
 			while((line = reader.readLine()) != null) {
 				String data[] = line.split(" ");
 				ArrayList<String> list = new ArrayList<String>();
-				if(data[0].startsWith("?"))		data[0] = data[0].substring(1);
+				if(firstTime) {
+					data[0] = String.valueOf(1);
+					firstTime = false;
+				}
 				int id = Integer.parseInt(data[0]);
 				list.add(data[1]);	//question
 				
@@ -113,7 +117,7 @@ public class Mission {
 	
 	public ArrayList<String> getQuestion() {		//[0]: question , rest: choices , note: please use
 																				// ArrayList.size() to get the questions
-		Random rand = new Random();
+		Random rand = new Random();		
 		return questions.get(rand.nextInt(getQNum())+1);
 	}
 	

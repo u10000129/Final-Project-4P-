@@ -13,6 +13,7 @@ import org.jgrapht.alg.FloydWarshallShortestPaths;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
+import processing.core.PApplet;
 import processing.core.PVector;
 
 public class HunterGraph {
@@ -127,5 +128,37 @@ public class HunterGraph {
 		}
 		
 		return floyd.getShortestPathAsVertexList(src, dst);
+	}
+	
+	public PVector getConnectedVertex(PVector v) {
+			
+		Random rand = new Random();
+		DefaultEdge edge = null;
+		int t = rand.nextInt(graph.edgesOf(v).size());
+		
+		int i = 0;
+		for(DefaultEdge e : graph.edgesOf(v)) {
+			if(i == t) {
+				edge = e;
+			}
+			i++;
+		}
+		
+		return graph.getEdgeTarget(edge);
+	}
+	
+	public PVector getClosestVertex(PVector position) {
+		
+		PVector closest = null;
+		float minDistance = Float.MAX_VALUE;
+		
+		for(PVector vec : graph.vertexSet()) {
+			if(PApplet.dist(position.x, position.y, vec.x, vec.y) < minDistance) {
+				minDistance = PApplet.dist(position.x, position.y, vec.x, vec.y);
+				closest = vec;
+			}
+		}
+		
+		return closest;
 	}
 }
