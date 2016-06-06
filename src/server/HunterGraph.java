@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.alg.FloydWarshallShortestPaths;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -19,6 +19,7 @@ public class HunterGraph {
 	private UndirectedGraph<PVector, DefaultEdge> graph;
 	private int numOfVertex;
 	private int numOfEdge;
+	private FloydWarshallShortestPaths<PVector,DefaultEdge> floyd;
 	
 	public HunterGraph() {
 		
@@ -44,8 +45,8 @@ public class HunterGraph {
 			try {
 				line = reader.readLine();
 				String[] tmp = line.split(" ");
-				int x = Integer.parseInt(tmp[0]);
-				int y = Integer.parseInt(tmp[1]);
+				int x = (int)Float.parseFloat(tmp[0]);
+				int y = (int)Float.parseFloat(tmp[1]);
 				graph.addVertex(new PVector(x,y));
 				vertices.add(new PVector(x,y));
 				
@@ -75,9 +76,11 @@ public class HunterGraph {
 			}
 		}
 		
+		floyd = new  FloydWarshallShortestPaths<PVector,DefaultEdge>(graph);
+		
 	}
 	
-	public List<DefaultEdge> getRandomPathEdgeList() {
+	public List<PVector> getRandomPathEdgeList() {
 		
 		Random rand = new Random();
 		PVector src=null, dst=null;
@@ -100,9 +103,12 @@ public class HunterGraph {
 			i++;
 		}
 		
-		DijkstraShortestPath<PVector, DefaultEdge> d = 
-				new DijkstraShortestPath<PVector, DefaultEdge> (graph, src, dst);
+		//DijkstraShortestPath<PVector, DefaultEdge> d = 
+				//new DijkstraShortestPath<PVector, DefaultEdge> (graph, src, dst);
 		
-		return d.getPathEdgeList();
+		//return d.getPathEdgeList();
+		
+		return floyd.getShortestPathAsVertexList(src, dst); 
+
 	}
 }
