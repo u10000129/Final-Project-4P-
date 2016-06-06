@@ -128,4 +128,21 @@ public class HunterGraph {
 		
 		return floyd.getShortestPathAsVertexList(src, dst);
 	}
+	
+	public PVector getConnectedVertex(PVector v) {
+			
+		Random rand = new Random();
+		DefaultEdge edge = null;
+		int t = rand.nextInt(graph.edgesOf(v).size());
+		
+		int i = 0;
+		for(DefaultEdge e : graph.edgesOf(v)) {
+			if(i == t) {
+				edge = e;
+			}
+			i++;
+		}
+		
+		return graph.getEdgeTarget(edge);
+	}
 }
