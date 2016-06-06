@@ -23,7 +23,7 @@ public class GameThread extends Thread{
 	public HashMap<Integer, List<Integer>> jewelsMap = null;
 	public int gameStatus = 0;
 	public long time = 0;
-	public int playerNum = 2;
+	public int playerNum = 1;
 	public int windowWidth = 800;
 	public int windowHeight = 600;
 	public Mission mission;
