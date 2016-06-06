@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.awt.Point;
 
+import processing.core.PVector;
+
 public class Control implements Runnable{
 	private Random ran;
 	private ArrayList<Hunter> hunters;
@@ -22,6 +24,8 @@ public class Control implements Runnable{
 	private HashMap<Integer, List<Integer>> playersMap;
 	private View view;
 	private HunterGraph hunterGraph;
+	private PVector [] pvectors;
+	private List<PVector> [] vectorList;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum, View view) {
 		this.ran = new Random();
@@ -42,6 +46,9 @@ public class Control implements Runnable{
 		this.playersMap=null;
 		this.playersLife=null;
 		this.hunterGraph = new HunterGraph();
+		this.pvectors = new PVector[this.hunterNum];
+		for(int i=0; i<this.hunterNum; i++) 
+			this.vectorList[i] = new ArrayList<PVector>();
 	}
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
@@ -105,9 +112,10 @@ public class Control implements Runnable{
 	
 	private void generate(int index) {
 		while(true) {
-			int target=hunting_start(index);
+			//int target=hunting_start(index);
+			int target=-1;
 			if(target==-1) {
-				radian[index] = PApplet.radians(90*ran.nextInt(4));
+				/*radian[index] = PApplet.radians(90*ran.nextInt(4));
 				cos[index] = PApplet.cos( radian[index] );
 				sin[index] = PApplet.sin( radian[index] );
 				nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
@@ -115,6 +123,14 @@ public class Control implements Runnable{
 				if(map.inside(nextX[index], nextY[index])==true)
 					if(judge_path(index)==true) 
 						break;
+				*/
+				if(this.vectorList[index]==null) {
+					this.vectorList[index] = this.hunterGraph.getRandomPathEdgeList(this.pvectors[index]);
+				}
+				nextX[index] = (int)this.vectorList[index].get(0).x;
+				nextY[index] = (int)this.vectorList[index].get(0).y;
+				this.pvectors[index].x = nextX[index];
+				this.pvectors[index].y = nextY[index];
 			}
 			else {
 				nextX[index] =  playersMap.get(target).get(0);
