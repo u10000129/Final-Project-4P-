@@ -28,7 +28,7 @@ public class GameThread extends Thread{
 	
 	private Hunter[] hunter;
 	private ArrayList<Hunter> hunters;
-	private int hunterNum = 8;
+	private int hunterNum = 15;
 	boolean valid;
 	
 	private MyApplet myApplet;
@@ -100,12 +100,7 @@ public class GameThread extends Thread{
 			
 			
 			jewelsMap = (HashMap<Integer, List<Integer>>) mission.getJewels();
-			try {
-				sleep(3);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
+			
 		}
 	}
 	
