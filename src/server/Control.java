@@ -25,7 +25,7 @@ public class Control implements Runnable{
 	private View view;
 	private HunterGraph hunterGraph;
 	private PVector [] pvectors;
-	private List<PVector> [] vectorList;
+	private List<List<PVector>> vectorList;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum, View view) {
 		this.ran = new Random();
@@ -47,8 +47,14 @@ public class Control implements Runnable{
 		this.playersLife=null;
 		this.hunterGraph = new HunterGraph();
 		this.pvectors = new PVector[this.hunterNum];
-		for(int i=0; i<this.hunterNum; i++) 
-			this.vectorList[i] = new ArrayList<PVector>();
+		for(int i=0; i<this.hunterNum; i++) {
+			this.pvectors[i].x=this.hunters.get(i).getX();
+			this.pvectors[i].y=this.hunters.get(i).getY();
+		}
+		this.vectorList=new ArrayList<List<PVector>>();
+		for(int i=0; i<this.hunterNum; i++) {
+			this.vectorList.add(this.hunterGraph.getRandomPathEdgeList(this.pvectors[i]));
+		}
 	}
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
@@ -124,11 +130,12 @@ public class Control implements Runnable{
 					if(judge_path(index)==true) 
 						break;
 				*/
-				if(this.vectorList[index]==null) {
-					this.vectorList[index] = this.hunterGraph.getRandomPathEdgeList(this.pvectors[index]);
+				if(this.vectorList.get(index)==null) {
+					this.vectorList.add(this.hunterGraph.getRandomPathEdgeList(this.pvectors[index]));
 				}
-				nextX[index] = (int)this.vectorList[index].get(0).x;
-				nextY[index] = (int)this.vectorList[index].get(0).y;
+				nextX[index] = (int)this.vectorList.get(index).get(0).x;
+				nextY[index] = (int)this.vectorList.get(index).get(0).y;
+				this.vectorList.get(index).remove(0);
 				this.pvectors[index].x = nextX[index];
 				this.pvectors[index].y = nextY[index];
 			}
