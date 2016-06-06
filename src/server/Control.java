@@ -19,10 +19,9 @@ public class Control implements Runnable{
 	private int [][] collisionMap;
 	private int [] huntingMap;
 	private HashMap<Integer, Integer> playersLife;
-	//private HashMap<Integer, List<Integer>> hunter_information;
 	private HashMap<Integer, List<Integer>> playersMap;
-	//private List<Integer> list;
 	private View view;
+	private HunterGraph hunterGraph;
 	
 	Control(Map map, ArrayList<Hunter> hunters, int hunterNum, View view) {
 		this.ran = new Random();
@@ -39,22 +38,11 @@ public class Control implements Runnable{
 		this.huntingMap = new int[this.hunterNum];
 		for(int i=0; i<this.hunterNum; i++) 
 			this.huntingMap[i]=0;
-		//this.hunter_information = new HashMap<Integer, List<Integer>>();
-		//this.list = new ArrayList<Integer>();
 		this.view = view;
 		this.playersMap=null;
 		this.playersLife=null;
+		this.hunterGraph = new HunterGraph();
 	}
-	
-	/*public HashMap<Integer, List<Integer>> getHunterInformation(){
-		for(int i=0; i<hunterNum; i++) {
-			this.list=new ArrayList<Integer>();
-			this.list.add(hunters.get(i).getX());
-			this.list.add(hunters.get(i).getY());
-			this.hunter_information.put(i, this.list);
-		}
-		return hunter_information;
-	}*/
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
 		if(playersMap!=null) this.playersMap = playersMap;
@@ -74,16 +62,6 @@ public class Control implements Runnable{
 		}
 		return true;
 	}
-	
-	/*private float getAngle(Point hunter, Point player) {
-		float angle = (float) Math.toDegrees(Math.atan2(hunter.y-player.y, hunter.x-player.x));
-		
-		if(angle<0) {
-			angle+=360;
-		}
-		
-		return angle;
-	}*/
 	
 	private int hunting_start(int index){
 		if(this.playersMap==null) return -1;

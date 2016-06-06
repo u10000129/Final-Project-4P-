@@ -30,21 +30,21 @@ public class MyApplet extends PApplet{
 		size(width, height);
 		map = new Map(this);		
 		
-		hunter[0]=new Hunter(map, 5340, 5036);
-		hunter[1]=new Hunter(map, 6840, 4144);
-		hunter[2]=new Hunter(map, 3116, 5968);
-		hunter[3]=new Hunter(map, 5384, 4136);
-		hunter[4]=new Hunter(map, 3180, 3204);
-		hunter[5]=new Hunter(map, 7940, 2996);
-		hunter[6]=new Hunter(map, 5164, 7452);
-		hunter[7]=new Hunter(map, 3680, 7544);
-		hunter[8]=new Hunter(map, 6800, 4200);
-		hunter[9]=new Hunter(map, 3000, 6000);
-		hunter[10]=new Hunter(map, 5400, 4200);
-		hunter[11]=new Hunter(map, 3200, 3200);
-		hunter[12]=new Hunter(map, 8000, 3000);
-		hunter[13]=new Hunter(map, 5200, 7500);
-		hunter[14]=new Hunter(map, 3700, 7500);
+		hunter[0]=new Hunter(map, 3016, 639);
+		hunter[1]=new Hunter(map, 3733, 870);
+		hunter[2]=new Hunter(map, 3782, 1723);
+		hunter[3]=new Hunter(map, 3894, 2042);
+		hunter[4]=new Hunter(map, 4042, 1865);
+		hunter[5]=new Hunter(map, 4932, 1865);
+		hunter[6]=new Hunter(map, 4685, 1385);
+		hunter[7]=new Hunter(map, 4475, 1190);
+		hunter[8]=new Hunter(map, 4005, 3055);
+		hunter[9]=new Hunter(map, 3968, 3499);
+		hunter[10]=new Hunter(map, 2670, 3463);
+		hunter[11]=new Hunter(map, 3968, 4867);
+		hunter[12]=new Hunter(map, 3510, 5329);
+		hunter[13]=new Hunter(map, 2274, 4938);
+		hunter[14]=new Hunter(map, 1916, 6501);
 		
 		
 		for(int i=0; i<this.hunterNum; i++) hunters.add(hunter[i]);
