@@ -111,4 +111,21 @@ public class HunterGraph {
 		return floyd.getShortestPathAsVertexList(src, dst); 
 
 	}
+	
+	public List<PVector> getRandomPathList(PVector src) {
+		
+		Random rand = new Random();
+		PVector dst=null;
+		int t = rand.nextInt(graph.vertexSet().size());
+		
+		int i = 0;
+		for(PVector vec : graph.vertexSet()) {
+			if(i == t) {
+				dst = vec;
+			}
+			i++;
+		}
+		
+		return floyd.getShortestPathAsVertexList(src, dst);
+	}
 }
