@@ -64,7 +64,7 @@ public class StartApplet extends PApplet{
 		fill(244,130,29);
 		textFont(createFont("sans-serif",30));
 		this.textAlign(PApplet.CENTER);
-		text("The Game", Main.windowWidth/2, Main.windowHeight/10);	
+		text("Meander", Main.windowWidth/2, Main.windowHeight/10);	
 		
 		
 		//Get new random point for hunter.
