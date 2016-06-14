@@ -2,6 +2,8 @@ package server;
 
 import java.util.Random;
 import processing.core.PApplet;
+import processing.core.PVector;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,22 +41,11 @@ public class Control implements Runnable{
 		this.huntingMap = new int[this.hunterNum];
 		for(int i=0; i<this.hunterNum; i++) 
 			this.huntingMap[i]=0;
-		//this.hunter_information = new HashMap<Integer, List<Integer>>();
-		//this.list = new ArrayList<Integer>();
 		this.view = view;
 		this.playersMap=null;
 		this.playersLife=null;
 	}
 	
-	/*public HashMap<Integer, List<Integer>> getHunterInformation(){
-		for(int i=0; i<hunterNum; i++) {
-			this.list=new ArrayList<Integer>();
-			this.list.add(hunters.get(i).getX());
-			this.list.add(hunters.get(i).getY());
-			this.hunter_information.put(i, this.list);
-		}
-		return hunter_information;
-	}*/
 	
 	public void setPlayersMap(HashMap<Integer, List<Integer>> playersMap){
 		if(playersMap!=null) this.playersMap = playersMap;
@@ -75,16 +66,8 @@ public class Control implements Runnable{
 		return true;
 	}
 	
-	/*private float getAngle(Point hunter, Point player) {
-		float angle = (float) Math.toDegrees(Math.atan2(hunter.y-player.y, hunter.x-player.x));
-		
-		if(angle<0) {
-			angle+=360;
-		}
-		
-		return angle;
-	}*/
 	
+	//check if hunter should chase player
 	private int hunting_start(int index){
 		if(this.playersMap==null) return -1;
 		for(int i=0; i<this.playersMap.size(); i++) {
@@ -126,23 +109,43 @@ public class Control implements Runnable{
 	}
 	
 	private void generate(int index) {
+		
+		int target=hunting_start(index);
+		if(target==-1) {	//not discovered
+			
+			if(hunters.get(index).reachedNextVertex()) {
+				hunters.get(index).removeAndSetVertex();
+				PVector v = hunters.get(index).getNextVertex();
+				hunters.get(index).move((int)v.x, (int)v.y);
+			}
+			
+		}
+		else {		//player discovered
+			chasePlayer(index, target);
+		}
+	}
+	
+	private void walkRandomly(int index) {
+		
+		while(true) {			
+			radian[index] = PApplet.radians(90*ran.nextInt(4));
+			cos[index] = PApplet.cos( radian[index] );
+			sin[index] = PApplet.sin( radian[index] );
+			nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
+			nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
+			if(map.inside(nextX[index], nextY[index])==true)
+				if(judge_path(index)==true) 
+					break;
+		}
+	}
+	
+	private void chasePlayer(int index, int target) {
+		
 		while(true) {
-			int target=hunting_start(index);
-			if(target==-1) {
-				radian[index] = PApplet.radians(90*ran.nextInt(4));
-				cos[index] = PApplet.cos( radian[index] );
-				sin[index] = PApplet.sin( radian[index] );
-				nextX[index] =  (int)(radius * cos[index]) + hunters.get(index).getX();
-				nextY[index] =  (int)(radius * sin[index]) + hunters.get(index).getY();
-				if(map.inside(nextX[index], nextY[index])==true)
-					if(judge_path(index)==true) 
-						break;
-			}
-			else {
-				nextX[index] =  playersMap.get(target).get(0);
-				nextY[index] =  playersMap.get(target).get(1);
-				if(map.inside(nextX[index], nextY[index])==true) break;
-			}
+			
+			nextX[index] =  playersMap.get(target).get(0);
+			nextY[index] =  playersMap.get(target).get(1);
+			if(map.inside(nextX[index], nextY[index])==true) break;
 		}
 	}
 	
@@ -155,7 +158,7 @@ public class Control implements Runnable{
 		while(true) {
 			for(int i=0; i<hunterNum; i++) {
 				generate(i);
-				hunters.get(i).move(nextX[i], nextY[i]);	
+				//hunters.get(i).move(nextX[i], nextY[i]);	
 			}
 			
 			//System.out.println(nextX + " " + nextY);

@@ -161,4 +161,20 @@ public class HunterGraph {
 		
 		return closest;
 	}
+	
+	public PVector getRandomVertex() {
+		
+		Random rand = new Random();
+		PVector dst=null;
+		int t = rand.nextInt(graph.vertexSet().size());
+		
+		int i = 0;
+		for(PVector vec : graph.vertexSet()) {
+			if(i == t) {
+				dst = vec;
+			}
+			i++;
+		}
+		return dst;
+	}
 }
